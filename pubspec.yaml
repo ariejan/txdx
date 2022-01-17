@@ -31,8 +31,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-
-  settings_ui: ^2.0.1
+  jiffy: ^5.0.0
+  font_awesome_flutter: ^9.2.0
   window_size:
     git:
       url: git://github.com/google/flutter-desktop-embedding.git

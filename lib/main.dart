@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:window_size/window_size.dart';
 
 import 'txdx/txdx.dart';
@@ -59,9 +61,7 @@ class _TodoListViewState extends State<TodoListView> {
     txDxContext = TxDxList(filename);
   }
 
-  void _newTodoDialog() {
-
-  }
+  void _newTodoDialog() {}
 
   List<Widget> _getTxDxItemContainers() {
     Color getColor(Set<MaterialState> states) {
@@ -71,29 +71,54 @@ class _TodoListViewState extends State<TodoListView> {
         MaterialState.focused,
       };
       if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
+        return Colors.deepOrange;
       }
-      return Colors.red;
+      return Colors.brown;
     }
 
-    return txDxContext.items.map((item) => SizedBox(
-      height: 50,
-      child: Row(
-        children: <Widget>[
-          Container(child: Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: item.completed,
-            onChanged: (bool? value) {
-              setState(() {
-                item.setCompleted(value ?? false);
-              });
-            }
-          )),
-          Container(child: Text(item.description)),
-        ],
-      ),
-    )).toList();
+    return txDxContext.items
+        .map((item) => SizedBox(
+              height: 50,
+              child: Row(
+                children: [
+                  Container(
+                      child: Checkbox(
+                          checkColor: Colors.white,
+                          fillColor:
+                              MaterialStateProperty.resolveWith(getColor),
+                          shape: CircleBorder(),
+                          value: item.completed,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              item.setCompleted(value ?? false);
+                            });
+                          })),
+                  SizedBox(
+                    child: Text(
+                      item.description,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  if (item.hasDueOn) ...[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: Tooltip(
+                        message: 'Due: ' + Jiffy(item.dueOn).format('yyyy-MM-dd'),
+                        child: FaIcon(
+                          FontAwesomeIcons.clock,
+                          size: 18,
+                          color: Colors.brown,
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10), color: Colors.brown),
+                      )
+                    ),
+                  ],
+                ],
+              ),
+            ))
+        .toList();
   }
 
   @override

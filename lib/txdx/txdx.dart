@@ -82,6 +82,8 @@ class TxDxItem {
 
     return results;
   }
+
+  bool get hasDueOn => dueOn != null;
 }
 
 class TxDxList {

@@ -74,6 +74,27 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.2.0"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.0"
+  jiffy:
+    dependency: "direct main"
+    description:
+      name: jiffy
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   lints:
     dependency: transitive
     description:
@@ -102,13 +123,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  settings_ui:
-    dependency: "direct main"
-    description:
-      name: settings_ui
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
