@@ -5,7 +5,7 @@ class TxDxItem {
   RegExp projectsRegExp = RegExp(r'(?:\s+|^)\+[^\s]+');
   RegExp priorityRegExp = RegExp(r'(?:^|\s+)\(([A-Za-z])\)\s+');
   RegExp createdOnRegExp = RegExp(r'(?:^|-\d{2}\s|\)\s)(\d{4}-\d{2}-\d{2})\s');
-  RegExp completedOnRegExp = RegExp(r'/^x\s+(\d{4}-\d{2}-\d{2})\s+/');
+  RegExp completedOnRegExp = RegExp(r'^x\s+(\d{4}-\d{2}-\d{2})\s+');
   RegExp completedRegExp = RegExp(r'^x\s+');
   RegExp dueOnRegExp = RegExp(r'(?:due:)(\d{4}-\d{2}-\d{2})(?:\s+|$)', caseSensitive: false);
   RegExp tagsRegExp = RegExp(r'([a-z]+):([A-Za-z0-9_-]+)', caseSensitive: false);
@@ -21,7 +21,7 @@ class TxDxItem {
   late Map<String, String> tags;
 
   TxDxItem(this.text) {
-    description = '';
+    description = replaceEverything(text);
 
     tags = getMatchedPairs(tagsRegExp, text);
 
@@ -38,6 +38,18 @@ class TxDxItem {
     completed = value;
   }
 
+  String replaceEverything(String text) {
+    return text.replaceAll(completedOnRegExp, '')
+        .replaceAll(completedRegExp, '')
+        .replaceAll(priorityRegExp, '')
+        .replaceAll(contextsRegExp, '')
+        .replaceAll(projectsRegExp, '')
+        .replaceAll(dueOnRegExp, '')
+        .replaceAll(tagsRegExp, '')
+        .replaceAll(createdOnRegExp, '')
+        .trim();
+  }
+  
   Iterable<String> getMatches(RegExp regExp, String text) {
     Iterable<RegExpMatch> matches = regExp.allMatches(text);
     return matches.map((e) => e.group(0).toString().trim()).toList();

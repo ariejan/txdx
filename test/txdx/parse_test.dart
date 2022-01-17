@@ -189,4 +189,31 @@ void main() {
       expect(item.tags, containsPair('foo', 'bar'));
     });
   });
+
+  group('extract task text', () {
+    test('empty task', () {
+      final item = TxDxItem('');
+      expect(item.description, isEmpty);
+    });
+
+    test('task without markup', () {
+      final item = TxDxItem('do something');
+      expect(item.description, equals('do something'));
+    });
+
+    test('task with priority, date, tags, context and project', () {
+      final item = TxDxItem('(A) 2016-03-29 something to do tag:val +experiment @work');
+      expect(item.description, equals('something to do'));
+    });
+
+    test('completed task with completion date', () {
+      final item = TxDxItem('x 2016-03-30 2016-03-29 something to do +experiment @work');
+      expect(item.description, equals('something to do'));
+    });
+
+    test('completed task without completion date', () {
+      final item = TxDxItem('x something to do');
+      expect(item.description, equals('something to do'));
+    });
+  });
 }
