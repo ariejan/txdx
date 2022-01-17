@@ -1,26 +1,37 @@
 class TxDxItem {
   String text;
 
-  RegExp contextsRegexp = RegExp(r'(?:\s+|^)@[^\s]+');
-  RegExp projectsRegexp = RegExp(r'(?:\s+|^)\+[^\s]+');
-  RegExp priorityRegexp = RegExp(r'(?:^|\s+)\(([A-Za-z])\)\s+');
+  RegExp contextsRegExp = RegExp(r'(?:\s+|^)@[^\s]+');
+  RegExp projectsRegExp = RegExp(r'(?:\s+|^)\+[^\s]+');
+  RegExp priorityRegExp = RegExp(r'(?:^|\s+)\(([A-Za-z])\)\s+');
   RegExp createdOnRegExp = RegExp(r'(?:^|-\d{2}\s|\)\s)(\d{4}-\d{2}-\d{2})\s');
+  RegExp completedOnRegExp = RegExp(r'/^x\s+(\d{4}-\d{2}-\d{2})\s+/');
+  RegExp completedRegExp = RegExp(r'^x\s+');
+  RegExp dueOnRegExp = RegExp(r'(?:due:)(\d{4}-\d{2}-\d{2})(?:\s+|$)', caseSensitive: false);
+  RegExp tagsRegExp = RegExp(r'([a-z]+):([A-Za-z0-9_-]+)', caseSensitive: false);
 
   late bool completed;
   late String description;
   late String? priority;
   late DateTime? createdOn;
+  late DateTime? completedOn;
+  late DateTime? dueOn;
   late Iterable<String> contexts;
   late Iterable<String> projects;
+  late Map<String, String> tags;
 
   TxDxItem(this.text) {
-    completed = false;
     description = '';
 
-    contexts = getMatches(contextsRegexp, text);
-    projects = getMatches(projectsRegexp, text);
-    priority = getMatch(priorityRegexp, text);
+    tags = getMatchedPairs(tagsRegExp, text);
+
+    contexts = getMatches(contextsRegExp, text);
+    projects = getMatches(projectsRegExp, text);
+    priority = getMatch(priorityRegExp, text);
     createdOn = getDate(createdOnRegExp, text);
+    completedOn = getDate(completedOnRegExp, text);
+    dueOn = getDate(dueOnRegExp, text);
+    completed = getMatch(completedRegExp, text) != null;
   }
 
   void setCompleted(bool value) {
@@ -45,6 +56,19 @@ class TxDxItem {
     if (matchedDate == null) return null;
 
     return DateTime.tryParse(matchedDate.trim());
+  }
+
+  Map<String, String> getMatchedPairs(RegExp regExp, String text) {
+    Iterable<RegExpMatch> matches = regExp.allMatches(text);
+    Map<String, String> results = <String, String>{};
+
+    matches.forEach((match) {
+      String pair = match.group(0).toString().trim();
+      List<String> keyVal = pair.split(':');
+      results[keyVal[0]] = keyVal[1];
+    });
+
+    return results;
   }
 }
 
