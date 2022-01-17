@@ -53,10 +53,10 @@ class TodoListView extends StatefulWidget {
 
 class _TodoListViewState extends State<TodoListView> {
   String filename;
-  late TxDxContext txDxContext;
+  late TxDxList txDxContext;
 
   _TodoListViewState(this.filename) {
-    txDxContext = TxDxContext(filename);
+    txDxContext = TxDxList(filename);
   }
 
   void _newTodoDialog() {
