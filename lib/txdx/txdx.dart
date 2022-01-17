@@ -38,12 +38,13 @@ class TxDxItem {
   }
 
   DateTime? getDate(RegExp regExp, String text) {
-    String? match = regExp.stringMatch(text);
+    RegExpMatch? match = regExp.firstMatch(text);
     if (match == null) return null;
 
-    String stringDate = match.trim();
-    DateTime? result = DateTime.tryParse(stringDate);
-    return result;
+    String? matchedDate = match.group(1);
+    if (matchedDate == null) return null;
+
+    return DateTime.tryParse(matchedDate.trim());
   }
 }
 
