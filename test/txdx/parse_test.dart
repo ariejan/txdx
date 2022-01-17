@@ -49,12 +49,12 @@ void main() {
   group('extract priority', () {
     test('empty task', () {
       final item = TxDxItem('');
-      expect(item.priority, equals(''));
+      expect(item.priority, isNull);
     });
 
     test('task without priority', () {
       final item = TxDxItem('do something');
-      expect(item.priority, equals(''));
+      expect(item.priority, isNull);
     });
 
     test('task with priority A', () {
@@ -65,6 +65,34 @@ void main() {
     test('task with priority B', () {
       final item = TxDxItem('(B) do something');
       expect(item.priority, equals('B'));
+    });
+  });
+
+  group('extract created on', ()
+  {
+    test('empty task', () {
+      final item = TxDxItem('');
+      expect(item.createdOn, isNull);
+    });
+
+    test('task without a date', () {
+      final item = TxDxItem('do something');
+      expect(item.createdOn, isNull);
+    });
+
+    test('task with a created date', () {
+      final item = TxDxItem('2016-03-29 do something');
+      expect(item.createdOn, equals(DateTime(2016, 3, 29)));
+    });
+
+    test('prioritized task with a created date', () {
+      final item = TxDxItem('(A) 2016-03-29 do something');
+      expect(item.createdOn, equals(DateTime(2016, 3, 29)));
+    });
+
+    test('date included in task text', () {
+      final item = TxDxItem('(A) do something 2016-03-29');
+      expect(item.createdOn, isNull);
     });
   });
 }

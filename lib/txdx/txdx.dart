@@ -4,10 +4,12 @@ class TxDxItem {
   RegExp contextsRegexp = RegExp(r'(?:\s+|^)@[^\s]+');
   RegExp projectsRegexp = RegExp(r'(?:\s+|^)\+[^\s]+');
   RegExp priorityRegexp = RegExp(r'(?:^|\s+)\(([A-Za-z])\)\s+');
+  RegExp createdOnRegExp = RegExp(r'(?:^|-\d{2}\s|\)\s)(\d{4}-\d{2}-\d{2})\s');
 
   late bool completed;
   late String description;
-  late String priority;
+  late String? priority;
+  late DateTime? createdOn;
   late Iterable<String> contexts;
   late Iterable<String> projects;
 
@@ -18,7 +20,7 @@ class TxDxItem {
     contexts = getMatches(contextsRegexp, text);
     projects = getMatches(projectsRegexp, text);
     priority = getMatch(priorityRegexp, text);
-
+    createdOn = getDate(createdOnRegExp, text);
   }
 
   void setCompleted(bool value) {
@@ -30,9 +32,18 @@ class TxDxItem {
     return matches.map((e) => e.group(0).toString().trim()).toList();
   }
 
-  String getMatch(RegExp regExp, String text) {
-      String? match = regExp.stringMatch(text);
-      return (match != null) ? match[1] : '';
+  String? getMatch(RegExp regExp, String text) {
+    String? match = regExp.stringMatch(text);
+    return (match != null) ? match[1] : null;
+  }
+
+  DateTime? getDate(RegExp regExp, String text) {
+    String? match = regExp.stringMatch(text);
+    if (match == null) return null;
+
+    String stringDate = match.trim();
+    DateTime? result = DateTime.tryParse(stringDate);
+    return result;
   }
 }
 
