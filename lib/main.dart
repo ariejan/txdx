@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:txdx/due_notification_widget.dart';
 import 'package:window_size/window_size.dart';
 
 import 'txdx/txdx.dart';
+import 'txdx_item_widget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,60 +66,15 @@ class _TodoListViewState extends State<TodoListView> {
   void _newTodoDialog() {}
 
   List<Widget> _getTxDxItemContainers() {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.deepOrange;
-      }
-      return Colors.brown;
-    }
-
     return txDxContext.items
-        .map((item) => SizedBox(
-              height: 50,
-              child: Row(
-                children: [
-                  Container(
-                      child: Checkbox(
-                          checkColor: Colors.white,
-                          fillColor:
-                              MaterialStateProperty.resolveWith(getColor),
-                          shape: CircleBorder(),
-                          value: item.completed,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              item.setCompleted(value ?? false);
-                            });
-                          })),
-                  SizedBox(
-                    child: Text(
-                      item.description,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  if (item.hasDueOn) ...[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                      child: Tooltip(
-                        message: 'Due: ' + Jiffy(item.dueOn).format('yyyy-MM-dd'),
-                        child: FaIcon(
-                          FontAwesomeIcons.clock,
-                          size: 18,
-                          color: Colors.brown,
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10), color: Colors.brown),
-                      )
-                    ),
-                  ],
-                ],
-              ),
-            ))
+        .map((item) => TxDxItemWidget(
+          item,
+          onCompletedToggle: (bool completed) {
+            setState(() {
+              item.setCompleted(completed);
+            });
+          },
+        ))
         .toList();
   }
 
