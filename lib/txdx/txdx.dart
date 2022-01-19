@@ -74,11 +74,11 @@ class TxDxItem {
     Iterable<RegExpMatch> matches = regExp.allMatches(text);
     Map<String, String> results = <String, String>{};
 
-    matches.forEach((match) {
+    for (var match in matches) {
       String pair = match.group(0).toString().trim();
       List<String> keyVal = pair.split(':');
       results[keyVal[0]] = keyVal[1];
-    });
+    }
 
     return results;
   }

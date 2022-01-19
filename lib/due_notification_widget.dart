@@ -4,20 +4,25 @@ import 'package:jiffy/jiffy.dart';
 
 import 'txdx/txdx.dart';
 
-class DueNotificationWidget extends StatelessWidget {
+class DueNotificationWidget extends StatefulWidget {
   const DueNotificationWidget(this.item, {Key? key})
       : super(key: key);
 
   final TxDxItem item;
 
   @override
+  State<DueNotificationWidget> createState() => _DueNotificationWidgetState();
+}
+
+class _DueNotificationWidgetState extends State<DueNotificationWidget> {
+  @override
   Widget build(BuildContext context) {
-    if (item.hasDueOn) {
+    if (widget.item.hasDueOn) {
       return
         Container(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: Tooltip(
-              message: 'Due: ' + Jiffy(item.dueOn).format('yyyy-MM-dd'),
+              message: 'Due: ' + Jiffy(widget.item.dueOn).format('yyyy-MM-dd'),
               preferBelow: false,
               child: const FaIcon(
                 FontAwesomeIcons.clock,
