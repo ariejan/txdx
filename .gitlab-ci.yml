@@ -4,8 +4,8 @@ default:
     key:
       files:
         - pubspec.lock
-      paths:
-        - .pub-cache/
+    paths:
+      - .pub-cache/
 
 stages:
   - test
