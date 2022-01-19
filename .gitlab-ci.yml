@@ -1,9 +1,34 @@
+default:
+  image: cirrusci/flutter:2.8.1
+  cache:
+    key:
+      files:
+        - pubspec.lock
+      path:
+        - .pub-cache/
+
 stages:
   - test
+  - coverage
 
-flutter_test:
+test:
   stage: test
-  image: cirrusci/flutter:2.8.1
   script:
+    - pub global activate junitreport
+    - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - flutter pub get
-    - flutter test
+    - flutter test --coverage --machine | tojunit > testreport.xml
+  artifacts:
+    reports:
+      junit: testreport.xml
+    paths:
+      - coverage
+
+coverage:
+  stage: coverage
+  script:
+    - genhtml coverage/lcov.info --output=coverage
+    - mv coverage/ public/
+  artifacts:
+    paths:
+      - public
