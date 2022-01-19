@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:txdx/settings_view_widget.dart';
 import 'package:window_size/window_size.dart';
 
 import 'txdx_list_view_widget.dart';
@@ -28,7 +29,11 @@ class TxDxApp extends StatelessWidget {
         primarySwatch: Colors.brown,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const TxDxListViewWidget(filename: 'todo.txt'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const TxDxListViewWidget(filename: ''),
+        '/settings': (context) => const SettingsViewWidget(),
+      },
     );
   }
 }

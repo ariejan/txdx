@@ -14,7 +14,9 @@ class TxDxListViewWidget extends StatefulWidget {
 }
 
 class _TxDxListViewWidgetState extends State<TxDxListViewWidget> {
-  void _newTodoDialog() {}
+  void _newTodoDialog() {
+    Navigator.pushNamed(context, '/settings');
+  }
 
   late TxDxList txDxContext;
 
