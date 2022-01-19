@@ -3,5 +3,7 @@ stages:
 
 flutter_test:
   stage: test
+  image: cirrusci/flutter:2.8.1
   script:
+    - flutter pub get
     - flutter test
