@@ -38,7 +38,7 @@ class TxDxApp extends ConsumerWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const TxDxListViewWidget(),
-        '/settings': (context) => const SettingsViewWidget(),
+        '/settings': (context) => SettingsViewWidget(),
       },
     );
   }
