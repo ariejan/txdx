@@ -30,6 +30,7 @@ class TxDxApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'TxDx',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.brown,
         visualDensity: VisualDensity.adaptivePlatformDensity,
