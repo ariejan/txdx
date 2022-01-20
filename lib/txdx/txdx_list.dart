@@ -1,13 +1,28 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'txdx_item.dart';
 
-class TxDxList {
-  List<TxDxItem> items = <TxDxItem>[];
+class TxDxList extends StateNotifier<List<TxDxItem>>{
+  TxDxList([List<TxDxItem>? initialTodos]) : super(initialTodos ?? []);
 
-  String filename;
+  void add(String text) {
+    state = [
+      ...state,
+      TxDxItem.fromText(text),
+    ];
+  }
 
-  TxDxList(this.filename) {
-    items.add(TxDxItem('(A) 2022-01-12 Do something with priority +project @context'));
-    items.add(TxDxItem('(C) 2022-01-12 Do something later +project @context due:2022-12-31'));
-    items.add(TxDxItem('x 2022-01-13 2022-01-10 Did something +project @context pri:B'));
+  void toggle(String id) {
+    state = [
+      for (final item in state)
+        if (item.id == id)
+          item.toggleComplete()
+        else
+          item,
+    ];
+  }
+
+  void remove(String id) {
+    state = state.where((item) => item.id != id).toList();
   }
 }

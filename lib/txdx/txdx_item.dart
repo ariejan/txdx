@@ -1,87 +1,85 @@
+import 'package:uuid/uuid.dart';
+
+import 'txdx_syntax.dart';
+
+const _uuid = Uuid();
+
 class TxDxItem {
-  String text;
 
-  RegExp contextsRegExp = RegExp(r'(?:\s+|^)@[^\s]+');
-  RegExp projectsRegExp = RegExp(r'(?:\s+|^)\+[^\s]+');
-  RegExp priorityRegExp = RegExp(r'(?:^|\s+)\(([A-Za-z])\)\s+');
-  RegExp createdOnRegExp = RegExp(r'(?:^|-\d{2}\s|\)\s)(\d{4}-\d{2}-\d{2})\s');
-  RegExp completedOnRegExp = RegExp(r'^x\s+(\d{4}-\d{2}-\d{2})\s+');
-  RegExp completedRegExp = RegExp(r'^x\s+');
-  RegExp dueOnRegExp = RegExp(r'(?:due:)(\d{4}-\d{2}-\d{2})(?:\s+|$)', caseSensitive: false);
-  RegExp tagsRegExp = RegExp(r'([a-z]+):([A-Za-z0-9_-]+)', caseSensitive: false);
+  late String id;
+  final bool completed;
+  final String description;
+  final String? priority;
+  final DateTime? createdOn;
+  final DateTime? completedOn;
+  final DateTime? dueOn;
+  final Iterable<String> contexts;
+  final Iterable<String> projects;
+  final Map<String, String> tags;
 
-  late bool completed;
-  late String description;
-  late String? priority;
-  late DateTime? createdOn;
-  late DateTime? completedOn;
-  late DateTime? dueOn;
-  late Iterable<String> contexts;
-  late Iterable<String> projects;
-  late Map<String, String> tags;
+  TxDxItem({
+    this.completed = false,
+    this.description = '',
+    this.priority,
+    this.createdOn,
+    this.completedOn,
+    this.dueOn,
+    this.contexts = const <String>[],
+    this.projects = const <String>[],
+    this.tags = const <String, String>{},
+  }) : id = _uuid.v4();
 
-  TxDxItem(this.text) {
-    description = replaceEverything(text);
 
-    tags = getMatchedPairs(tagsRegExp, text);
-
-    contexts = getMatches(contextsRegExp, text);
-    projects = getMatches(projectsRegExp, text);
-    priority = getMatch(priorityRegExp, text);
-    createdOn = getDate(createdOnRegExp, text);
-    completedOn = getDate(completedOnRegExp, text);
-    dueOn = getDate(dueOnRegExp, text);
-    completed = getMatch(completedRegExp, text) != null;
+  /// Creates a TxDxItem from a Todo.txt formatted `text`.
+  static TxDxItem fromText(text) {
+    return TxDxItem(
+      completed: TxDxSyntax.getCompleted(text),
+      description: TxDxSyntax.getDescription(text),
+      priority: TxDxSyntax.getPriority(text),
+      createdOn: TxDxSyntax.getCreatedOn(text),
+      completedOn: TxDxSyntax.getCompletedOn(text),
+      dueOn: TxDxSyntax.getDueOn(text),
+      tags: TxDxSyntax.getTags(text),
+      contexts: TxDxSyntax.getContexts(text),
+      projects: TxDxSyntax.getProjects(text),
+    );
   }
 
-  void setCompleted(bool value) {
-    completed = value;
-  }
-
-  String replaceEverything(String text) {
-    return text.replaceAll(completedOnRegExp, '')
-        .replaceAll(completedRegExp, '')
-        .replaceAll(priorityRegExp, '')
-        .replaceAll(contextsRegExp, '')
-        .replaceAll(projectsRegExp, '')
-        .replaceAll(dueOnRegExp, '')
-        .replaceAll(tagsRegExp, '')
-        .replaceAll(createdOnRegExp, '')
-        .trim();
-  }
-
-  Iterable<String> getMatches(RegExp regExp, String text) {
-    Iterable<RegExpMatch> matches = regExp.allMatches(text);
-    return matches.map((e) => e.group(0).toString().trim()).toList();
-  }
-
-  String? getMatch(RegExp regExp, String text) {
-    String? match = regExp.stringMatch(text);
-    return (match != null) ? match[1] : null;
-  }
-
-  DateTime? getDate(RegExp regExp, String text) {
-    RegExpMatch? match = regExp.firstMatch(text);
-    if (match == null) return null;
-
-    String? matchedDate = match.group(1);
-    if (matchedDate == null) return null;
-
-    return DateTime.tryParse(matchedDate.trim());
-  }
-
-  Map<String, String> getMatchedPairs(RegExp regExp, String text) {
-    Iterable<RegExpMatch> matches = regExp.allMatches(text);
-    Map<String, String> results = <String, String>{};
-
-    for (var match in matches) {
-      String pair = match.group(0).toString().trim();
-      List<String> keyVal = pair.split(':');
-      results[keyVal[0]] = keyVal[1];
-    }
-
-    return results;
-  }
+  TxDxItem copyWith({
+    bool? completed,
+    String? description,
+    String? priority,
+    DateTime? createdOn,
+    DateTime? completedOn,
+    DateTime? dueOn,
+    Iterable<String>? contexts,
+    Iterable<String>? projects,
+    Map<String, String>? tags,
+  }) => TxDxItem(
+    completed: completed ?? this.completed,
+    description: description ?? this.description,
+    priority: priority ?? this.priority,
+    createdOn: createdOn ?? this.createdOn,
+    completedOn: completedOn ?? this.completedOn,
+    dueOn: dueOn ?? this.dueOn,
+    contexts: contexts ?? this.contexts,
+    projects: projects ?? this.projects,
+    tags: tags ?? this.tags,
+  );
 
   bool get hasDueOn => dueOn != null;
+
+  TxDxItem toggleComplete() {
+    if (!completed) {
+      return copyWith(
+        completed: true,
+        completedOn: DateTime.now(),
+      );
+    } else {
+      return copyWith(
+        completed: false,
+        completedOn: null,
+      );
+    }
+  }
 }

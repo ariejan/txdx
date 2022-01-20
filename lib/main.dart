@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/settings_view_widget.dart';
 import 'package:window_size/window_size.dart';
 
@@ -14,15 +15,19 @@ void main() {
     setWindowMaxSize(Size.infinite);
   }
 
-  runApp(const TxDxApp());
+  runApp(
+    const ProviderScope(
+        child: TxDxApp()
+    ),
+  );
 }
 
-class TxDxApp extends StatelessWidget {
+class TxDxApp extends ConsumerWidget {
   const TxDxApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'TxDx',
       theme: ThemeData(
@@ -31,7 +36,7 @@ class TxDxApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const TxDxListViewWidget(filename: ''),
+        '/': (context) => const TxDxListViewWidget(),
         '/settings': (context) => const SettingsViewWidget(),
       },
     );

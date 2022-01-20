@@ -1,49 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'txdx/txdx.dart';
 import 'txdx_item_widget.dart';
 
-class TxDxListViewWidget extends StatefulWidget {
-  const TxDxListViewWidget({Key? key, required this.filename})
+final txdxProvider = StateNotifierProvider<TxDxList, List<TxDxItem>>((ref) {
+  return TxDxList([
+    TxDxItem.fromText('(A) 2022-01-12 Do something with priority +project @context'),
+    TxDxItem.fromText('(C) 2022-01-12 Do something later +project @context due:2022-12-31'),
+    TxDxItem.fromText('x 2022-01-13 2022-01-10 Did something +project @context pri:B'),
+  ]);
+});
+
+final uncompletedTodosCount = Provider<int>((ref) {
+  return ref.watch(txdxProvider).where((item) => !item.completed).length;
+});
+
+class TxDxListViewWidget extends ConsumerWidget {
+  const TxDxListViewWidget({Key? key})
       : super(key: key);
 
-  final String filename;
-
   @override
-  State<TxDxListViewWidget> createState() => _TxDxListViewWidgetState();
-}
-
-class _TxDxListViewWidgetState extends State<TxDxListViewWidget> {
-  void _newTodoDialog() {
-    Navigator.pushNamed(context, '/settings');
-  }
-
-  late TxDxList txDxContext;
-
-  List<Widget> _getTxDxItemContainers() {
-    return txDxContext.items
-        .map((item) => TxDxItemWidget(
-              item,
-              onCompletedToggle: (bool completed) {
-                setState(() {
-                  item.setCompleted(completed);
-                });
-              },
-            ))
-        .toList();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    txDxContext = TxDxList(widget.filename);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items = ref.watch(txdxProvider);
 
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.all(8),
-        children: _getTxDxItemContainers(),
+        children: [
+          for (var item in items) ...[
+            TxDxItemWidget(
+              item,
+              onCompletedToggle: (bool completed) {
+                ref.read(txdxProvider.notifier).toggle(item.id);
+              },
+            ),
+          ],
+        ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _newTodoDialog,
+        onPressed: () => Navigator.pushNamed(context, '/settings'),
         child: const Icon(Icons.add),
       ),
     );
