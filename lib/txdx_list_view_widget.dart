@@ -7,11 +7,7 @@ import 'txdx_item_widget.dart';
 final txdxFilename = Provider<String?>((ref) => null);
 
 final txdxProvider = StateNotifierProvider<TxDxList, List<TxDxItem>>((ref) {
-  return TxDxList([
-    // TxDxItem.fromText('(A) 2022-01-12 Do something with priority +project @context'),
-    // TxDxItem.fromText('(C) 2022-01-12 Do something later +project @context due:2022-12-31'),
-    // TxDxItem.fromText('x 2022-01-13 2022-01-10 Did something +project @context pri:B'),
-  ]);
+  return TxDxList([]);
 });
 
 final uncompletedTodosCount = Provider<int>((ref) {
@@ -27,8 +23,8 @@ class TxDxListViewWidget extends ConsumerWidget {
     final items = ref.watch(txdxProvider);
     final filename = ref.watch(txdxFilename);
 
-    return Material(
-      child: Column(
+    return Scaffold(
+      body: Column(
         children: [
           Expanded(
               child: ListView(
@@ -64,7 +60,7 @@ class TxDxListViewWidget extends ConsumerWidget {
 
                 SizedBox(
                   child: ElevatedButton(
-                    onPressed: () => print('clixored'),
+                    onPressed: () => Navigator.pushNamed(context, '/settings'),
                     child: const Text(
                         'select file',
                         style: TextStyle(
