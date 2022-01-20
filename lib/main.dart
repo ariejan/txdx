@@ -2,13 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:txdx/settings_view_widget.dart';
 import 'package:window_size/window_size.dart';
 
 import 'txdx_list_view_widget.dart';
 
-void main() {
+late SharedPreferences prefs;
+
+void main() async {
+  prefs = await SharedPreferences.getInstance();
+
   WidgetsFlutterBinding.ensureInitialized();
+
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('TxDx');
     setWindowMinSize(const Size(400, 300));

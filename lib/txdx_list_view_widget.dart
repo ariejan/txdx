@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:txdx/main.dart';
 
 import 'txdx/txdx.dart';
 import 'txdx_item_widget.dart';
-
-final txdxFilename = Provider<String?>((ref) => null);
 
 final txdxProvider = StateNotifierProvider<TxDxList, List<TxDxItem>>((ref) {
   return TxDxList([]);
@@ -21,7 +21,7 @@ class TxDxListViewWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(txdxProvider);
-    final filename = ref.watch(txdxFilename);
+    final String filename = prefs.getString('filename') ?? '';
 
     return Scaffold(
       body: Column(
