@@ -31,12 +31,17 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  flutter_riverpod: ^1.0.3
   jiffy: ^5.0.0
   font_awesome_flutter: ^9.2.0
+  settings_ui: ^2.0.1
+  file_picker: ^4.3.2
+  uuid: ^3.0.4
   window_size:
     git:
       url: git://github.com/google/flutter-desktop-embedding.git
       path: plugins/window_size
+  shared_preferences: ^2.0.12
 
 dev_dependencies:
   flutter_test:

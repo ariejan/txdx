@@ -1,34 +1,55 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:txdx/settings_view_widget.dart';
 import 'package:window_size/window_size.dart';
 
 import 'txdx_list_view_widget.dart';
 
-void main() {
+final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
+  throw UnimplementedError();
+});
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('TxDx');
     setWindowMinSize(const Size(400, 300));
     setWindowMaxSize(Size.infinite);
   }
 
-  runApp(const TxDxApp());
+  final sharedPreferences = await SharedPreferences.getInstance();
+
+  runApp(
+    ProviderScope(
+        overrides: [
+          sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+        ],
+        child: TxDxApp()),
+  );
 }
 
-class TxDxApp extends StatelessWidget {
+class TxDxApp extends ConsumerWidget {
   const TxDxApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'TxDx',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.brown,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const TxDxListViewWidget(filename: 'todo.txt'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const TxDxListViewWidget(),
+        '/settings': (context) => SettingsViewWidget(),
+      },
     );
   }
 }

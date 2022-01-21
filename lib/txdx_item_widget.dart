@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'due_notification_widget.dart';
 import 'txdx/txdx.dart';
 
-class TxDxItemWidget extends StatefulWidget {
+class TxDxItemWidget extends ConsumerWidget {
   const TxDxItemWidget(this.item, {Key? key, this.onCompletedToggle})
       : super(key: key);
 
@@ -11,12 +12,7 @@ class TxDxItemWidget extends StatefulWidget {
   final ValueChanged<bool>? onCompletedToggle;
 
   @override
-  State<StatefulWidget> createState() => _TxDxItemWidgetState();
-}
-
-class _TxDxItemWidgetState extends State<TxDxItemWidget> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return
       SizedBox(
         height: 50,
@@ -25,26 +21,26 @@ class _TxDxItemWidgetState extends State<TxDxItemWidget> {
             Checkbox(
                 checkColor: Colors.white,
                 fillColor:
-                MaterialStateProperty.resolveWith(getColor),
+                MaterialStateProperty.resolveWith(_getColor),
                 shape: const CircleBorder(),
-                value: widget.item.completed,
+                value: item.completed,
                 onChanged: (bool? value) {
-                  widget.onCompletedToggle!(value ?? false);
+                  onCompletedToggle!(value ?? false);
                 }),
             SizedBox(
               child: Text(
-                widget.item.description,
+                item.description,
                 textAlign: TextAlign.left,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            DueNotificationWidget(widget.item),
+            DueNotificationWidget(item),
           ],
         ),
       );
   }
 
-  Color getColor(Set<MaterialState> states) {
+  Color _getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
       MaterialState.hovered,
@@ -55,5 +51,4 @@ class _TxDxItemWidgetState extends State<TxDxItemWidget> {
     }
     return Colors.brown;
   }
-
 }

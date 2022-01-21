@@ -1,49 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/main.dart';
 
 import 'txdx/txdx.dart';
 import 'txdx_item_widget.dart';
 
-class TxDxListViewWidget extends StatefulWidget {
-  const TxDxListViewWidget({Key? key, required this.filename})
+final txdxProvider = StateNotifierProvider<TxDxList, List<TxDxItem>>((ref) {
+  return TxDxList([]);
+});
+
+final uncompletedTodosCount = Provider<int>((ref) {
+  return ref.watch(txdxProvider).where((item) => !item.completed).length;
+});
+
+class TxDxListViewWidget extends ConsumerWidget {
+  const TxDxListViewWidget({Key? key})
       : super(key: key);
 
-  final String filename;
-
   @override
-  State<TxDxListViewWidget> createState() => _TxDxListViewWidgetState();
-}
-
-class _TxDxListViewWidgetState extends State<TxDxListViewWidget> {
-  void _newTodoDialog() {}
-
-  late TxDxList txDxContext;
-
-  List<Widget> _getTxDxItemContainers() {
-    return txDxContext.items
-        .map((item) => TxDxItemWidget(
-              item,
-              onCompletedToggle: (bool completed) {
-                setState(() {
-                  item.setCompleted(completed);
-                });
-              },
-            ))
-        .toList();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    txDxContext = TxDxList(widget.filename);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items = ref.watch(txdxProvider);
+    final String? filename = ref.watch(sharedPreferencesProvider).getString('filename');
 
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(8),
-        children: _getTxDxItemContainers(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _newTodoDialog,
-        child: const Icon(Icons.add),
-      ),
+      body: Column(
+        children: [
+          Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(8),
+                children: [
+                  for (var item in items) ...[
+                    TxDxItemWidget(
+                      item,
+                      onCompletedToggle: (bool completed) {
+                        ref.read(txdxProvider.notifier).toggle(item.id);
+                      },
+                    ),
+                  ],
+                ],
+              ),
+          ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(10, 6, 10, 6),
+            color: Colors.brown.shade800,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  child: Text(
+                      '>> ' + (filename ?? 'no file selected'),
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      )
+                  ),
+                ),
+
+                SizedBox(
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.pushNamed(context, '/settings'),
+                    child: const Text(
+                        'select file',
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                  ),
+                )
+              ],
+            )
+          )
+        ],
+      )
     );
   }
 }
