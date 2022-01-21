@@ -8,11 +8,11 @@ import 'package:window_size/window_size.dart';
 
 import 'txdx_list_view_widget.dart';
 
-late SharedPreferences prefs;
+final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
+  throw UnimplementedError();
+});
 
-void main() async {
-  prefs = await SharedPreferences.getInstance();
-
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -21,10 +21,14 @@ void main() async {
     setWindowMaxSize(Size.infinite);
   }
 
+  final sharedPreferences = await SharedPreferences.getInstance();
+
   runApp(
-    const ProviderScope(
-        child: TxDxApp()
-    ),
+    ProviderScope(
+        overrides: [
+          sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+        ],
+        child: TxDxApp()),
   );
 }
 

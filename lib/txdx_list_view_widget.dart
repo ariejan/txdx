@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:txdx/main.dart';
 
 import 'txdx/txdx.dart';
@@ -21,7 +20,7 @@ class TxDxListViewWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(txdxProvider);
-    final String filename = prefs.getString('filename') ?? '';
+    final String? filename = ref.watch(sharedPreferencesProvider).getString('filename');
 
     return Scaffold(
       body: Column(
