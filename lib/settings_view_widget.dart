@@ -1,13 +1,14 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/txdx/txdx_list.dart';
 
 import 'main.dart';
 
 class SettingsViewWidget extends ConsumerWidget {
   const SettingsViewWidget({Key? key}) : super(key: key);
 
-  Future<String?> _pickFile(WidgetRef ref) async {
+  Future<String?> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: false,
@@ -23,8 +24,6 @@ class SettingsViewWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(sharedPreferencesProvider);
-    final String? _filename = prefs.getString('filename');
 
     return Material(
       child: Container(
@@ -38,13 +37,19 @@ class SettingsViewWidget extends ConsumerWidget {
             TextButton(
               child: Text('pick file'),
               onPressed: () => {
-                _pickFile(ref).then((filename) {
-                  prefs.setString('filename', filename ?? '');
-                  ref.refresh(sharedPreferencesProvider);
+                _pickFile().then((filename) {
+                  ref.read(filenameNotifierProvider.notifier).setFilename(filename ?? '');
                 })
               },
             ),
-            Text('Seleced file: ${_filename ?? 'no file selected'}'),
+            Consumer(builder: (context, ref, _) {
+              final filenameNotifier = ref.watch(filenameNotifierProvider);
+              return filenameNotifier.map(
+                data: (data) => Text('${data.value}'),
+                loading: (_) => const CircularProgressIndicator(),
+                error: (_) => const Text('Error'),
+              );
+            }),
           ],
         )
       ),
