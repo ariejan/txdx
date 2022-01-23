@@ -33,7 +33,9 @@ class TxDxSyntax {
   }
 
   static Map<String, String> getTags(String text) {
-    return _getMatchedPairs(tagsRegExp, text);
+    final tags = _getMatchedPairs(tagsRegExp, text);
+    tags.removeWhere((key, value) => key == 'due');
+    return tags;
   }
 
   static Iterable<String> getContexts(String text) {

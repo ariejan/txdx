@@ -1,7 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:txdx/txdx/txdx.dart';
 
 void main() {
+  group('test example.txt parsing', () {
+    test('parse the file', () {
+      TxDxFile.openFromFile(Directory.current.path + '/test/examples/example.txt').then((items) {
+        expect(items, hasLength(3));
+      });
+    });
+  });
+
   group('extract contexts', () {
     test('empty task', () {
       final item = TxDxItem.fromText('');

@@ -1,3 +1,4 @@
+import 'package:jiffy/jiffy.dart';
 import 'package:uuid/uuid.dart';
 
 import 'txdx_syntax.dart';
@@ -85,5 +86,20 @@ class TxDxItem {
         completedOn: null,
       );
     }
+  }
+
+  @override
+  String toString() {
+    return [
+      completed ? 'x' : '',
+      priority != null ? '($priority)' : '',
+      completedOn != null ? Jiffy(completedOn).format('yyyy-MM-dd') : '',
+      createdOn != null ? Jiffy(createdOn).format('yyyy-MM-dd') : '',
+      description,
+      contexts.join(" "),
+      projects.join(" "),
+      dueOn != null ? 'due:${Jiffy(dueOn).format('yyyy-MM-dd')}' : '',
+      tags.keys.map((k) => '$k:${tags[k]}').join(' '),
+    ].where((element) => element != '').join(' ');
   }
 }
