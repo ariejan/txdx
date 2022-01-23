@@ -35,27 +35,37 @@ class FilenameNotifier extends StateNotifier<AsyncValue<String?>> {
 }
 
 final itemsNotifierProvider =
-  StateNotifierProvider.autoDispose<ItemNotifier, AsyncValue<List<TxDxItem>>>((ref) {
-      return ItemNotifier(ref);
-    },
-);
+  StateNotifierProvider<ItemNotifier, AsyncValue<List<TxDxItem>>>((ref) => ItemNotifier(ref));
 
 class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
   ItemNotifier(this.ref) : super(const AsyncValue<List<TxDxItem>>.loading()) {
     _initialize();
   }
 
-  final AutoDisposeStateNotifierProviderRef ref;
-  late final String filename;
+  final StateNotifierProviderRef ref;
+  late final String? filename;
 
   Future<void> _initialize() async {
-    final _filename = await ref.watch(filenameNotifierProvider.future);
-    if (_filename != null && _filename != '') {
-      final theItems = await TxDxFile.openFromFile(_filename);
+    filename = await ref.watch(filenameNotifierProvider.future);
+    if (filename != null && filename != '') {
+      final theItems = await TxDxFile.openFromFile(filename!);
       state = AsyncValue.data(theItems);
     } else {
       state = const AsyncValue.data(<TxDxItem>[]);
     }
+  }
+
+  List<TxDxItem> getItems() {
+    return state.value ?? [];
+  }
+
+  Future<void> createNewItem() async {
+    final items = state.value ?? [];
+    final theItems = [
+      ...items,
+      TxDxItem.fromText('New item')
+    ];
+    _setState(theItems);
   }
 
   Future<void> toggleComplete(String id) async {
@@ -67,7 +77,15 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
     if (itemIdx >= 0) {
       final theItem = items.elementAt(itemIdx);
       items.replaceRange(itemIdx, itemIdx + 1, [theItem.toggleComplete()]);
-      state = AsyncValue.data(items);
+      _setState(items);
+    }
+  }
+
+  void _setState(List<TxDxItem> value) {
+    state = AsyncValue.data(value);
+
+    if (filename != null && filename != '') {
+      TxDxFile.saveToFile(filename!, value);
     }
   }
 }

@@ -71,7 +71,14 @@ class TxDxListViewWidget extends ConsumerWidget {
             )
           )
         ],
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final items = ref.read(itemsNotifierProvider.notifier);
+          print('creating new item via button');
+          items.createNewItem();
+        },
+      ),
     );
   }
 }

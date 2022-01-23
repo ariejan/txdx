@@ -4,6 +4,12 @@ import 'txdx.dart';
 
 class TxDxFile {
 
+  static Future<void> saveToFile(String filename, List<TxDxItem> items) async {
+    final contents = items.map((e) => e.toString()).join('\n');
+    File file = await _getFile(filename);
+    file.writeAsString(contents, flush: true);
+  }
+
   static Future<List<TxDxItem>> openFromFile(String filename) async {
     List<String> lines = await _readLines(filename);
     final theList = <TxDxItem>[];
@@ -16,12 +22,12 @@ class TxDxFile {
   }
 
   static Future<List<String>> _readLines(String filename) async {
-    File file = await _openFile(filename);
+    File file = await _getFile(filename);
     List<String> lines = await file.readAsLines();
     return lines;
   }
 
-  static Future<File> _openFile(String filename) async {
+  static Future<File> _getFile(String filename) async {
     return File(filename);
   }
 
