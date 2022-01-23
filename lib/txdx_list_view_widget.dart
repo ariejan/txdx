@@ -5,40 +5,40 @@ import 'package:txdx/main.dart';
 import 'txdx/txdx.dart';
 import 'txdx_item_widget.dart';
 
-final txdxProvider = StateNotifierProvider<TxDxList, List<TxDxItem>>((ref) {
-  return TxDxList([]);
-});
-
-final uncompletedTodosCount = Provider<int>((ref) {
-  return ref.watch(txdxProvider).where((item) => !item.completed).length;
-});
-
 class TxDxListViewWidget extends ConsumerWidget {
   const TxDxListViewWidget({Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(txdxProvider);
-    final String? filename = ref.watch(sharedPreferencesProvider).getString('filename');
+    final filename = ref.watch(filenameNotifierProvider).value;
 
     return Scaffold(
       body: Column(
         children: [
           Expanded(
-              child: ListView(
-                padding: const EdgeInsets.all(8),
-                children: [
-                  for (var item in items) ...[
-                    TxDxItemWidget(
-                      item,
-                      onCompletedToggle: (bool completed) {
-                        ref.read(txdxProvider.notifier).toggle(item.id);
+              child: Consumer(builder: (context, ref, _) {
+                final items = ref.watch(itemsNotifierProvider);
+                return items.map(
+                  data: (data) {
+                    final theItems = data.value;
+                    return ListView.builder(
+                      itemCount: theItems.length,
+                      itemBuilder: (_, i) {
+                        final item = theItems[i];
+                        return TxDxItemWidget(
+                          item,
+                          onCompletedToggle: (bool value) {
+                            ref.read(itemsNotifierProvider.notifier).toggleComplete(item.id);
+                          },
+                        );
                       },
-                    ),
-                  ],
-                ],
-              ),
+                    );
+                  },
+                  loading: (_) => const Center(child: CircularProgressIndicator()),
+                  error: (_) => const Text('Error...'),
+                );
+              }),
           ),
           Container(
             width: double.infinity,

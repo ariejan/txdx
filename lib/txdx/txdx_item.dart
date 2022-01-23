@@ -55,17 +55,21 @@ class TxDxItem {
     Iterable<String>? contexts,
     Iterable<String>? projects,
     Map<String, String>? tags,
-  }) => TxDxItem(
-    completed: completed ?? this.completed,
-    description: description ?? this.description,
-    priority: priority ?? this.priority,
-    createdOn: createdOn ?? this.createdOn,
-    completedOn: completedOn ?? this.completedOn,
-    dueOn: dueOn ?? this.dueOn,
-    contexts: contexts ?? this.contexts,
-    projects: projects ?? this.projects,
-    tags: tags ?? this.tags,
-  );
+  }) {
+    TxDxItem theItem = TxDxItem(
+      completed: completed ?? this.completed,
+      description: description ?? this.description,
+      priority: priority ?? this.priority,
+      createdOn: createdOn ?? this.createdOn,
+      completedOn: completedOn ?? this.completedOn,
+      dueOn: dueOn ?? this.dueOn,
+      contexts: contexts ?? this.contexts,
+      projects: projects ?? this.projects,
+      tags: tags ?? this.tags,
+    );
+    theItem.id = id;
+    return theItem;
+  }
 
   bool get hasDueOn => dueOn != null;
 

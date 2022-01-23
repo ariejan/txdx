@@ -8,10 +8,6 @@ import 'package:window_size/window_size.dart';
 
 import 'txdx_list_view_widget.dart';
 
-final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  throw UnimplementedError();
-});
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -24,10 +20,7 @@ Future<void> main() async {
   final sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(
-    ProviderScope(
-        overrides: [
-          sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-        ],
+    const ProviderScope(
         child: TxDxApp()),
   );
 }
