@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/main.dart';
 
 import 'txdx/txdx.dart';
 import 'txdx_item_widget.dart';
@@ -75,7 +74,6 @@ class TxDxListViewWidget extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           final items = ref.read(itemsNotifierProvider.notifier);
-          print('creating new item via button');
           items.createNewItem();
         },
       ),

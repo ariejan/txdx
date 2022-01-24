@@ -8,8 +8,15 @@ default:
       - .pub-cache/
 
 stages:
+  - lint
   - test
   - coverage
+
+analyze:
+  stage: lint
+  script:
+    - flutter pub get
+    - flutter analyze
 
 test:
   stage: test
@@ -27,8 +34,9 @@ test:
 coverage:
   stage: coverage
   script:
-    - genhtml coverage/lcov.info --output=coverage
-    - mv coverage/ public/
+    - flutter test --coverage ./lib
+    - lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info
+    - genhtml coverage/lcov_cleaned.info --output=coverage
   artifacts:
     paths:
-      - public
+      - coverage

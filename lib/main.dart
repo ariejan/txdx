@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:txdx/settings_view_widget.dart';
 import 'package:window_size/window_size.dart';
 
@@ -16,8 +15,6 @@ Future<void> main() async {
     setWindowMinSize(const Size(400, 300));
     setWindowMaxSize(Size.infinite);
   }
-
-  final sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(
     const ProviderScope(
@@ -41,7 +38,7 @@ class TxDxApp extends ConsumerWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const TxDxListViewWidget(),
-        '/settings': (context) => SettingsViewWidget(),
+        '/settings': (context) => const SettingsViewWidget(),
       },
     );
   }
