@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'txdx.dart';
-import 'txdx_item.dart';
 
 final sharedPreferencesProvider = FutureProvider(
   (ref) async => SharedPreferences.getInstance(),

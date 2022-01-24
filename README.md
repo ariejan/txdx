@@ -1,6 +1,8 @@
-# txdx
 
-TxDx
+[![pipeline status](http://gitlab.devroom.io/ariejan/txdx/badges/master/pipeline.svg)](http://gitlab.devroom.io/ariejan/txdx/-/commits/master)
+[![coverage report](http://gitlab.devroom.io/ariejan/txdx/badges/master/coverage.svg)](http://gitlab.devroom.io/ariejan/txdx/-/commits/master)
+
+# TxDx
 
 ## Getting Started
 
