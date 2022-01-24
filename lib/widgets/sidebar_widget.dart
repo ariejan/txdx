@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -19,7 +18,7 @@ class SidebarWidget extends ConsumerWidget {
         children: [
           Column(
             children: [
-              AppTitleWidget(),
+              const AppTitleWidget(),
               ListView(
                 shrinkWrap: true,
                 children: const [
@@ -37,17 +36,15 @@ class SidebarWidget extends ConsumerWidget {
               ),
             ]
           ),
-          Container(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                ListTile(
-                  onTap: () => Navigator.pushNamed(context, '/settings'),
-                  title: const Text('Settings', overflow: TextOverflow.clip),
-                  leading: const FaIcon(FontAwesomeIcons.cog),
-                ),
-              ]
-            ),
+          ListView(
+            shrinkWrap: true,
+            children: [
+              ListTile(
+                onTap: () => Navigator.pushNamed(context, '/settings'),
+                title: const Text('Settings', overflow: TextOverflow.clip),
+                leading: const FaIcon(FontAwesomeIcons.cog),
+              ),
+            ]
           )
         ]
       ),
