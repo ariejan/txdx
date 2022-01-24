@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'app_title_widget.dart';
+import 'menu_item_widget.dart';
 
 class SidebarWidget extends ConsumerWidget {
   const SidebarWidget({Key? key}) : super(key: key);
@@ -17,32 +18,25 @@ class SidebarWidget extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            children: [
-              const AppTitleWidget(),
-              ListView(
-                shrinkWrap: true,
-                children: const [
-                  ListTile(
-                    // onTap: () => Navigator.pushNamed(context, '/settings'),
-                    title: Text('All', overflow: TextOverflow.clip),
-                    leading: FaIcon(FontAwesomeIcons.th),
-                  ),
-                  ListTile(
-                    // onTap: () => Navigator.pushNamed(context, '/settings'),
-                    title: Text('Today', overflow: TextOverflow.clip),
-                    leading: FaIcon(FontAwesomeIcons.calendarDay),
-                  ),
-                ],
+            children: const [
+              AppTitleWidget(),
+              MenuItemWidget(
+                icon: FaIcon(FontAwesomeIcons.th, size: 16),
+                title: Text('All', overflow: TextOverflow.clip),
+              ),
+              MenuItemWidget(
+                icon: FaIcon(FontAwesomeIcons.calendarDay, size: 16),
+                title: Text('Today', overflow: TextOverflow.clip),
               ),
             ]
           ),
           ListView(
             shrinkWrap: true,
             children: [
-              ListTile(
+              MenuItemWidget(
                 onTap: () => Navigator.pushNamed(context, '/settings'),
                 title: const Text('Settings', overflow: TextOverflow.clip),
-                leading: const FaIcon(FontAwesomeIcons.cog),
+                icon: const FaIcon(FontAwesomeIcons.cog, size: 16),
               ),
             ]
           )
@@ -50,5 +44,4 @@ class SidebarWidget extends ConsumerWidget {
       ),
     );
   }
-
 }
