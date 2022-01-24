@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'due_notification_widget.dart';
-import 'txdx/txdx.dart';
+import '../txdx/txdx.dart';
 
-class TxDxItemWidget extends ConsumerWidget {
-  const TxDxItemWidget(this.item, {Key? key, this.onCompletedToggle})
+class ItemWidget extends ConsumerWidget {
+  const ItemWidget(this.item, {Key? key, this.onCompletedToggle})
       : super(key: key);
 
   final TxDxItem item;
@@ -49,6 +49,6 @@ class TxDxItemWidget extends ConsumerWidget {
     if (states.any(interactiveStates.contains)) {
       return Colors.deepOrange;
     }
-    return Colors.brown;
+    return Colors.indigo;
   }
 }

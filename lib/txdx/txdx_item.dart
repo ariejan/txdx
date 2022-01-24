@@ -76,16 +76,42 @@ class TxDxItem {
 
   TxDxItem toggleComplete() {
     if (!completed) {
-      return copyWith(
-        completed: true,
-        completedOn: DateTime.now(),
-      );
+      return complete();
     } else {
-      return copyWith(
-        completed: false,
-        completedOn: null,
-      );
+      return uncomplete();
     }
+  }
+
+  TxDxItem complete() {
+    TxDxItem theItem = TxDxItem(
+      completed: true,
+      description: description,
+      priority: null,
+      createdOn: createdOn,
+      completedOn: DateTime.now(),
+      dueOn: dueOn,
+      contexts: contexts,
+      projects: projects,
+      tags: tags,
+    );
+    theItem.id = id;
+    return theItem;
+  }
+
+  TxDxItem uncomplete() {
+    TxDxItem theItem = TxDxItem(
+      completed: false,
+      description: description,
+      priority: null,
+      createdOn: createdOn,
+      completedOn: null,
+      dueOn: dueOn,
+      contexts: contexts,
+      projects: projects,
+      tags: tags,
+    );
+    theItem.id = id;
+    return theItem;
   }
 
   @override

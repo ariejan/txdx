@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jiffy/jiffy.dart';
 
-import 'txdx/txdx.dart';
+import '../txdx/txdx.dart';
 
 class DueNotificationWidget extends StatefulWidget {
   const DueNotificationWidget(this.item, {Key? key})
@@ -27,10 +27,10 @@ class _DueNotificationWidgetState extends State<DueNotificationWidget> {
               child: const FaIcon(
                 FontAwesomeIcons.clock,
                 size: 18,
-                color: Colors.brown,
+                color: Colors.indigo,
               ),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10), color: Colors.brown),
+                  borderRadius: BorderRadius.circular(10), color: Colors.indigo),
             )
         );
     } else {

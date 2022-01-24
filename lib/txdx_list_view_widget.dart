@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'txdx/txdx.dart';
-import 'txdx_item_widget.dart';
+import 'widgets/item_widget.dart';
 
 class TxDxListViewWidget extends ConsumerWidget {
   const TxDxListViewWidget({Key? key})
@@ -25,7 +25,7 @@ class TxDxListViewWidget extends ConsumerWidget {
                       itemCount: theItems.length,
                       itemBuilder: (_, i) {
                         final item = theItems[i];
-                        return TxDxItemWidget(
+                        return ItemWidget(
                           item,
                           onCompletedToggle: (bool value) {
                             ref.read(itemsNotifierProvider.notifier).toggleComplete(item.id);
@@ -42,7 +42,7 @@ class TxDxListViewWidget extends ConsumerWidget {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(10, 6, 10, 6),
-            color: Colors.brown.shade800,
+            color: Colors.indigo.shade800,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -70,12 +70,6 @@ class TxDxListViewWidget extends ConsumerWidget {
             )
           )
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final items = ref.read(itemsNotifierProvider.notifier);
-          items.createNewItem();
-        },
       ),
     );
   }
