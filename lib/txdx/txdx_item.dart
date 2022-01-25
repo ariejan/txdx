@@ -76,13 +76,13 @@ class TxDxItem {
 
   TxDxItem toggleComplete() {
     if (!completed) {
-      return complete();
+      return _markCompleted();
     } else {
-      return uncomplete();
+      return _markNotCompleted();
     }
   }
 
-  TxDxItem complete() {
+  TxDxItem _markCompleted() {
     TxDxItem theItem = TxDxItem(
       completed: true,
       description: description,
@@ -98,7 +98,7 @@ class TxDxItem {
     return theItem;
   }
 
-  TxDxItem uncomplete() {
+  TxDxItem _markNotCompleted() {
     TxDxItem theItem = TxDxItem(
       completed: false,
       description: description,
