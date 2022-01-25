@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'due_notification_widget.dart';
 import '../txdx/txdx_item.dart';
 
 class ItemWidget extends ConsumerWidget {
@@ -34,7 +33,6 @@ class ItemWidget extends ConsumerWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            DueNotificationWidget(item),
           ],
         ),
       );
