@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'due_notification_widget.dart';
-import '../txdx/txdx.dart';
+import '../txdx/txdx_item.dart';
 
 class ItemWidget extends ConsumerWidget {
   const ItemWidget(this.item, {Key? key, this.onCompletedToggle})

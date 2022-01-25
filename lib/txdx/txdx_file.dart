@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'txdx.dart';
+import 'txdx_item.dart';
 
 class TxDxFile {
 

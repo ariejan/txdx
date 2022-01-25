@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jiffy/jiffy.dart';
 
-import '../txdx/txdx.dart';
+import '../txdx/txdx_item.dart';
 
 class DueNotificationWidget extends StatefulWidget {
   const DueNotificationWidget(this.item, {Key? key})

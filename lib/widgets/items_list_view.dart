@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/txdx/txdx.dart';
+import 'package:txdx/providers/item_notifier_provider.dart';
 
 import 'item_widget.dart';
 
