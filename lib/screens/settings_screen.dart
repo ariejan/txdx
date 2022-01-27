@@ -1,10 +1,10 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/txdx/txdx_list.dart';
+import 'package:txdx/providers/file_notifier_provider.dart';
 
-class SettingsViewWidget extends ConsumerWidget {
-  const SettingsViewWidget({Key? key}) : super(key: key);
+class SettingsScreen extends ConsumerWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
 
   Future<String?> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(

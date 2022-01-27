@@ -1,37 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:txdx/txdx/txdx_file.dart';
+import 'package:txdx/txdx/txdx_item.dart';
 
-import 'txdx.dart';
-
-final sharedPreferencesProvider = FutureProvider(
-  (ref) async => SharedPreferences.getInstance(),
-);
-
-final filenameNotifierProvider =
-  StateNotifierProvider<FilenameNotifier, AsyncValue<String?>>(
-    (ref) => FilenameNotifier(ref.read),
-  );
-
-class FilenameNotifier extends StateNotifier<AsyncValue<String?>> {
-  FilenameNotifier(this.read) : super(const AsyncValue<String?>.loading()) {
-    // Can't await _initialize method.
-    _initialize();
-  }
-
-  final Reader read;
-
-  Future<void> _initialize() async {
-    await Future<void>.delayed(const Duration(seconds: 1)); // TODO: Remove this
-    final prefs = await read(sharedPreferencesProvider.future);
-    state = AsyncValue.data(prefs.getString('filename'));
-  }
-
-  Future<void> setFilename(String filename) async {
-    state = AsyncValue.data(filename);
-    final prefs = await read(sharedPreferencesProvider.future);
-    await prefs.setString('filename', filename);
-  }
-}
+import 'file_notifier_provider.dart';
 
 final itemsNotifierProvider =
   StateNotifierProvider<ItemNotifier, AsyncValue<List<TxDxItem>>>((ref) => ItemNotifier(ref));

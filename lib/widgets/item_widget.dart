@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/widgets/pill_widget.dart';
 
-import 'due_notification_widget.dart';
-import 'txdx/txdx.dart';
+import '../txdx/txdx_item.dart';
 
-class TxDxItemWidget extends ConsumerWidget {
-  const TxDxItemWidget(this.item, {Key? key, this.onCompletedToggle})
+class ItemWidget extends ConsumerWidget {
+  const ItemWidget(this.item, {Key? key, this.onCompletedToggle})
       : super(key: key);
 
   final TxDxItem item;
@@ -34,7 +34,17 @@ class TxDxItemWidget extends ConsumerWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            DueNotificationWidget(item),
+            for (var context in item.contexts) ...[
+              PillWidget(
+                context
+              )
+            ],
+            for (var project in item.projects) ...[
+              PillWidget(
+                project,
+                color: Colors.orange,
+              )
+            ],
           ],
         ),
       );
@@ -49,6 +59,6 @@ class TxDxItemWidget extends ConsumerWidget {
     if (states.any(interactiveStates.contains)) {
       return Colors.deepOrange;
     }
-    return Colors.brown;
+    return Colors.indigo;
   }
 }

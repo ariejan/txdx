@@ -1,5 +1,5 @@
 (A) 2022-01-12 Do something with priority too @context +project
-x (B) 2022-01-24 2022-01-18 Eat cake fun:true
+2022-01-18 Eat cake fun:true
 (C) 2022-01-12 Do something later too @context +project due:2022-12-31
 x 2022-01-13 2022-01-10 Did something too @context +project pri:B
 New item

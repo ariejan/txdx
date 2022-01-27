@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'txdx.dart';
+import 'txdx_item.dart';
 
 class TxDxFile {
 
   static Future<void> saveToFile(String filename, List<TxDxItem> items) async {
     final contents = items.map((e) => e.toString()).join('\n');
     File file = await _getFile(filename);
-    file.writeAsString(contents, flush: true);
+    await file.writeAsString(contents, flush: true);
   }
 
   static Future<List<TxDxItem>> openFromFile(String filename) async {
