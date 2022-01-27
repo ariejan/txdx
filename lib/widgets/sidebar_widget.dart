@@ -38,19 +38,39 @@ class SidebarWidget extends ConsumerWidget {
                 fontSize: 11,
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
               ),
-              for (var context in contexts) ...[
-                MenuItemWidget(
-                    title: Text(context),
-                ),
-              ],
+              contexts.when(
+                data: (contextStrings) {
+                  return Column(
+                    children: contextStrings.map((context) =>
+                        MenuItemWidget(
+                          title: Text(context),
+                          indicatorColor: Colors.blue,
+                        )
+                    ).toList(),
+                  );
+                },
+                error: (err, _) => Text(err.toString()),
+                loading: () => const CircularProgressIndicator(),
+              ),
               const MenuHeaderWidget(
                 'Projects',
                 fontSize: 11,
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
               ),
-              for (var project in projects) ...[
-                Text(project)
-              ],
+              projects.when(
+                  data: (projectStrings) {
+                    return Column(
+                      children: projectStrings.map((project) =>
+                        MenuItemWidget(
+                          title: Text(project),
+                          indicatorColor: Colors.orange,
+                        )
+                      ).toList(),
+                    );
+                  },
+                  error: (err, _) => Text(err.toString()),
+                  loading: () => const CircularProgressIndicator(),
+              ),
             ]
           ),
           ListView(

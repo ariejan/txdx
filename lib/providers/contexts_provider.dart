@@ -2,11 +2,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/item_notifier_provider.dart';
 
-final contextsProvider = Provider<List<String>>((ref) {
-  final itemsNotifier = ref.watch(itemsNotifierProvider.notifier);
+final contextsProvider = Provider<AsyncValue<List<String>>>((ref) {
+  final asyncItems = ref.watch(itemsNotifierProvider);
 
-  final contextsSet = Set<String>();
-  itemsNotifier.getItems().forEach((item) => contextsSet.addAll(item.contexts));
-
-  return contextsSet.toList();
+  return asyncItems.whenData((items) {
+    final theSet = <String>{};
+    for (var item in items) {
+      theSet.addAll(item.contexts);
+    }
+    return theSet.toList();
+  });
 });

@@ -4,11 +4,13 @@ class MenuItemWidget extends StatelessWidget {
   const MenuItemWidget({
     Key? key,
     this.icon,
+    this.indicatorColor,
     required this.title,
     this.onTap,
   }) : super(key: key);
 
   final Widget? icon;
+  final Color? indicatorColor;
   final Widget title;
   final GestureTapCallback? onTap;
 
@@ -25,7 +27,7 @@ class MenuItemWidget extends StatelessWidget {
               child: icon ?? Container(
                 width: 16,
                 height: 16,
-                color: Colors.blue,
+                color: indicatorColor ?? Colors.blue,
               )
               ,
             ),
