@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class MenuItemWidget extends StatelessWidget {
   const MenuItemWidget({
     Key? key,
-    required this.icon,
+    this.icon,
     required this.title,
     this.onTap,
   }) : super(key: key);
 
-  final Widget icon;
+  final Widget? icon;
   final Widget title;
   final GestureTapCallback? onTap;
 
@@ -22,7 +22,12 @@ class MenuItemWidget extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: icon,
+              child: icon ?? Container(
+                width: 16,
+                height: 16,
+                color: Colors.blue,
+              )
+              ,
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),

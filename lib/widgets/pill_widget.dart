@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ContextWidget extends ConsumerWidget {
-  const ContextWidget(
+class PillWidget extends ConsumerWidget {
+  const PillWidget(
       this.contextText,
       {
         Key? key,

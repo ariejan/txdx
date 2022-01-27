@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/widgets/context_widget.dart';
+import 'package:txdx/widgets/pill_widget.dart';
 
 import '../txdx/txdx_item.dart';
 
@@ -35,8 +35,14 @@ class ItemWidget extends ConsumerWidget {
               ),
             ),
             for (var context in item.contexts) ...[
-              ContextWidget(
+              PillWidget(
                 context
+              )
+            ],
+            for (var project in item.projects) ...[
+              PillWidget(
+                project,
+                color: Colors.orange,
               )
             ],
           ],
