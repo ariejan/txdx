@@ -114,6 +114,27 @@ class TxDxItem {
     return theItem;
   }
 
+  Map<String, dynamic> _toMap() {
+    return {
+      'completed': completed,
+      'description': description,
+      'priority': priority,
+      'createdOn': createdOn,
+      'completedOn': completedOn,
+      'dueOn': dueOn,
+
+    };
+  }
+
+  ///get function to get the properties of Item
+  dynamic get(String propertyName) {
+    var _mapRep = _toMap();
+    if (_mapRep.containsKey(propertyName)) {
+      return _mapRep[propertyName];
+    }
+    throw ArgumentError('propery not found');
+  }
+
   @override
   String toString() {
     return [

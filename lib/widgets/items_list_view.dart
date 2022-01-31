@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/item_notifier_provider.dart';
+import 'package:txdx/providers/scoped_item_notifier.dart';
 
 import 'item_widget.dart';
 
@@ -10,7 +12,7 @@ class ItemsListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Consumer(builder: (context, ref, _) {
-      final items = ref.watch(itemsNotifierProvider);
+      final items = ref.watch(scopedItems);
       return items.map(
         data: (data) {
           final theItems = data.value;
