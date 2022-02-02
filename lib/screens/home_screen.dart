@@ -17,7 +17,9 @@ class HomeScreen extends ConsumerWidget {
           minimalWeight: 0.2,
           children: const [
             SidebarWidget(),
-            ItemsListView(),
+            SingleChildScrollView(
+              child: ItemsListView(),
+            ),
           ],
         ),
         data: MultiSplitViewThemeData(

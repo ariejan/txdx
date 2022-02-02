@@ -84,3 +84,32 @@ final scopedItems = Provider<AsyncValue<List<TxDxItem>>>((ref) {
   });
 });
 
+final groupedItems = Provider<AsyncValue<Map<String, List<TxDxItem>>>>((ref) {
+  final asyncItems = ref.watch(scopedItems);
+  final sorters = ref.watch(itemStateSorter);
+
+  return asyncItems.whenData((items) {
+    if (sorters.isEmpty) {
+      return {'all': items};
+    }
+
+    final groupBy = sorters[1];
+    final result = <String, List<TxDxItem>>{};
+
+    switch(groupBy) {
+      case ItemStateSorter.priority: {
+        for (var item in items) {
+          final key = item.priority ?? 'X';
+
+          if (!result.containsKey(key)) {
+            result[key] = [];
+          }
+          result[key]?.add(item);
+        }
+      }
+      break;
+    }
+
+    return result;
+  });
+});
