@@ -13,13 +13,22 @@ final itemStateSorter = Provider<List<ItemStateSorter>>((ref) {
   return [ItemStateSorter.completion, ItemStateSorter.priority];
 });
 
-int descriptionSort(a, b) => a.description.compareTo(b.description);
+int descriptionSort(TxDxItem a, TxDxItem b) => a.description.compareTo(b.description);
+
+int completedSort(TxDxItem a, TxDxItem b) {
+  if (a.completed && !b.completed) {
+    return -1;
+  } else if (b.completed && !a.completed) {
+    return 1;
+  }
+  return 0;
+}
 
 int prioritySort(TxDxItem a, TxDxItem b) {
-  String aPrio = a.priority?.toUpperCase() ?? 'zz';
-  String bPrio = b.priority?.toUpperCase() ?? 'zz';
+  String priorityA = a.priority?.toUpperCase() ?? 'zz';
+  String priorityB = b.priority?.toUpperCase() ?? 'zz';
 
-  return aPrio.compareTo(bPrio);
+  return priorityA.compareTo(priorityB);
 }
 
 final scopedItems = Provider<AsyncValue<List<TxDxItem>>>((ref) {
