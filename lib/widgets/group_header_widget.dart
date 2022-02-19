@@ -14,7 +14,7 @@ class GroupHeaderWidget extends StatelessWidget {
     return SizedBox(
       child: Text(
         groupName,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
         )

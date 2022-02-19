@@ -97,6 +97,27 @@ final groupedItems = Provider<AsyncValue<Map<String, List<TxDxItem>>>>((ref) {
     final result = <String, List<TxDxItem>>{};
 
     switch(groupBy) {
+      case ItemStateSorter.dueOn: {
+        for (var item in items) {
+          final key = item.dueOn?.microsecondsSinceEpoch ?? 0;
+          result[key]?.add(item);
+        }
+      }
+      break;
+
+      case ItemStateSorter.completion: {
+        for (var item in items) {
+          final key = item.completed;
+          result[key]?.add(item);
+        }
+      }
+      break;
+
+      case ItemStateSorter.description: {
+        result["everything"] = items;
+      }
+      break;
+
       case ItemStateSorter.priority: {
         for (var item in items) {
           final key = item.priority ?? 'X';
