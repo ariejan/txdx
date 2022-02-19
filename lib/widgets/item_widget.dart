@@ -28,6 +28,13 @@ class ItemWidget extends ConsumerWidget {
                   onCompletedToggle!(value ?? false);
                 }),
             SizedBox(
+              width: 16,
+              child: Text(
+                item.priority ?? '',
+                textAlign: TextAlign.center,
+              )
+            ),
+            SizedBox(
               child: Text(
                 item.description,
                 textAlign: TextAlign.left,

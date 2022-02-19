@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:txdx/txdx/txdx_file.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
@@ -18,8 +20,33 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
   Future<void> _initialize() async {
     filename = await ref.watch(filenameNotifierProvider.future);
     if (filename != null && filename != '') {
-      final theItems = await TxDxFile.openFromFile(filename!);
-      state = AsyncValue.data(theItems);
+      TxDxFile.openFromFile(filename!).then((theItems) {
+        state = AsyncValue.data(theItems);
+      }).catchError((e) {
+        state = const AsyncValue.data([]);
+        Get.dialog(
+            AlertDialog(
+              title: const Text("Cannot open your TODO.txt file!"),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    const Text('Oh noes! It seems we cannot open that file for you.'),
+                    Text('$filename'),
+                    const Text('Please select a file from settings.')
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: const Text('Okay'),
+                  onPressed: () {
+                    Get.back();
+                  },
+                )
+              ],
+            ),
+        barrierDismissible: false);
+      });
     } else {
       state = const AsyncValue.data(<TxDxItem>[]);
     }

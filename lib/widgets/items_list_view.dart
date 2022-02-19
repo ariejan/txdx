@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/providers/item_notifier_provider.dart';
-
-import 'item_widget.dart';
+import 'package:txdx/providers/scoped_item_notifier.dart';
+import 'package:txdx/widgets/item_group_widget.dart';
 
 class ItemsListView extends ConsumerWidget {
   const ItemsListView({Key? key}) : super(key: key);
@@ -10,21 +9,20 @@ class ItemsListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Consumer(builder: (context, ref, _) {
-      final items = ref.watch(itemsNotifierProvider);
-      return items.map(
+      final itemsMap = ref.watch(groupedItems);
+
+      return itemsMap.map(
         data: (data) {
           final theItems = data.value;
-          return ListView.builder(
-            itemCount: theItems.length,
-            itemBuilder: (_, i) {
-              final item = theItems[i];
-              return ItemWidget(
-                item,
-                onCompletedToggle: (bool value) {
-                  ref.read(itemsNotifierProvider.notifier).toggleComplete(item.id);
-                },
-              );
-            },
+          final groupList = <Widget>[];
+
+          for (var groupName in theItems.keys) {
+            final groupItems = theItems[groupName] ?? [];
+            groupList.add(ItemGroupWidget(groupName, groupItems));
+          }
+
+          return Column(
+            children: groupList,
           );
         },
         loading: (_) => const Center(child: CircularProgressIndicator()),
@@ -32,5 +30,4 @@ class ItemsListView extends ConsumerWidget {
       );
     });
   }
-
 }
