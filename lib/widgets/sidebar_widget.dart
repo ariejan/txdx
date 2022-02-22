@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/providers/contexts_provider.dart';
 import 'package:txdx/providers/projects_provider.dart';
+import 'package:txdx/providers/scoped_item_notifier.dart';
 
 import 'menu_header_widget.dart';
 import 'menu_item_widget.dart';
@@ -24,9 +25,10 @@ class SidebarWidget extends ConsumerWidget {
           Column(
             children: [
               const MenuHeaderWidget('TxDx'),
-              const MenuItemWidget(
-                icon: FaIcon(FontAwesomeIcons.th, size: 16),
+              MenuItemWidget(
+                icon: const FaIcon(FontAwesomeIcons.th, size: 16),
                 title: 'All',
+                onTap: () => ref.read(itemFilter.state).state = null,
               ),
               const MenuItemWidget(
                 icon: FaIcon(FontAwesomeIcons.calendarDay, size: 16),
@@ -44,6 +46,9 @@ class SidebarWidget extends ConsumerWidget {
                         MenuItemWidget(
                           title: context,
                           indicatorColor: Colors.teal,
+                          onTap: () {
+                            ref.read(itemFilter.state).state = context;
+                          },
                         )
                     ).toList(),
                   );
@@ -63,6 +68,9 @@ class SidebarWidget extends ConsumerWidget {
                         MenuItemWidget(
                           title: project,
                           indicatorColor: Colors.orange,
+                          onTap: () {
+                            ref.read(itemFilter.state).state = project;
+                          },
                         )
                       ).toList(),
                     );

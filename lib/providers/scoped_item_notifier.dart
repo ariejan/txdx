@@ -10,8 +10,16 @@ enum ItemStateSorter {
   description,
 }
 
-final itemStateSorter = Provider<List<ItemStateSorter>>((ref) {
+final itemStateSorter = StateProvider<List<ItemStateSorter>>((ref) {
   return [ItemStateSorter.completion, ItemStateSorter.priority, ItemStateSorter.dueOn, ItemStateSorter.description];
+});
+
+final itemStateGrouper = StateProvider<ItemStateSorter>((ref) {
+  return ItemStateSorter.priority;
+});
+
+final itemFilter = StateProvider<String?>((ref) {
+  return null;
 });
 
 int descriptionSort(TxDxItem a, TxDxItem b) => a.description.compareTo(b.description);
@@ -84,22 +92,36 @@ final scopedItems = Provider<AsyncValue<List<TxDxItem>>>((ref) {
   });
 });
 
-final groupedItems = Provider<AsyncValue<Map<String, List<TxDxItem>>>>((ref) {
+final filteredItems = Provider<AsyncValue<List<TxDxItem>>>((ref) {
   final asyncItems = ref.watch(scopedItems);
-  final sorters = ref.watch(itemStateSorter);
+  final filter = ref.watch(itemFilter);
 
   return asyncItems.whenData((items) {
-    if (sorters.isEmpty) {
-      return {'all': items};
+    if (filter == null) {
+      return items;
+    } else {
+      final result = items.toList();
+      result.removeWhere((item) => !item.hasContextOrProject(filter));
+      return result;
     }
+  });
+});
 
-    final groupBy = sorters[1];
+final groupedItems = Provider<AsyncValue<Map<String, List<TxDxItem>>>>((ref) {
+  final theFilteredItems = ref.watch(filteredItems);
+  final grouper = ref.watch(itemStateGrouper);
+
+  return theFilteredItems.whenData((items) {
     final result = <String, List<TxDxItem>>{};
 
-    switch(groupBy) {
+    switch(grouper) {
       case ItemStateSorter.dueOn: {
         for (var item in items) {
-          final key = item.dueOn?.microsecondsSinceEpoch ?? 0;
+          final key = item.dueOn?.microsecondsSinceEpoch.toString() ?? '0';
+
+          if (!result.containsKey(key)) {
+            result[key] = [];
+          }
           result[key]?.add(item);
         }
       }
@@ -107,7 +129,11 @@ final groupedItems = Provider<AsyncValue<Map<String, List<TxDxItem>>>>((ref) {
 
       case ItemStateSorter.completion: {
         for (var item in items) {
-          final key = item.completed;
+          final key = item.completed.toString();
+
+          if (!result.containsKey(key)) {
+            result[key] = [];
+          }
           result[key]?.add(item);
         }
       }
@@ -120,7 +146,7 @@ final groupedItems = Provider<AsyncValue<Map<String, List<TxDxItem>>>>((ref) {
 
       case ItemStateSorter.priority: {
         for (var item in items) {
-          final key = item.priority ?? 'X';
+          final key = item.priority ?? 'Not prioritized';
 
           if (!result.containsKey(key)) {
             result[key] = [];

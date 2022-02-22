@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/widgets/item_priority_widget.dart';
 import 'package:txdx/widgets/pill_widget.dart';
 
 import '../txdx/txdx_item.dart';
@@ -41,6 +42,8 @@ class ItemWidget extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                 child: Row(
                   children: [
+                    if (item.priority != null)
+                      ItemPriorityWidget(item.priority!),
                     for (var context in item.contexts) ...[
                       PillWidget(
                         context,

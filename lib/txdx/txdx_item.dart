@@ -149,4 +149,8 @@ class TxDxItem {
       tags.keys.map((k) => '$k:${tags[k]}').join(' '),
     ].where((element) => element != '').join(' ');
   }
+
+  bool hasContextOrProject(String filter) {
+    return contexts.contains(filter) || projects.contains(filter);
+  }
 }

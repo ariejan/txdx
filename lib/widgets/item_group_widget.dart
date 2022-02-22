@@ -20,7 +20,7 @@ class ItemGroupWidget extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GroupHeaderWidget(groupName),
+        // GroupHeaderWidget(groupName),
         ListView.builder(
           itemCount: groupItems.length,
           shrinkWrap: true,

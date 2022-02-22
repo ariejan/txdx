@@ -4,13 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PillWidget extends ConsumerWidget {
   const PillWidget(
-      this.contextText,
+      this.text,
       {
         Key? key,
         this.color,
       }) : super(key: key);
 
-  final String contextText;
+  final String text;
   final Color? color;
 
   @override
@@ -24,7 +24,7 @@ class PillWidget extends ConsumerWidget {
           color: color ?? Colors.blue,
         ),
         child: Text(
-          contextText,
+          text,
           style: const TextStyle(
             fontSize: 11,
             color: Colors.white,
