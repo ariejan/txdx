@@ -61,30 +61,5 @@ class ItemWidget extends ConsumerWidget {
         )
       ]
     );
-
-
-      Row(
-
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-      Column(
-
-          children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-          ],
-        ),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-            ]),
-      ])
-    ]);
   }
 }
