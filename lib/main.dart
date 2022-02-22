@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:txdx/screens/home_screen.dart';
 import 'package:txdx/screens/settings_screen.dart';
 import 'package:window_size/window_size.dart';
+import 'package:yaru/yaru.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,10 +32,8 @@ class TxDxApp extends ConsumerWidget {
     return GetMaterialApp(
       title: 'TxDx',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        visualDensity: VisualDensity.compact,
-      ),
+      theme: yaruLight,
+      darkTheme: yaruDark,
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),

@@ -18,7 +18,6 @@ class SidebarWidget extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.all(12),
-      color: Colors.indigo.shade100,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -44,7 +43,7 @@ class SidebarWidget extends ConsumerWidget {
                     children: contextStrings.map((context) =>
                         MenuItemWidget(
                           title: Text(context),
-                          indicatorColor: Colors.blue,
+                          indicatorColor: Colors.teal,
                         )
                     ).toList(),
                   );

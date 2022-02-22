@@ -19,9 +19,6 @@ class ItemWidget extends ConsumerWidget {
         child: Row(
           children: [
             Checkbox(
-                checkColor: Colors.white,
-                fillColor:
-                MaterialStateProperty.resolveWith(_getColor),
                 shape: const CircleBorder(),
                 value: item.completed,
                 onChanged: (bool? value) {
@@ -43,7 +40,8 @@ class ItemWidget extends ConsumerWidget {
             ),
             for (var context in item.contexts) ...[
               PillWidget(
-                context
+                context,
+                color: Colors.teal,
               )
             ],
             for (var project in item.projects) ...[
@@ -55,17 +53,5 @@ class ItemWidget extends ConsumerWidget {
           ],
         ),
       );
-  }
-
-  Color _getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.hovered,
-      MaterialState.focused,
-    };
-    if (states.any(interactiveStates.contains)) {
-      return Colors.deepOrange;
-    }
-    return Colors.indigo;
   }
 }
