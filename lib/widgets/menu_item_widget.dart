@@ -11,7 +11,7 @@ class MenuItemWidget extends StatelessWidget {
 
   final Widget? icon;
   final Color? indicatorColor;
-  final Widget title;
+  final String title;
   final GestureTapCallback? onTap;
 
   @override
@@ -31,9 +31,15 @@ class MenuItemWidget extends StatelessWidget {
               )
               ,
             ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: title,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ),
           ]
         ),

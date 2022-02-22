@@ -26,11 +26,11 @@ class SidebarWidget extends ConsumerWidget {
               const MenuHeaderWidget('TxDx'),
               const MenuItemWidget(
                 icon: FaIcon(FontAwesomeIcons.th, size: 16),
-                title: Text('All', overflow: TextOverflow.clip),
+                title: 'All',
               ),
               const MenuItemWidget(
                 icon: FaIcon(FontAwesomeIcons.calendarDay, size: 16),
-                title: Text('Today', overflow: TextOverflow.clip),
+                title: 'Today',
               ),
               const MenuHeaderWidget(
                 'Contexts',
@@ -42,7 +42,7 @@ class SidebarWidget extends ConsumerWidget {
                   return Column(
                     children: contextStrings.map((context) =>
                         MenuItemWidget(
-                          title: Text(context),
+                          title: context,
                           indicatorColor: Colors.teal,
                         )
                     ).toList(),
@@ -61,7 +61,7 @@ class SidebarWidget extends ConsumerWidget {
                     return Column(
                       children: projectStrings.map((project) =>
                         MenuItemWidget(
-                          title: Text(project),
+                          title: project,
                           indicatorColor: Colors.orange,
                         )
                       ).toList(),
@@ -77,7 +77,7 @@ class SidebarWidget extends ConsumerWidget {
             children: [
               MenuItemWidget(
                 onTap: () => Navigator.pushNamed(context, '/settings'),
-                title: const Text('Settings', overflow: TextOverflow.clip),
+                title: 'Settings',
                 icon: const FaIcon(FontAwesomeIcons.cog, size: 16),
               ),
             ]
