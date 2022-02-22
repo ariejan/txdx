@@ -13,45 +13,78 @@ class ItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return
-      SizedBox(
-        height: 50,
-        child: Row(
-          children: [
-            Checkbox(
-                shape: const CircleBorder(),
-                value: item.completed,
-                onChanged: (bool? value) {
-                  onCompletedToggle!(value ?? false);
-                }),
-            SizedBox(
-              width: 16,
-              child: Text(
-                item.priority ?? '',
-                textAlign: TextAlign.center,
-              )
-            ),
-            SizedBox(
-              child: Text(
-                item.description,
-                textAlign: TextAlign.left,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+          child: Checkbox(
+              shape: const CircleBorder(),
+              value: item.completed,
+              onChanged: (bool? value) {
+                onCompletedToggle!(value ?? false);
+              }),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                child: Text(
+                  item.description,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            for (var context in item.contexts) ...[
-              PillWidget(
-                context,
-                color: Colors.teal,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                child: Row(
+                  children: [
+                    for (var context in item.contexts) ...[
+                      PillWidget(
+                        context,
+                        color: Colors.teal,
+                      )
+                    ],
+                    for (var project in item.projects) ...[
+                      PillWidget(
+                        project,
+                        color: Colors.orange,
+                      )
+                    ],
+                  ]
+                )
               )
             ],
-            for (var project in item.projects) ...[
-              PillWidget(
-                project,
-                color: Colors.orange,
-              )
-            ],
+          ),
+        )
+      ]
+    );
+
+
+      Row(
+
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+      Column(
+
+          children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
           ],
         ),
-      );
+        Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+            ]),
+      ])
+    ]);
   }
 }
