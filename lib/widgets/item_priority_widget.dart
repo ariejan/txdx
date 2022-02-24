@@ -12,6 +12,7 @@ class ItemPriorityWidget extends StatelessWidget {
     'A': Colors.red,
     'B': Colors.orange,
     'C': Colors.yellow,
+    'D': Colors.green,
   };
 
   @override

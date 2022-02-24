@@ -5,6 +5,7 @@ import 'package:txdx/widgets/pill_widget.dart';
 
 import '../txdx/txdx_item.dart';
 import 'item_due_on_widget.dart';
+import 'item_tag_widget.dart';
 
 class ItemWidget extends ConsumerWidget {
   const ItemWidget(this.item, {Key? key, this.onCompletedToggle})
@@ -17,6 +18,7 @@ class ItemWidget extends ConsumerWidget {
     'A': Colors.red.withOpacity(0.1),
     'B': Colors.orange.withOpacity(0.1),
     'C': Colors.yellow.withOpacity(0.1),
+    'D': Colors.green.withOpacity(0.1),
   };
 
   Color _getRowColor() {
@@ -78,6 +80,12 @@ class ItemWidget extends ConsumerWidget {
                         PillWidget(
                           project,
                           color: Colors.orange,
+                        )
+                      ],
+                      for (var key in item.tags.keys) ...[
+                        ItemTagWidget(
+                          name: key,
+                          value: item.tags[key],
                         )
                       ],
                     ]
