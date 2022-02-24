@@ -45,6 +45,7 @@ dependencies:
   multi_split_view: ^1.10.0+1
   get: ^4.6.1
   yaru: ^0.2.2
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

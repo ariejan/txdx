@@ -4,6 +4,7 @@ import 'package:txdx/widgets/item_priority_widget.dart';
 import 'package:txdx/widgets/pill_widget.dart';
 
 import '../txdx/txdx_item.dart';
+import 'item_due_on_widget.dart';
 
 class ItemWidget extends ConsumerWidget {
   const ItemWidget(this.item, {Key? key, this.onCompletedToggle})
@@ -44,6 +45,8 @@ class ItemWidget extends ConsumerWidget {
                   children: [
                     if (item.priority != null)
                       ItemPriorityWidget(item.priority!),
+                    if (item.dueOn != null)
+                      ItemDueOnWidget(item.dueOn!),
                     for (var context in item.contexts) ...[
                       PillWidget(
                         context,

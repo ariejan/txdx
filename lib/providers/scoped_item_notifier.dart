@@ -29,8 +29,8 @@ int dueOnSort(TxDxItem a, TxDxItem b) {
   final dueOnB = b.dueOn;
 
   if (dueOnA == null && dueOnB == null) return 0;
-  if (dueOnA != null && dueOnB == null) return 1;
-  if (dueOnA == null && dueOnB != null) return -1;
+  if (dueOnA != null && dueOnB == null) return -1;
+  if (dueOnA == null && dueOnB != null) return 1;
 
   return dueOnA!.compareTo(dueOnB!);
 }
@@ -73,7 +73,7 @@ final scopedItems = Provider<AsyncValue<List<TxDxItem>>>((ref) {
           break;
 
         case ItemStateSorter.dueOn:
-          result = completedSort(a, b);
+          result = dueOnSort(a, b);
           break;
       }
 
