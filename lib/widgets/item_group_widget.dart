@@ -22,6 +22,7 @@ class ItemGroupWidget extends ConsumerWidget {
         ListView.builder(
           itemCount: groupItems.length,
           shrinkWrap: true,
+          controller: ScrollController(),
           itemBuilder: (_, i) {
             final item = groupItems[i];
             return ItemWidget(

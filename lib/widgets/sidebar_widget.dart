@@ -82,6 +82,7 @@ class SidebarWidget extends ConsumerWidget {
           ),
           ListView(
             shrinkWrap: true,
+            controller: ScrollController(),
             children: [
               MenuItemWidget(
                 onTap: () => Navigator.pushNamed(context, '/settings'),
