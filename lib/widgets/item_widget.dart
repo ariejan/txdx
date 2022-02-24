@@ -13,59 +13,81 @@ class ItemWidget extends ConsumerWidget {
   final TxDxItem item;
   final ValueChanged<bool>? onCompletedToggle;
 
+  static final priorityColours = {
+    'A': Colors.red.withOpacity(0.1),
+    'B': Colors.orange.withOpacity(0.1),
+    'C': Colors.yellow.withOpacity(0.1),
+  };
+
+  Color _getRowColor() {
+    if (item.completed) {
+      return Colors.blue.withOpacity(0.1);
+    } else {
+      return priorityColours[item.priority] ?? Colors.transparent;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-          child: Checkbox(
-              shape: const CircleBorder(),
-              value: item.completed,
-              onChanged: (bool? value) {
-                onCompletedToggle!(value ?? false);
-              }),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                child: Text(
-                  item.description,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                child: Row(
-                  children: [
-                    if (item.priority != null)
-                      ItemPriorityWidget(item.priority!),
-                    if (item.dueOn != null)
-                      ItemDueOnWidget(item.dueOn!),
-                    for (var context in item.contexts) ...[
-                      PillWidget(
-                        context,
-                        color: Colors.teal,
-                      )
-                    ],
-                    for (var project in item.projects) ...[
-                      PillWidget(
-                        project,
-                        color: Colors.orange,
-                      )
-                    ],
-                  ]
-                )
-              )
-            ],
+    return Container(
+      color: _getRowColor(),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+            child: Checkbox(
+                shape: const CircleBorder(),
+                value: item.completed,
+                onChanged: (bool? value) {
+                  onCompletedToggle!(value ?? false);
+                }),
           ),
-        )
-      ]
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        item.description,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (item.priority != null)
+                        ItemPriorityWidget(item.priority!),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                  child: Row(
+                    children: [
+                      if (item.dueOn != null)
+                        ItemDueOnWidget(item.dueOn!),
+                      for (var context in item.contexts) ...[
+                        PillWidget(
+                          context,
+                          color: Colors.teal,
+                        )
+                      ],
+                      for (var project in item.projects) ...[
+                        PillWidget(
+                          project,
+                          color: Colors.orange,
+                        )
+                      ],
+                    ]
+                  )
+                )
+              ],
+            ),
+          )
+        ]
+      ),
     );
   }
 }
