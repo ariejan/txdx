@@ -56,13 +56,16 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
     return state.value ?? [];
   }
 
-  Future<void> createNewItem() async {
+  Future<void> createNewItem(String? input) async {
     final items = state.value ?? [];
-    final theItems = [
-      ...items,
-      TxDxItem.fromText('New item')
-    ];
-    _setState(theItems);
+
+    if (input != null && input.isNotEmpty) {
+      final theItems = [
+        ...items,
+        TxDxItem.fromText(input),
+      ];
+      _setState(theItems);
+    }
   }
 
   Future<void> toggleComplete(String id) async {
