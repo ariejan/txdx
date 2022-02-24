@@ -30,9 +30,15 @@ class SidebarWidget extends ConsumerWidget {
                 title: 'All',
                 onTap: () => ref.read(itemFilter.state).state = null,
               ),
-              const MenuItemWidget(
-                icon: FaIcon(FontAwesomeIcons.calendarDay, size: 16),
+              MenuItemWidget(
+                icon: const FaIcon(FontAwesomeIcons.calendarDay, size: 16),
                 title: 'Today',
+                onTap: () => ref.read(itemFilter.state).state = "due:today",
+              ),
+              MenuItemWidget(
+                icon: const FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
+                title: 'Next 7 days',
+                onTap: () => ref.read(itemFilter.state).state = "due:in7days",
               ),
               const MenuHeaderWidget(
                 'Contexts',

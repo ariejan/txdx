@@ -97,13 +97,24 @@ final filteredItems = Provider<AsyncValue<List<TxDxItem>>>((ref) {
   final filter = ref.watch(itemFilter);
 
   return asyncItems.whenData((items) {
+    final result = items.toList();
+
     if (filter == null) {
-      return items;
+      // Noop
+    } else if (filter == "due:today") {
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      result.removeWhere((item) => (item.hasDueOn && item.dueOn != today) || !item.hasDueOn);
+    } else if (filter == "due:in7days") {
+      final now = DateTime.now();
+      final yesterday = DateTime(now.year, now.month, now.day - 1);
+      final sevenDays = DateTime(now.year, now.month, now.day + 7);
+      result.removeWhere((item) => (item.hasDueOn && (item.dueOn!.isBefore(yesterday) || item.dueOn!.isAfter(sevenDays))) || !item.hasDueOn);
     } else {
-      final result = items.toList();
       result.removeWhere((item) => !item.hasContextOrProject(filter));
-      return result;
     }
+
+    return result;
   });
 });
 
