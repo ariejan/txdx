@@ -68,6 +68,32 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
     }
   }
 
+  TxDxItem? getItem(String? id) {
+    final items = state.value;
+    if (items == null || id == null) {
+      return null;
+    }
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      return theItem;
+    } else {
+      return null;
+    }
+  }
+
+  void updateItem(String id, TxDxItem item) {
+    final items = state.value;
+    if (items == null) {
+      return;
+    }
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      items.replaceRange(itemIdx, itemIdx + 1, [item]);
+      _setState(items);
+    }
+  }
+
   Future<void> toggleComplete(String id) async {
     final items = state.value;
     if (items == null) {

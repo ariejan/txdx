@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/providers/selected_item_provider.dart';
 import 'package:txdx/widgets/item_priority_widget.dart';
 import 'package:txdx/widgets/pill_widget.dart';
 
@@ -48,58 +49,64 @@ class ItemWidget extends ConsumerWidget {
                   }),
             ),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item.description,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  ref.read(selectedItemIdStateProvider.state).state = item.id;
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 6, 0, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              item.description,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            if (item.dueOn != null)
-                              ItemDueOnWidget(item.dueOn!),
-                            if (item.priority != null)
-                              ItemPriorityWidget(item.priority!),
-                          ]
-                        )
-                      ],
+                          Row(
+                            children: [
+                              if (item.dueOn != null)
+                                ItemDueOnWidget(item.dueOn!),
+                              if (item.priority != null)
+                                ItemPriorityWidget(item.priority!),
+                            ]
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-                    child: Row(
-                      children: [
-                        for (var context in item.contexts) ...[
-                          PillWidget(
-                            context,
-                            color: Colors.teal,
-                          )
-                        ],
-                        for (var project in item.projects) ...[
-                          PillWidget(
-                            project,
-                            color: Colors.orange,
-                          )
-                        ],
-                        for (var key in item.tags.keys) ...[
-                          ItemTagWidget(
-                            name: key,
-                            value: item.tags[key],
-                          )
-                        ],
-                      ]
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                      child: Row(
+                        children: [
+                          for (var context in item.contexts) ...[
+                            PillWidget(
+                              context,
+                              color: Colors.teal,
+                            )
+                          ],
+                          for (var project in item.projects) ...[
+                            PillWidget(
+                              project,
+                              color: Colors.orange,
+                            )
+                          ],
+                          for (var key in item.tags.keys) ...[
+                            ItemTagWidget(
+                              name: key,
+                              value: item.tags[key],
+                            )
+                          ],
+                        ]
+                      )
                     )
-                  )
-                ],
+                  ],
+                ),
               ),
             )
           ]
