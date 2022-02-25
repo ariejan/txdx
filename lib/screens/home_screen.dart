@@ -19,8 +19,8 @@ class HomeScreen extends ConsumerWidget {
           children: [
             const SidebarWidget(),
             Column(
-              children: const [
-                Expanded(
+              children: [
+                const Expanded(
                   flex: 2,
                   child: SingleChildScrollView(
                     child: ItemsListView(),

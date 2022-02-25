@@ -6,21 +6,28 @@ import 'package:get/get.dart';
 import '../providers/item_notifier_provider.dart';
 
 class AddItemWidget extends ConsumerWidget {
-  const AddItemWidget({Key? key}) : super(key: key);
+  AddItemWidget({Key? key}) : super(key: key);
 
   void _createItem(WidgetRef ref, String? value) {
     ref.read(itemsNotifierProvider.notifier).createNewItem(value);
+    textController.text = '';
   }
+
+  final textController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: TextField(
-              decoration: InputDecoration(
+              onSubmitted: (_) {
+                _createItem(ref, textController.text);
+              },
+              controller: textController,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: '(A) Create a new todo item @txdx',
               ),
@@ -30,11 +37,13 @@ class AddItemWidget extends ConsumerWidget {
             icon: const FaIcon(FontAwesomeIcons.plusSquare),
             color: Get.theme.primaryIconTheme.color,
             onPressed: () {
-              _createItem()
+              _createItem(ref, textController.text);
             },
           )
         ]
       )
     );
   }
+
+
 }
