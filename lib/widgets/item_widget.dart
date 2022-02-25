@@ -75,7 +75,7 @@ class ItemWidget extends ConsumerWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                     child: Row(
                       children: [
                         for (var context in item.contexts) ...[
