@@ -16,32 +16,35 @@ class MenuItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(6, 3, 6, 3),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: icon ?? Container(
-                width: 16,
-                height: 16,
-                color: indicatorColor ?? Colors.blue,
-              )
-              ,
-            ),
-            Expanded(
-              child: Padding(
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(6, 3, 6, 3),
+          child: Row(
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                child: icon ?? Container(
+                  width: 16,
+                  height: 16,
+                  color: indicatorColor ?? Colors.blue,
+                )
+                ,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
-            ),
-          ]
+            ]
+          ),
         ),
       ),
     );
