@@ -51,8 +51,8 @@ int prioritySort(TxDxItem a, TxDxItem b) {
   return priorityA.compareTo(priorityB);
 }
 
-final scopedItems = Provider<AsyncValue<List<TxDxItem>>>((ref) {
-  final asyncItems = ref.watch(itemsNotifierProvider);
+final scopedItems = Provider<List<TxDxItem>>((ref) {
+  final items = ref.watch(itemsNotifierProvider);
   final sorters = ref.watch(itemStateSorter);
 
   int sortAll(TxDxItem a, TxDxItem b) {
@@ -85,89 +85,85 @@ final scopedItems = Provider<AsyncValue<List<TxDxItem>>>((ref) {
     return result;
   }
 
-  return asyncItems.whenData((items) {
-    var sortedList = items.toList();
-    sortedList.sort(sortAll);
-    return sortedList;
-  });
+  var sortedList = items.toList();
+  sortedList.sort(sortAll);
+  return sortedList;
 });
 
-final filteredItems = Provider<AsyncValue<List<TxDxItem>>>((ref) {
-  final asyncItems = ref.watch(scopedItems);
+final filteredItems = Provider<List<TxDxItem>>((ref) {
+  final items = ref.watch(scopedItems);
   final filter = ref.watch(itemFilter);
 
-  return asyncItems.whenData((items) {
-    final result = items.toList();
+  final result = items.toList();
 
-    if (filter == null) {
-      // Noop
-    } else if (filter == "due:today") {
-      final now = DateTime.now();
-      final today = DateTime(now.year, now.month, now.day);
-      result.removeWhere((item) => (item.hasDueOn && item.dueOn != today) || !item.hasDueOn);
-    } else if (filter == "due:in7days") {
-      final now = DateTime.now();
-      final yesterday = DateTime(now.year, now.month, now.day - 1);
-      final sevenDays = DateTime(now.year, now.month, now.day + 7);
-      result.removeWhere((item) => (item.hasDueOn && (item.dueOn!.isBefore(yesterday) || item.dueOn!.isAfter(sevenDays))) || !item.hasDueOn);
-    } else {
-      result.removeWhere((item) => !item.hasContextOrProject(filter));
-    }
+  if (filter == null) {
+    // Noop
+  } else if (filter == "due:today") {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    result.removeWhere((item) => (item.hasDueOn && item.dueOn != today) || !item.hasDueOn);
+  } else if (filter == "due:in7days") {
+    final now = DateTime.now();
+    final yesterday = DateTime(now.year, now.month, now.day - 1);
+    final sevenDays = DateTime(now.year, now.month, now.day + 7);
+    result.removeWhere((item) => (item.hasDueOn && (item.dueOn!.isBefore(yesterday) || item.dueOn!.isAfter(sevenDays))) || !item.hasDueOn);
+  } else {
+    result.removeWhere((item) => !item.hasContextOrProject(filter));
+  }
 
-    return result;
-  });
+  return result;
+
 });
 
-final groupedItems = Provider<AsyncValue<Map<String, List<TxDxItem>>>>((ref) {
-  final theFilteredItems = ref.watch(filteredItems);
+final groupedItems = Provider<Map<String, List<TxDxItem>>>((ref) {
+  final items = ref.watch(filteredItems);
   final grouper = ref.watch(itemStateGrouper);
 
-  return theFilteredItems.whenData((items) {
-    final result = <String, List<TxDxItem>>{};
+  final result = <String, List<TxDxItem>>{};
 
-    switch(grouper) {
-      case ItemStateSorter.dueOn: {
-        for (var item in items) {
-          final key = item.dueOn?.microsecondsSinceEpoch.toString() ?? '0';
+  switch(grouper) {
+    case ItemStateSorter.dueOn: {
+      for (var item in items) {
+        final key = item.dueOn?.microsecondsSinceEpoch.toString() ?? '0';
 
-          if (!result.containsKey(key)) {
-            result[key] = [];
-          }
-          result[key]?.add(item);
+        if (!result.containsKey(key)) {
+          result[key] = [];
         }
+        result[key]?.add(item);
       }
-      break;
-
-      case ItemStateSorter.completion: {
-        for (var item in items) {
-          final key = item.completed.toString();
-
-          if (!result.containsKey(key)) {
-            result[key] = [];
-          }
-          result[key]?.add(item);
-        }
-      }
-      break;
-
-      case ItemStateSorter.description: {
-        result["everything"] = items;
-      }
-      break;
-
-      case ItemStateSorter.priority: {
-        for (var item in items) {
-          final key = item.priority ?? 'Not prioritized';
-
-          if (!result.containsKey(key)) {
-            result[key] = [];
-          }
-          result[key]?.add(item);
-        }
-      }
-      break;
     }
+    break;
 
-    return result;
-  });
+    case ItemStateSorter.completion: {
+      for (var item in items) {
+        final key = item.completed.toString();
+
+        if (!result.containsKey(key)) {
+          result[key] = [];
+        }
+        result[key]?.add(item);
+      }
+    }
+    break;
+
+    case ItemStateSorter.description: {
+      result["everything"] = items;
+    }
+    break;
+
+    case ItemStateSorter.priority: {
+      for (var item in items) {
+        final key = item.priority ?? 'Not prioritized';
+
+        if (!result.containsKey(key)) {
+          result[key] = [];
+        }
+        result[key]?.add(item);
+      }
+    }
+    break;
+  }
+
+  return result;
+
 });

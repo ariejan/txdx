@@ -45,44 +45,35 @@ class SidebarWidget extends ConsumerWidget {
                 fontSize: 11,
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
               ),
-              contexts.when(
-                data: (contextStrings) {
-                  return Column(
-                    children: contextStrings.map((context) =>
-                        MenuItemWidget(
-                          title: context,
-                          indicatorColor: Colors.teal,
-                          onTap: () {
-                            ref.read(itemFilter.state).state = context;
-                          },
-                        )
-                    ).toList(),
-                  );
-                },
-                error: (err, _) => Text(err.toString()),
-                loading: () => const CircularProgressIndicator(),
+
+              Column(
+                children: contexts.map((context) =>
+                    MenuItemWidget(
+                      title: context,
+                      indicatorColor: Colors.teal,
+                      onTap: () {
+                        ref.read(itemFilter.state).state = context;
+                      },
+                    )
+                ).toList(),
               ),
+
               const MenuHeaderWidget(
                 'Projects',
                 fontSize: 11,
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
               ),
-              projects.when(
-                  data: (projectStrings) {
-                    return Column(
-                      children: projectStrings.map((project) =>
-                        MenuItemWidget(
-                          title: project,
-                          indicatorColor: Colors.orange,
-                          onTap: () {
-                            ref.read(itemFilter.state).state = project;
-                          },
-                        )
-                      ).toList(),
-                    );
-                  },
-                  error: (err, _) => Text(err.toString()),
-                  loading: () => const CircularProgressIndicator(),
+
+              Column(
+                children: projects.map((project) =>
+                  MenuItemWidget(
+                    title: project,
+                    indicatorColor: Colors.orange,
+                    onTap: () {
+                      ref.read(itemFilter.state).state = project;
+                    },
+                  )
+                ).toList(),
               ),
             ]
           ),

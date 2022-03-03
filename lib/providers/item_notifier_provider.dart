@@ -7,10 +7,10 @@ import 'package:txdx/txdx/txdx_item.dart';
 import 'file_notifier_provider.dart';
 
 final itemsNotifierProvider =
-  StateNotifierProvider<ItemNotifier, AsyncValue<List<TxDxItem>>>((ref) => ItemNotifier(ref));
+  StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) => ItemNotifier(ref));
 
-class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
-  ItemNotifier(this.ref) : super(const AsyncValue<List<TxDxItem>>.loading()) {
+class ItemNotifier extends StateNotifier<List<TxDxItem>> {
+  ItemNotifier(this.ref) : super(const []) {
     _initialize();
   }
 
@@ -21,9 +21,9 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
     filename = await ref.watch(filenameNotifierProvider.future);
     if (filename != null && filename != '') {
       TxDxFile.openFromFile(filename!).then((theItems) {
-        state = AsyncValue.data(theItems);
+        state = theItems;
       }).catchError((e) {
-        state = const AsyncValue.data([]);
+        state = [];
         Get.dialog(
             AlertDialog(
               title: const Text("Cannot open your TODO.txt file!"),
@@ -48,16 +48,16 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
         barrierDismissible: false);
       });
     } else {
-      state = const AsyncValue.data(<TxDxItem>[]);
+      state = [];
     }
   }
 
   List<TxDxItem> getItems() {
-    return state.value ?? [];
+    return state;
   }
 
   Future<void> createNewItem(String? input) async {
-    final items = state.value ?? [];
+    final items = getItems();
 
     if (input != null && input.isNotEmpty) {
       final theItems = [
@@ -69,10 +69,10 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
   }
 
   TxDxItem? getItem(String? id) {
-    final items = state.value;
-    if (items == null || id == null) {
+    if (id == null) {
       return null;
     }
+    final items = getItems();
     final itemIdx = items.indexWhere((item) => item.id == id);
     if (itemIdx >= 0) {
       final theItem = items.elementAt(itemIdx);
@@ -83,7 +83,7 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
   }
 
   void updateItem(String id, TxDxItem item) {
-    final items = state.value?.toList() ?? [];
+    final items = getItems().toList();
     final itemIdx = items.indexWhere((item) => item.id == id);
     if (itemIdx >= 0) {
       items.replaceRange(itemIdx, itemIdx + 1, [item]);
@@ -92,7 +92,7 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
   }
 
   Future<void> toggleComplete(String id) async {
-    final items = state.value?.toList() ?? [];
+    final items = getItems().toList();
     final itemIdx = items.indexWhere((item) => item.id == id);
     if (itemIdx >= 0) {
       final theItem = items.elementAt(itemIdx);
@@ -102,7 +102,7 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
   }
 
   void _setState(List<TxDxItem> value) {
-    state = AsyncValue.data(value);
+    state = value;
 
     if (filename != null && filename != '') {
       TxDxFile.saveToFile(filename!, value);

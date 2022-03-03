@@ -8,14 +8,12 @@ class EditorForm extends ConsumerWidget {
   EditorForm(this.item, {Key? key}) : super(key: key);
 
   final TxDxItem item;
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.read(itemsNotifierProvider.notifier);
 
     return Form(
-        key: _formKey,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
           child: Column(

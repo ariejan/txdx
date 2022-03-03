@@ -11,30 +11,22 @@ class ItemsListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Consumer(builder: (context, ref, _) {
-      final itemsMap = ref.watch(groupedItems);
+      final items = ref.watch(groupedItems);
+      final groupList = <Widget>[];
 
-      return itemsMap.map(
-        data: (data) {
-          final theItems = data.value;
-          final groupList = <Widget>[];
+      for (var groupName in items.keys) {
+        final groupItems = items[groupName] ?? [];
+        groupList.add(ItemGroupWidget(groupName, groupItems));
+      }
 
-          for (var groupName in theItems.keys) {
-            final groupItems = theItems[groupName] ?? [];
-            groupList.add(ItemGroupWidget(groupName, groupItems));
-          }
-
-          return Column(
-            children: [
-              MenuHeaderWidget(
-                ref.read(itemFilter) ?? 'Everything',
-                margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-              ),
-              ...groupList,
-            ],
-          );
-        },
-        loading: (_) => const Center(child: CircularProgressIndicator()),
-        error: (_) => const Text('Error...'),
+      return Column(
+        children: [
+          MenuHeaderWidget(
+            ref.read(itemFilter) ?? 'Everything',
+            margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+          ),
+          ...groupList,
+        ],
       );
     });
   }

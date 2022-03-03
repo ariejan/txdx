@@ -5,7 +5,9 @@ import 'package:txdx/providers/selected_item_provider.dart';
 import 'package:txdx/widgets/editor_form.dart';
 
 class EditorWidget extends ConsumerWidget {
-  const EditorWidget({Key? key}) : super(key: key);
+  EditorWidget({Key? key}) : super(key: key);
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
