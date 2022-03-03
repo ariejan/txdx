@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/providers/item_notifier_provider.dart';
 import 'package:txdx/providers/selected_item_provider.dart';
 import 'package:txdx/widgets/editor_form.dart';
 
@@ -9,18 +10,28 @@ class EditorWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final item = ref.watch(selectedItemProvider);
+    final selectedItemId = ref.watch(selectedItemIdStateProvider);
 
-    if (item == null) {
-      return const Padding(
-          padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-          child: Center(child: Text('No item selected'))
-      );
-    } else {
-      return Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-          child: EditorForm(item),
-      );
+    if (selectedItemId == null) {
+      return _itemNotSelectedWidget();
     }
+
+    final selectedItem = ref.watch(itemProvider(selectedItemId));
+
+    if (selectedItem == null) {
+      return _itemNotSelectedWidget();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+      child: EditorForm(selectedItem),
+    );
+  }
+
+  Widget _itemNotSelectedWidget() {
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+      child: Center(child: Text('No item selected')),
+    );
   }
 }

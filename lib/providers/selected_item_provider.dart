@@ -7,9 +7,19 @@ final selectedItemIdStateProvider = StateProvider<String?>((ref) {
   return null;
 });
 
-final selectedItemProvider = Provider<TxDxItem?>((ref) {
-  final selectedItemId = ref.watch(selectedItemIdStateProvider);
-  final items = ref.watch(itemsNotifierProvider.notifier);
-
-  return items.getItem(selectedItemId);
+final itemProvider = StateProvider.family<TxDxItem?, String>((ref, id) {
+  var asyncItems = ref.watch(itemsNotifierProvider);
+  return asyncItems.when(
+      data: (items) {
+        final itemIdx = items.indexWhere((item) => item.id == id);
+        if (itemIdx >= 0) {
+          final theItem = items.elementAt(itemIdx);
+          return theItem;
+        } else {
+          return null;
+        }
+      },
+      error: (_, __) => null,
+      loading: () => null,
+  );
 });

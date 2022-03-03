@@ -83,10 +83,7 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
   }
 
   void updateItem(String id, TxDxItem item) {
-    final items = state.value;
-    if (items == null) {
-      return;
-    }
+    final items = state.value?.toList() ?? [];
     final itemIdx = items.indexWhere((item) => item.id == id);
     if (itemIdx >= 0) {
       items.replaceRange(itemIdx, itemIdx + 1, [item]);
@@ -95,10 +92,7 @@ class ItemNotifier extends StateNotifier<AsyncValue<List<TxDxItem>>> {
   }
 
   Future<void> toggleComplete(String id) async {
-    final items = state.value;
-    if (items == null) {
-      return;
-    }
+    final items = state.value?.toList() ?? [];
     final itemIdx = items.indexWhere((item) => item.id == id);
     if (itemIdx >= 0) {
       final theItem = items.elementAt(itemIdx);
