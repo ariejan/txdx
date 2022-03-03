@@ -21,7 +21,7 @@ class HomeScreen extends ConsumerWidget {
         editorWidth: 520,
         showEditor: selectedItemId != null,
         sidebar: const SidebarWidget(),
-        editor: EditorWidget(),
+        editor: const EditorWidget(),
         content: Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
           child: Column(

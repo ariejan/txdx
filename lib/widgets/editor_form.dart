@@ -5,7 +5,7 @@ import 'package:txdx/providers/item_notifier_provider.dart';
 import '../txdx/txdx_item.dart';
 
 class EditorForm extends ConsumerWidget {
-  EditorForm(this.item, {Key? key}) : super(key: key);
+  const EditorForm(this.item, {Key? key}) : super(key: key);
 
   final TxDxItem item;
 
