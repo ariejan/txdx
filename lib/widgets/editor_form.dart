@@ -12,7 +12,7 @@ class EditorForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(itemsNotifierProvider.notifier);
+    final items = ref.read(itemsNotifierProvider.notifier);
 
     return Form(
         key: _formKey,

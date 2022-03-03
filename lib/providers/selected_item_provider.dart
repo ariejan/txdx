@@ -9,6 +9,7 @@ final selectedItemIdStateProvider = StateProvider<String?>((ref) {
 
 final itemProvider = StateProvider.family<TxDxItem?, String>((ref, id) {
   var asyncItems = ref.watch(itemsNotifierProvider);
+
   return asyncItems.when(
       data: (items) {
         final itemIdx = items.indexWhere((item) => item.id == id);
