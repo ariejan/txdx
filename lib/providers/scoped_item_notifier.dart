@@ -98,15 +98,19 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
 
   if (filter == null) {
     // Noop
-  } else if (filter == "due:today") {
+  } else if (filter == 'due:today') {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     result.removeWhere((item) => (item.hasDueOn && item.dueOn != today) || !item.hasDueOn);
-  } else if (filter == "due:in7days") {
+  } else if (filter == 'due:in7days') {
     final now = DateTime.now();
     final yesterday = DateTime(now.year, now.month, now.day - 1);
     final sevenDays = DateTime(now.year, now.month, now.day + 7);
     result.removeWhere((item) => (item.hasDueOn && (item.dueOn!.isBefore(yesterday) || item.dueOn!.isAfter(sevenDays))) || !item.hasDueOn);
+  } else if (filter == 'due:overdue') {
+    final now = DateTime.now();
+    final yesterday = DateTime(now.year, now.month, now.day - 1);
+    result.removeWhere((item) => (item.hasDueOn && item.dueOn!.isAfter(yesterday)) || !item.hasDueOn);
   } else {
     result.removeWhere((item) => !item.hasContextOrProject(filter));
   }
