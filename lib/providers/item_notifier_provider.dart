@@ -56,7 +56,7 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     return state;
   }
 
-  Future<void> createNewItem(String? input) async {
+  void createItem(String? input) {
     final items = getItems();
 
     if (input != null && input.isNotEmpty) {
@@ -65,6 +65,15 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
         TxDxItem.fromText(input),
       ];
       _setState(theItems);
+    }
+  }
+
+  void deleteItem(String id) {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      items.removeAt(itemIdx);
+      _setState(items);
     }
   }
 

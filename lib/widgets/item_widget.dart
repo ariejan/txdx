@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:txdx/providers/item_notifier_provider.dart';
 import 'package:txdx/providers/selected_item_provider.dart';
 import 'package:txdx/widgets/item_priority_widget.dart';
@@ -40,12 +42,26 @@ class ItemWidget extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-            child: TextFormField(
-              initialValue: item.toString(),
-              onFieldSubmitted: (value) {
-                ref.read(itemsNotifierProvider.notifier).updateItem(item.id, value);
-                ref.read(selectedItemIdStateProvider.state).state = null;
-              }
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    initialValue: item.toString(),
+                    onFieldSubmitted: (value) {
+                      ref.read(selectedItemIdStateProvider.state).state = null;
+                      ref.read(itemsNotifierProvider.notifier).updateItem(item.id, value);
+                    }
+                  ),
+                ),
+                IconButton(
+                  icon: const FaIcon(FontAwesomeIcons.trash),
+                  color: Get.theme.errorColor,
+                  onPressed: () {
+                    ref.read(selectedItemIdStateProvider.state).state = null;
+                    ref.read(itemsNotifierProvider.notifier).deleteItem(item.id);
+                  },
+                ),
+              ],
             ),
           ),
         ]
@@ -57,6 +73,9 @@ class ItemWidget extends ConsumerWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onDoubleTap: () {
+        ref.read(selectedItemIdStateProvider.state).state = item.id;
+      },
+      onTap: () {
         ref.read(selectedItemIdStateProvider.state).state = item.id;
       },
       child: Column(
@@ -133,6 +152,7 @@ class ItemWidget extends ConsumerWidget {
                   shape: const CircleBorder(),
                   value: item.completed,
                   onChanged: (bool? value) {
+                    ref.read(selectedItemIdStateProvider.state).state = null;
                     onCompletedToggle!(value ?? false);
                   }),
             ),
