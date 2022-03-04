@@ -40,7 +40,7 @@ class SidebarWidget extends ConsumerWidget {
                 title: 'Next 7 days',
                 onTap: () => ref.read(itemFilter.state).state = "due:in7days",
               ),
-              Divider(),
+              const Divider(),
               MenuItemWidget(
                 icon: const FaIcon(FontAwesomeIcons.angry, size: 16),
                 title: 'Overdue',
