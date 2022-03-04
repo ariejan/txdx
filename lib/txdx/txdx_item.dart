@@ -7,7 +7,7 @@ const _uuid = Uuid();
 
 class TxDxItem {
 
-  late String id;
+  final String id;
   final bool completed;
   final String description;
   final String? priority;
@@ -19,6 +19,7 @@ class TxDxItem {
   final Map<String, String> tags;
 
   TxDxItem({
+    required this.id,
     this.completed = false,
     this.description = '',
     this.priority,
@@ -28,12 +29,28 @@ class TxDxItem {
     this.contexts = const <String>[],
     this.projects = const <String>[],
     this.tags = const <String, String>{},
-  }) : id = _uuid.v4();
+  });
 
 
   /// Creates a TxDxItem from a Todo.txt formatted `text`.
-  static TxDxItem fromText(text) {
+  static TxDxItem fromText(String text) {
     return TxDxItem(
+      id: _uuid.v4(),
+      completed: TxDxSyntax.getCompleted(text),
+      description: TxDxSyntax.getDescription(text),
+      priority: TxDxSyntax.getPriority(text),
+      createdOn: TxDxSyntax.getCreatedOn(text),
+      completedOn: TxDxSyntax.getCompletedOn(text),
+      dueOn: TxDxSyntax.getDueOn(text),
+      tags: TxDxSyntax.getTags(text),
+      contexts: TxDxSyntax.getContexts(text),
+      projects: TxDxSyntax.getProjects(text),
+    );
+  }
+
+  static TxDxItem fromTextWithId(String id, String text) {
+    return TxDxItem(
+      id: id,
       completed: TxDxSyntax.getCompleted(text),
       description: TxDxSyntax.getDescription(text),
       priority: TxDxSyntax.getPriority(text),
@@ -57,7 +74,8 @@ class TxDxItem {
     Iterable<String>? projects,
     Map<String, String>? tags,
   }) {
-    TxDxItem theItem = TxDxItem(
+    return TxDxItem(
+      id: id,
       completed: completed ?? this.completed,
       description: description ?? this.description,
       priority: priority ?? this.priority,
@@ -68,8 +86,6 @@ class TxDxItem {
       projects: projects ?? this.projects,
       tags: tags ?? this.tags,
     );
-    theItem.id = id;
-    return theItem;
   }
 
   bool get hasDueOn => dueOn != null;
@@ -83,7 +99,8 @@ class TxDxItem {
   }
 
   TxDxItem _markCompleted() {
-    TxDxItem theItem = TxDxItem(
+    return TxDxItem(
+      id: id,
       completed: true,
       description: description,
       priority: null,
@@ -94,12 +111,11 @@ class TxDxItem {
       projects: projects,
       tags: tags,
     );
-    theItem.id = id;
-    return theItem;
   }
 
   TxDxItem _markNotCompleted() {
-    TxDxItem theItem = TxDxItem(
+    return TxDxItem(
+      id: id,
       completed: false,
       description: description,
       priority: null,
@@ -110,8 +126,6 @@ class TxDxItem {
       projects: projects,
       tags: tags,
     );
-    theItem.id = id;
-    return theItem;
   }
 
   Map<String, dynamic> _toMap() {
@@ -122,7 +136,6 @@ class TxDxItem {
       'createdOn': createdOn,
       'completedOn': completedOn,
       'dueOn': dueOn,
-
     };
   }
 
