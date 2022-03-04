@@ -82,11 +82,12 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     }
   }
 
-  void updateItem(String id, TxDxItem item) {
+  void updateItem(String id, String text) {
     final items = getItems().toList();
     final itemIdx = items.indexWhere((item) => item.id == id);
     if (itemIdx >= 0) {
-      items.replaceRange(itemIdx, itemIdx + 1, [item]);
+      final updatedItem = TxDxItem.fromTextWithId(id, text);
+      items.replaceRange(itemIdx, itemIdx + 1, [updatedItem]);
       _setState(items);
     }
   }
