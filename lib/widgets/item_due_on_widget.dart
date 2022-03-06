@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:txdx/widgets/pill_widget.dart';
 
@@ -11,16 +12,13 @@ class ItemDueOnWidget extends StatelessWidget {
   Color _getBackgroundColor(BuildContext context, DateTime dueOn) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final tomorrow = DateTime(now.year, now.month, now.day + 1);
 
     if (dueOn == today) {
-      return Colors.green;
-    } else if (dueOn == tomorrow) {
-      return Colors.yellow;
+      return NordColors.aurora.green;
     } else if (dueOn.isBefore(today)) {
-      return Colors.red;
+      return NordColors.aurora.red;
     } else {
-      return Theme.of(context).textTheme.subtitle2?.color ?? Colors.purple;
+      return NordColors.$9;
     }
   }
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/providers/item_notifier_provider.dart';
 import 'package:txdx/providers/selected_item_provider.dart';
-import 'package:txdx/widgets/item_priority_widget.dart';
 import 'package:txdx/widgets/pill_widget.dart';
 
 import '../txdx/txdx_item.dart';
@@ -17,18 +17,20 @@ class ItemWidget extends ConsumerWidget {
   final TxDxItem item;
   final ValueChanged<bool>? onCompletedToggle;
 
+  static const opacity = 0.5;
+
   static final priorityColours = {
-    'A': Colors.red.withOpacity(0.1),
-    'B': Colors.orange.withOpacity(0.1),
-    'C': Colors.yellow.withOpacity(0.1),
-    'D': Colors.green.withOpacity(0.1),
+    'A': NordColors.aurora.red,
+    'B': NordColors.aurora.orange,
+    'C': NordColors.aurora.yellow,
+    'D': NordColors.aurora.green,
   };
 
   Color _getRowColor(bool isSelected) {
     if (item.completed) {
-      return Colors.blue.withOpacity(0.1);
+      return Colors.transparent;
     } else if (isSelected) {
-      return Colors.blueGrey.withOpacity(0.5);
+      return Colors.transparent;
     } else {
       return priorityColours[item.priority] ?? Colors.transparent;
     }
@@ -99,8 +101,6 @@ class ItemWidget extends ConsumerWidget {
                     children: [
                       if (item.dueOn != null)
                         ItemDueOnWidget(item.dueOn!),
-                      if (item.priority != null)
-                        ItemPriorityWidget(item.priority!),
                     ]
                 )
               ],
@@ -156,7 +156,11 @@ class ItemWidget extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
       child: Container(
-        color: _getRowColor(isSelected),
+        decoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(width: 5, color: _getRowColor(isSelected)),
+          ),
+        ),
         child: Row(
           crossAxisAlignment: isSelected ? CrossAxisAlignment.center : CrossAxisAlignment.start,
           children: [

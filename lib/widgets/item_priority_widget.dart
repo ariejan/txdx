@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 import 'package:txdx/widgets/pill_widget.dart';
 
 class ItemPriorityWidget extends StatelessWidget {
@@ -8,11 +9,11 @@ class ItemPriorityWidget extends StatelessWidget {
   const ItemPriorityWidget(
     this.priority, {Key? key}) : super(key: key);
 
-  static const priorityColours = {
-    'A': Colors.red,
-    'B': Colors.orange,
-    'C': Colors.yellow,
-    'D': Colors.green,
+  static final priorityColours = {
+    'A': NordColors.aurora.red,
+    'B': NordColors.aurora.orange,
+    'C': NordColors.aurora.yellow,
+    'D': NordColors.aurora.green,
   };
 
   @override
