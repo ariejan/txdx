@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:txdx/providers/item_notifier_provider.dart';
 import 'package:txdx/providers/selected_item_provider.dart';
 import 'package:txdx/widgets/item_priority_widget.dart';
@@ -54,8 +53,11 @@ class ItemWidget extends ConsumerWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const FaIcon(FontAwesomeIcons.trash),
-                  color: Get.theme.errorColor,
+                  icon: const FaIcon(
+                    FontAwesomeIcons.trash,
+                    size: 16,
+                  ),
+                  color: Theme.of(context).errorColor,
                   onPressed: () {
                     ref.read(selectedItemIdStateProvider.state).state = null;
                     ref.read(itemsNotifierProvider.notifier).deleteItem(item.id);
@@ -139,6 +141,18 @@ class ItemWidget extends ConsumerWidget {
     final selectedItemId = ref.watch(selectedItemIdStateProvider);
     final isSelected = selectedItemId != null && selectedItemId == item.id;
 
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Theme.of(context).hoverColor;
+      }
+      return Theme.of(context).primaryColor;
+    }
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
       child: Container(
@@ -150,6 +164,8 @@ class ItemWidget extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
               child: Checkbox(
                   shape: const CircleBorder(),
+                  fillColor: MaterialStateProperty.resolveWith(getColor),
+                  tristate: false,
                   value: item.completed,
                   onChanged: (bool? value) {
                     ref.read(selectedItemIdStateProvider.state).state = null;

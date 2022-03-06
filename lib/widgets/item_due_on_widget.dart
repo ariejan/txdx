@@ -8,7 +8,7 @@ class ItemDueOnWidget extends StatelessWidget {
 
   const ItemDueOnWidget(this.dueOn, {Key? key}) : super(key: key);
 
-  Color _getBackgroundColor(DateTime dueOn) {
+  Color _getBackgroundColor(BuildContext context, DateTime dueOn) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final tomorrow = DateTime(now.year, now.month, now.day + 1);
@@ -20,13 +20,13 @@ class ItemDueOnWidget extends StatelessWidget {
     } else if (dueOn.isBefore(today)) {
       return Colors.red;
     } else {
-      return Colors.white38;
+      return Theme.of(context).textTheme.subtitle2?.color ?? Colors.purple;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final fgColor = _getBackgroundColor(dueOn);
+    final fgColor = _getBackgroundColor(context, dueOn);
 
     return PillWidget(
       DateFormat.yMMMd().format(dueOn),
