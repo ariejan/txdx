@@ -60,9 +60,14 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     final items = getItems();
 
     if (input != null && input.isNotEmpty) {
+      var theItem = TxDxItem.fromText(input);
+      if (theItem.createdOn == null) {
+        theItem = theItem.copyWith(createdOn: DateTime.now());
+      }
+
       final theItems = [
         ...items,
-        TxDxItem.fromText(input),
+        theItem,
       ];
       _setState(theItems);
     }

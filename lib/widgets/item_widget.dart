@@ -47,6 +47,7 @@ class ItemWidget extends ConsumerWidget {
               children: [
                 Expanded(
                   child: TextFormField(
+                    autofocus: true,
                     initialValue: item.toString(),
                     onFieldSubmitted: (value) {
                       ref.read(selectedItemIdStateProvider.state).state = null;
