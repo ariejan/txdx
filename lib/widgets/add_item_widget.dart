@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:txdx/input/focus.dart';
 import 'package:txdx/providers/selected_item_provider.dart';
 
 import '../providers/item_notifier_provider.dart';
@@ -9,8 +11,10 @@ class AddItemWidget extends ConsumerWidget {
   AddItemWidget({Key? key}) : super(key: key);
 
   void _createItem(WidgetRef ref, String? value) {
-    ref.read(itemsNotifierProvider.notifier).createItem(value);
+    final newItemId = ref.read(itemsNotifierProvider.notifier).createItem(value);
     textController.text = '';
+    ref.read(selectedItemIdStateProvider.state).state = newItemId;
+    shortcutsFocusNode.requestFocus();
   }
 
   final textController = TextEditingController();
@@ -22,17 +26,24 @@ class AddItemWidget extends ConsumerWidget {
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              onSubmitted: (_) {
-                _createItem(ref, textController.text);
+            child: Focus(
+              onKey: (FocusNode node, RawKeyEvent event) {
+                if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
+                  _createItem(ref, textController.text);
+                  return KeyEventResult.handled;
+                }
+                return KeyEventResult.ignored;
               },
-              onTap: () {
-                ref.read(selectedItemIdStateProvider.state).state = null;
-              },
-              controller: textController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '(A) Create a new todo item @txdx',
+              child: TextField(
+                onTap: () {
+                  ref.read(editingItemIdStateProvider.state).state = null;
+                },
+                focusNode: addNewFocusNode,
+                controller: textController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: '(A) Create a new todo item @txdx',
+                ),
               ),
             ),
           ),

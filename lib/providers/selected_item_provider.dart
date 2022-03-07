@@ -3,6 +3,10 @@ import 'package:txdx/providers/item_notifier_provider.dart';
 
 import '../txdx/txdx_item.dart';
 
+final editingItemIdStateProvider = StateProvider<String?>((ref) {
+  return null;
+});
+
 final selectedItemIdStateProvider = StateProvider<String?>((ref) {
   return null;
 });

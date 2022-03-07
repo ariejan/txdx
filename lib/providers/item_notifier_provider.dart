@@ -56,7 +56,7 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     return state;
   }
 
-  void createItem(String? input) {
+  String? createItem(String? input) {
     final items = getItems();
 
     if (input != null && input.isNotEmpty) {
@@ -70,7 +70,11 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
         theItem,
       ];
       _setState(theItems);
+
+      return theItem.id;
     }
+
+    return null;
   }
 
   void deleteItem(String id) {

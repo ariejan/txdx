@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,11 +12,14 @@ import 'item_due_on_widget.dart';
 import 'item_tag_widget.dart';
 
 class ItemWidget extends ConsumerWidget {
-  const ItemWidget(this.item, {Key? key, this.onCompletedToggle})
+  ItemWidget(this.item, {Key? key, this.onCompletedToggle})
       : super(key: key);
 
   final TxDxItem item;
   final ValueChanged<bool>? onCompletedToggle;
+
+  final _focusNode = FocusNode();
+  final _textController = TextEditingController();
 
   static const opacity = 0.5;
 
@@ -26,10 +30,8 @@ class ItemWidget extends ConsumerWidget {
     'D': NordColors.aurora.green,
   };
 
-  Color _getRowColor(bool isSelected) {
-    if (item.completed) {
-      return Colors.transparent;
-    } else if (isSelected) {
+  Color _getRowColor(bool isSelected, bool isEditing) {
+    if (isEditing) {
       return Colors.transparent;
     } else {
       return priorityColours[item.priority] ?? Colors.transparent;
@@ -37,6 +39,10 @@ class ItemWidget extends ConsumerWidget {
   }
 
   Widget _editItem(BuildContext context, WidgetRef ref) {
+    _focusNode.requestFocus();
+
+    _textController.text = item.toString();
+
     return Form(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,13 +52,19 @@ class ItemWidget extends ConsumerWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: TextFormField(
-                    autofocus: true,
-                    initialValue: item.toString(),
-                    onFieldSubmitted: (value) {
-                      ref.read(selectedItemIdStateProvider.state).state = null;
-                      ref.read(itemsNotifierProvider.notifier).updateItem(item.id, value);
-                    }
+                  child: Focus(
+                    onKey: (FocusNode node, RawKeyEvent event) {
+                      if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
+                        ref.read(itemsNotifierProvider.notifier).updateItem(item.id, _textController.text);
+                        ref.read(editingItemIdStateProvider.state).state = null;
+                        return KeyEventResult.handled;
+                      }
+                      return KeyEventResult.ignored;
+                    },
+                    child: TextFormField(
+                      focusNode: _focusNode,
+                      controller: _textController,
+                    ),
                   ),
                 ),
                 IconButton(
@@ -62,7 +74,7 @@ class ItemWidget extends ConsumerWidget {
                   ),
                   color: Theme.of(context).errorColor,
                   onPressed: () {
-                    ref.read(selectedItemIdStateProvider.state).state = null;
+                    ref.read(editingItemIdStateProvider.state).state = null;
                     ref.read(itemsNotifierProvider.notifier).deleteItem(item.id);
                   },
                 ),
@@ -78,10 +90,10 @@ class ItemWidget extends ConsumerWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onDoubleTap: () {
-        ref.read(selectedItemIdStateProvider.state).state = item.id;
+        ref.read(editingItemIdStateProvider.state).state = item.id;
       },
       onTap: () {
-        ref.read(selectedItemIdStateProvider.state).state = item.id;
+        ref.read(editingItemIdStateProvider.state).state = item.id;
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,6 +151,9 @@ class ItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final editingItemId = ref.watch(editingItemIdStateProvider);
+    final isEditing = editingItemId != null && editingItemId == item.id;
+
     final selectedItemId = ref.watch(selectedItemIdStateProvider);
     final isSelected = selectedItemId != null && selectedItemId == item.id;
 
@@ -154,16 +169,19 @@ class ItemWidget extends ConsumerWidget {
       return Theme.of(context).primaryColor;
     }
 
+    Color rowColor = _getRowColor(isSelected, isEditing);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
       child: Container(
         decoration: BoxDecoration(
+          color: isSelected ? NordColors.snowStorm.medium : Colors.transparent,
           border: Border(
-            left: BorderSide(width: 5, color: _getRowColor(isSelected)),
+            left: BorderSide(width: 5, color: rowColor),
           ),
         ),
         child: Row(
-          crossAxisAlignment: isSelected ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+          crossAxisAlignment: isEditing ? CrossAxisAlignment.center : CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
@@ -173,12 +191,12 @@ class ItemWidget extends ConsumerWidget {
                   tristate: false,
                   value: item.completed,
                   onChanged: (bool? value) {
-                    ref.read(selectedItemIdStateProvider.state).state = null;
+                    ref.read(editingItemIdStateProvider.state).state = null;
                     onCompletedToggle!(value ?? false);
                   }),
             ),
             Expanded(
-              child: isSelected ? _editItem(context, ref) : _displayItem(context, ref),
+              child: isEditing ? _editItem(context, ref) : _displayItem(context, ref),
             )
           ]
         ),
