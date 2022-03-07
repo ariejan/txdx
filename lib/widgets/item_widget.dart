@@ -93,7 +93,7 @@ class ItemWidget extends ConsumerWidget {
         ref.read(editingItemIdStateProvider.state).state = item.id;
       },
       onTap: () {
-        ref.read(editingItemIdStateProvider.state).state = item.id;
+        ref.read(selectedItemIdStateProvider.state).state = item.id;
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,15 +169,27 @@ class ItemWidget extends ConsumerWidget {
       return Theme.of(context).primaryColor;
     }
 
-    Color rowColor = _getRowColor(isSelected, isEditing);
+    var statusColor = _getRowColor(isSelected, isEditing);
+    var bgColor = Colors.transparent;
+
+    if (isSelected) {
+      switch(Theme.of(context).brightness) {
+        case Brightness.dark:
+          bgColor = NordColors.polarNight.lighter;
+          break;
+        case Brightness.light:
+          bgColor = NordColors.snowStorm.medium;
+          break;
+      }
+    }
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? NordColors.snowStorm.medium : Colors.transparent,
+          color: bgColor,
           border: Border(
-            left: BorderSide(width: 5, color: rowColor),
+            left: BorderSide(width: 5, color: statusColor),
           ),
         ),
         child: Row(
