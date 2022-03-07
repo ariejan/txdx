@@ -51,7 +51,7 @@ void main() {
 
       expect(checkboxChecked, isFalse);
       await tester.tap(checkboxFinder);
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 500));
       expect(checkboxChecked, isTrue);
     });
   });
