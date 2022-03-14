@@ -108,6 +108,12 @@ class ItemWidget extends ConsumerWidget {
                     item.description,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    style: item.completed
+                        ? TextStyle(
+                          color: Theme.of(context).disabledColor,
+                          decoration: TextDecoration.lineThrough,
+                    )
+                        : null,
                   ),
                 ),
                 Row(
