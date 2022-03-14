@@ -42,17 +42,11 @@ class AddItemWidget extends ConsumerWidget {
                 controller: textController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: '(A) Create a new todo item @txdx',
+                  hintText: '(A) Create a new todo item @txdx ⏎',
                 ),
               ),
             ),
           ),
-          IconButton(
-            icon: const FaIcon(FontAwesomeIcons.plusSquare),
-            onPressed: () {
-              _createItem(ref, textController.text);
-            },
-          )
         ]
       )
     );
