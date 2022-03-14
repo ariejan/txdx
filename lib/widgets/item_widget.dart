@@ -184,7 +184,7 @@ class ItemWidget extends ConsumerWidget {
           bgColor = NordColors.polarNight.lighter;
           break;
         case Brightness.light:
-          bgColor = NordColors.snowStorm.medium;
+          bgColor = NordColors.snowStorm.darkest;
           break;
       }
     }

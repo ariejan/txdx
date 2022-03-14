@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/providers/contexts_provider.dart';
 import 'package:txdx/providers/projects_provider.dart';
-import 'package:txdx/providers/scoped_item_notifier.dart';
 
 import 'menu_header_widget.dart';
 import 'menu_item_widget.dart';
@@ -25,26 +24,26 @@ class SidebarWidget extends ConsumerWidget {
           Column(
             children: [
               const MenuHeaderWidget('TxDx'),
-              MenuItemWidget(
-                icon: const FaIcon(FontAwesomeIcons.th, size: 16),
+              const MenuItemWidget(
+                icon: FaIcon(FontAwesomeIcons.th, size: 16),
                 title: 'All',
-                onTap: () => ref.read(itemFilter.state).state = null,
+                itemFilterValue: "all",
               ),
-              MenuItemWidget(
-                icon: const FaIcon(FontAwesomeIcons.calendarDay, size: 16),
+              const MenuItemWidget(
+                icon: FaIcon(FontAwesomeIcons.calendarDay, size: 16),
                 title: 'Today',
-                onTap: () => ref.read(itemFilter.state).state = "due:today",
+                itemFilterValue: "due:today",
               ),
-              MenuItemWidget(
-                icon: const FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
+              const MenuItemWidget(
+                icon: FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
                 title: 'Next 7 days',
-                onTap: () => ref.read(itemFilter.state).state = "due:in7days",
+                itemFilterValue: "due:in7days",
               ),
               const Divider(),
-              MenuItemWidget(
-                icon: const FaIcon(FontAwesomeIcons.angry, size: 16),
+              const MenuItemWidget(
+                icon: FaIcon(FontAwesomeIcons.angry, size: 16),
                 title: 'Overdue',
-                onTap: () => ref.read(itemFilter.state).state = "due:overdue",
+                itemFilterValue: "due:overdue",
               ),
               const MenuHeaderWidget(
                 'Contexts',
@@ -57,9 +56,7 @@ class SidebarWidget extends ConsumerWidget {
                     MenuItemWidget(
                       title: context,
                       indicatorColor: Colors.teal,
-                      onTap: () {
-                        ref.read(itemFilter.state).state = context;
-                      },
+                      itemFilterValue: context,
                     )
                 ).toList(),
               ),
@@ -75,9 +72,7 @@ class SidebarWidget extends ConsumerWidget {
                   MenuItemWidget(
                     title: project,
                     indicatorColor: Colors.orange,
-                    onTap: () {
-                      ref.read(itemFilter.state).state = project;
-                    },
+                    itemFilterValue: project,
                   )
                 ).toList(),
               ),

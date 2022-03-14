@@ -19,7 +19,7 @@ final itemStateGrouper = StateProvider<ItemStateSorter>((ref) {
 });
 
 final itemFilter = StateProvider<String?>((ref) {
-  return null;
+  return 'all';
 });
 
 int descriptionSort(TxDxItem a, TxDxItem b) => a.description.compareTo(b.description);
@@ -96,7 +96,7 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
 
   final result = items.toList();
 
-  if (filter == null) {
+  if (filter == null || filter == 'all') {
     // Noop
   } else if (filter == 'due:today') {
     final now = DateTime.now();
