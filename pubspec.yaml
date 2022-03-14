@@ -46,6 +46,7 @@ dependencies:
   flutter_nord_theme: ^2.1.0
   intl: ^0.17.0
   lit_relative_date_time: ^1.2.0
+  url_launcher: ^6.0.20
 
 dev_dependencies:
   flutter_test:

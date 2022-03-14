@@ -10,6 +10,12 @@ class TxDxFile {
     await file.writeAsString(contents, flush: true);
   }
 
+  static Future<void> appendToFile(String filename, List<TxDxItem> items) async {
+    final contents = items.map((e) => e.toString()).join('\n');
+    File file = await _getFile(filename);
+    await file.writeAsString(contents + '\n', flush: true, mode: FileMode.writeOnlyAppend);
+  }
+
   static Future<List<TxDxItem>> openFromFile(String filename) async {
     List<String> lines = await _readLines(filename);
     final theList = <TxDxItem>[];

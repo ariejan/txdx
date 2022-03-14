@@ -12,11 +12,13 @@ class MenuItemWidget extends ConsumerWidget {
     required this.title,
     this.itemFilterValue,
     this.onTap,
+    this.color,
     this.highlighted = false,
   }) : super(key: key);
 
   final Widget? icon;
   final Color? indicatorColor;
+  final Color? color;
   final String title;
   final GestureTapCallback? onTap;
   final bool highlighted;
@@ -75,6 +77,9 @@ class MenuItemWidget extends ConsumerWidget {
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: color,
+                      ),
                     ),
                   ),
                 ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -15,12 +17,15 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
   }
 
   final StateNotifierProviderRef ref;
-  late final String? filename;
+  late final String? todoFilename;
+  late final String? archiveFilename;
 
   Future<void> _initialize() async {
-    filename = await ref.watch(filenameNotifierProvider.future);
-    if (filename != null && filename != '') {
-      TxDxFile.openFromFile(filename!).then((theItems) {
+    todoFilename = await ref.watch(todoTxtFilenameProvider.future);
+    archiveFilename = await ref.watch(archiveTxtFilenameProvider.future);
+
+    if (todoFilename != null && todoFilename != '') {
+      TxDxFile.openFromFile(todoFilename!).then((theItems) {
         state = theItems;
       }).catchError((e) {
         state = [];
@@ -31,7 +36,7 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
                 child: ListBody(
                   children: <Widget>[
                     const Text('Oh noes! It seems we cannot open that file for you.'),
-                    Text('$filename'),
+                    Text('$todoFilename'),
                     const Text('Please select a file from settings.')
                   ],
                 ),
@@ -120,11 +125,23 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     }
   }
 
+  Future<void> archiveCompleted() async {
+    final items = getItems().toList();
+    final completedItems = items.where((item) => item.completed).toList();
+
+    if (archiveFilename != null && File(archiveFilename!).existsSync()) {
+      TxDxFile.appendToFile(archiveFilename!, completedItems);
+
+      items.removeWhere((item) => item.completed);
+      _setState(items);
+    }
+  }
+
   void _setState(List<TxDxItem> value) {
     state = value;
 
-    if (filename != null && filename != '') {
-      TxDxFile.saveToFile(filename!, value);
+    if (todoFilename != null && todoFilename != '') {
+      TxDxFile.saveToFile(todoFilename!, value);
     }
   }
 }

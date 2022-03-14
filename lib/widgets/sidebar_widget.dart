@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/providers/contexts_provider.dart';
+import 'package:txdx/providers/item_notifier_provider.dart';
 import 'package:txdx/providers/projects_provider.dart';
 
+import '../providers/file_notifier_provider.dart';
 import 'menu_header_widget.dart';
 import 'menu_item_widget.dart';
 
@@ -15,6 +17,8 @@ class SidebarWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final contexts = ref.watch(contextsProvider);
     final projects = ref.watch(projectsProvider);
+
+    final archiveAvailable = ref.watch(archivingAvailableProvider);
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -82,10 +86,25 @@ class SidebarWidget extends ConsumerWidget {
             shrinkWrap: true,
             controller: ScrollController(),
             children: [
+              if (archiveAvailable) MenuItemWidget(
+                title: 'Archive completed',
+                color: Theme.of(context).disabledColor,
+                icon: FaIcon(
+                  FontAwesomeIcons.archive,
+                  size: 16,
+                  color: Theme.of(context).disabledColor,
+                ),
+                onTap: () => ref.read(itemsNotifierProvider.notifier).archiveCompleted(),
+              ),
               MenuItemWidget(
                 onTap: () => Navigator.pushNamed(context, '/settings'),
+                color: Theme.of(context).disabledColor,
                 title: 'Settings',
-                icon: const FaIcon(FontAwesomeIcons.cog, size: 16),
+                icon: FaIcon(
+                  FontAwesomeIcons.cog,
+                  size: 16,
+                  color: Theme.of(context).disabledColor,
+                ),
               ),
             ]
           )
