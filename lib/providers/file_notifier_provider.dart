@@ -4,13 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'shared_preferences_provider.dart';
 
-final todoTxtFilenameProvider = StateNotifierProvider<FilenameNotifier, AsyncValue<String?>>(
-      (ref) => FilenameNotifier('todotxt_filename', ref.read),
-);
+final todoTxtFilenameProvider = StateNotifierProvider<FilenameNotifier, AsyncValue<String?>>((ref) {
+  final namespace = ref.watch(namespaceProvider);
+  return FilenameNotifier('${namespace}_todotxt_filename', ref.read);
+});
 
-final archiveTxtFilenameProvider = StateNotifierProvider<FilenameNotifier, AsyncValue<String?>>(
-      (ref) => FilenameNotifier('archivetxt_filename', ref.read),
-);
+final archiveTxtFilenameProvider = StateNotifierProvider<FilenameNotifier, AsyncValue<String?>>((ref) {
+  final namespace = ref.watch(namespaceProvider);
+  return FilenameNotifier('${namespace}_archivetxt_filename', ref.read);
+});
 
 final archivingAvailableProvider = Provider<bool>((ref) {
   final asyncFilename = ref.watch(archiveTxtFilenameProvider);

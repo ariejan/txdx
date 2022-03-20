@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/input/browser.dart';
 import 'package:txdx/providers/file_notifier_provider.dart';
+import 'package:txdx/providers/shared_preferences_provider.dart';
 
 import '../widgets/menu_header_widget.dart';
 
@@ -25,6 +26,7 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final namespace = ref.watch(namespaceProvider);
 
     return Material(
       child: Column(
@@ -127,7 +129,7 @@ class SettingsScreen extends ConsumerWidget {
                   margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
                 ),
 
-                const Text('TxDx 1.0.0', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('TxDx 1.0.0 ($namespace)', style: const TextStyle(fontWeight: FontWeight.bold)),
                 const Text('Copyright © 2022 Ariejan de Vroom'),
                 const Text('Published under the MIT License'),
                 TextButton(
