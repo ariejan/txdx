@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:txdx/input/browser.dart';
 import 'package:txdx/providers/item_notifier_provider.dart';
 import 'package:txdx/providers/selected_item_provider.dart';
 import 'package:txdx/widgets/pill_widget.dart';
@@ -104,16 +106,29 @@ class ItemWidget extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text(
-                    item.description,
+                  child: Linkify(
+                    text: item.description,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    onOpen: (LinkableElement link) {
+                      launchInBrowser(link.url);
+                    },
                     style: item.completed
                         ? TextStyle(
                           color: Theme.of(context).disabledColor,
                           decoration: TextDecoration.lineThrough,
                     )
-                        : null,
+                        : Theme.of(context).textTheme.bodyText2,
+                    linkStyle: item.completed
+                        ? TextStyle(
+                      color: Theme.of(context).disabledColor,
+                      decoration: TextDecoration.lineThrough,
+                      height: 1,
+                    )
+                        : Theme.of(context).textTheme.bodyText2!.copyWith(
+                      height: 1,
+                      color: NordColors.frost.darkest,
+                    ),
                   ),
                 ),
                 Row(
