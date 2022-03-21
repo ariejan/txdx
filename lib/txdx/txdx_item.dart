@@ -13,7 +13,6 @@ class TxDxItem {
   final String? priority;
   final DateTime? createdOn;
   final DateTime? completedOn;
-  final DateTime? dueOn;
   final Iterable<String> contexts;
   final Iterable<String> projects;
   final Map<String, String> tags;
@@ -25,7 +24,6 @@ class TxDxItem {
     this.priority,
     this.createdOn,
     this.completedOn,
-    this.dueOn,
     this.contexts = const <String>[],
     this.projects = const <String>[],
     this.tags = const <String, String>{},
@@ -41,7 +39,6 @@ class TxDxItem {
       priority: TxDxSyntax.getPriority(text),
       createdOn: TxDxSyntax.getCreatedOn(text),
       completedOn: TxDxSyntax.getCompletedOn(text),
-      dueOn: TxDxSyntax.getDueOn(text),
       tags: TxDxSyntax.getTags(text),
       contexts: TxDxSyntax.getContexts(text),
       projects: TxDxSyntax.getProjects(text),
@@ -56,7 +53,6 @@ class TxDxItem {
       priority: TxDxSyntax.getPriority(text),
       createdOn: TxDxSyntax.getCreatedOn(text),
       completedOn: TxDxSyntax.getCompletedOn(text),
-      dueOn: TxDxSyntax.getDueOn(text),
       tags: TxDxSyntax.getTags(text),
       contexts: TxDxSyntax.getContexts(text),
       projects: TxDxSyntax.getProjects(text),
@@ -69,7 +65,6 @@ class TxDxItem {
     String? priority,
     DateTime? createdOn,
     DateTime? completedOn,
-    DateTime? dueOn,
     Iterable<String>? contexts,
     Iterable<String>? projects,
     Map<String, String>? tags,
@@ -81,14 +76,11 @@ class TxDxItem {
       priority: priority ?? this.priority,
       createdOn: createdOn ?? this.createdOn,
       completedOn: completedOn ?? this.completedOn,
-      dueOn: dueOn ?? this.dueOn,
       contexts: contexts ?? this.contexts,
       projects: projects ?? this.projects,
       tags: tags ?? this.tags,
     );
   }
-
-  bool get hasDueOn => dueOn != null;
 
   TxDxItem toggleComplete() {
     if (!completed) {
@@ -106,7 +98,6 @@ class TxDxItem {
       priority: null,
       createdOn: createdOn,
       completedOn: DateTime.now(),
-      dueOn: dueOn,
       contexts: contexts,
       projects: projects,
       tags: tags,
@@ -121,7 +112,6 @@ class TxDxItem {
       priority: null,
       createdOn: createdOn,
       completedOn: null,
-      dueOn: dueOn,
       contexts: contexts,
       projects: projects,
       tags: tags,
@@ -159,11 +149,27 @@ class TxDxItem {
       contexts.join(" "),
       projects.join(" "),
       dueOn != null ? 'due:${Jiffy(dueOn).format('yyyy-MM-dd')}' : '',
-      tags.keys.map((k) => '$k:${tags[k]}').join(' '),
+      tagsWithoutDue.keys.map((k) => '$k:${tags[k]}').join(' '),
     ].where((element) => element != '').join(' ');
   }
 
   bool hasContextOrProject(String filter) {
     return contexts.contains(filter) || projects.contains(filter);
+  }
+
+  Map<String, String> get tagsWithoutDue {
+    var result = Map<String, String>.from(tags);
+    result.removeWhere((key, value) => key == 'due');
+    return result;
+  }
+  bool get hasDueOn => tags.containsKey('due');
+  bool get dueOnParsable => dueOn != null;
+
+  DateTime? get dueOn {
+    if (tags.containsKey('due')) {
+      return DateTime.tryParse(tags['due']!);
+    }
+
+    return null;
   }
 }

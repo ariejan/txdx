@@ -1,3 +1,5 @@
+import 'package:jiffy/jiffy.dart';
+
 class TxDxSyntax {
   static RegExp contextsRegExp = RegExp(r'(?:\s+|^)@[^\s]+');
   static RegExp projectsRegExp = RegExp(r'(?:\s+|^)\+[^\s]+');
@@ -5,8 +7,9 @@ class TxDxSyntax {
   static RegExp createdOnRegExp = RegExp(r'(?:^|-\d{2}\s|\)\s)(\d{4}-\d{2}-\d{2})\s');
   static RegExp completedOnRegExp = RegExp(r'^x\s+(\d{4}-\d{2}-\d{2})\s+');
   static RegExp completedRegExp = RegExp(r'^x\s+');
-  static RegExp dueOnRegExp = RegExp(r'(?:due:)(\d{4}-\d{2}-\d{2})(?:\s+|$)', caseSensitive: false);
-  static RegExp tagsRegExp = RegExp(r'([a-z]+):([A-Za-z0-9_-]+)', caseSensitive: false);
+  static RegExp tagsRegExp = RegExp(r'([a-z]+):([\+?A-Za-z0-9_-]+)', caseSensitive: false);
+
+  static RegExp incDaysRegExp = RegExp(r'^\+(\d+)');
 
   static bool getCompleted(String text) {
     return _getMatch(completedRegExp, text) != null;
@@ -28,13 +31,44 @@ class TxDxSyntax {
     return _getDate(completedOnRegExp, text);
   }
 
-  static DateTime? getDueOn(String text) {
-    return _getDate(dueOnRegExp, text);
-  }
-
   static Map<String, String> getTags(String text) {
     final tags = _getMatchedPairs(tagsRegExp, text);
-    tags.removeWhere((key, value) => key == 'due');
+
+    // Find/replace the 'due' tag if it exists.
+    if (tags.containsKey('due')) {
+      final value = tags['due']!.toLowerCase();
+
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final tomorrow = DateTime(now.year, now.month, now.day + 1);
+      final yesterday = DateTime(now.year, now.month, now.day - 1);
+
+      DateTime? dueOn;
+
+      final matchResult = _getMatch(incDaysRegExp, value);
+
+      if (matchResult != null) {
+        dueOn = now.add(Duration(days: int.parse(matchResult)));
+      } else {
+        switch (value) {
+          case 'today':
+            dueOn = today;
+            break;
+          case 'tomorrow':
+            dueOn = tomorrow;
+            break;
+          case 'yesterday':
+            dueOn = yesterday;
+            break;
+          default:
+            dueOn = Jiffy(value).dateTime;
+        }
+      }
+
+      tags['due'] = Jiffy(dueOn).format('yyyy-MM-dd');
+    }
+
+
     return tags;
   }
 
@@ -52,7 +86,6 @@ class TxDxSyntax {
         .replaceAll(priorityRegExp, '')
         .replaceAll(contextsRegExp, '')
         .replaceAll(projectsRegExp, '')
-        .replaceAll(dueOnRegExp, '')
         .replaceAll(tagsRegExp, '')
         .replaceAll(createdOnRegExp, '')
         .trim();
@@ -85,7 +118,7 @@ class TxDxSyntax {
     for (var match in matches) {
       String pair = match.group(0).toString().trim();
       List<String> keyVal = pair.split(':');
-      results[keyVal[0]] = keyVal[1];
+      results[keyVal[0].toLowerCase()] = keyVal[1];
     }
 
     return results;

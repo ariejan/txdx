@@ -141,7 +141,7 @@ class ItemWidget extends ConsumerWidget {
                         color: Colors.orange,
                       )
                     ],
-                    for (var key in item.tags.keys) ...[
+                    for (var key in item.tagsWithoutDue.keys) ...[
                       ItemTagWidget(
                         name: key,
                         value: item.tags[key],

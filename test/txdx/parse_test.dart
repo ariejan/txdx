@@ -156,14 +156,46 @@ void main() {
       expect(item.dueOn, isNull);
     });
 
-    test('task with a due date', () {
+    test('with a simple due date', () {
       final item = TxDxItem.fromText('do something due:2022-01-18');
       expect(item.dueOn, equals(DateTime(2022, 1, 18)));
     });
 
-    test('task with a case-insensitive due date', () {
+    test('with a simple due date and capital key', () {
       final item = TxDxItem.fromText('do something DUE:2022-01-18');
       expect(item.dueOn, equals(DateTime(2022, 1, 18)));
+    });
+
+    test('complex due date: today', () {
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+
+      final item = TxDxItem.fromText('do something due:today');
+      expect(item.dueOn, equals(today));
+    });
+
+    test('complex due date: tomorrow', () {
+      final now = DateTime.now();
+      final tomorrow = DateTime(now.year, now.month, now.day + 1);
+
+      final item = TxDxItem.fromText('do something due:tomorrow');
+      expect(item.dueOn, equals(tomorrow));
+    });
+
+    test('complex due date: yesterday', () {
+      final now = DateTime.now();
+      final yesterday = DateTime(now.year, now.month, now.day - 1);
+
+      final item = TxDxItem.fromText('do something due:yesterday');
+      expect(item.dueOn, equals(yesterday));
+    });
+
+    test('complex due date: +-modifier', () {
+      final now = DateTime.now();
+      final futureDate = DateTime(now.year, now.month, now.day + 7);
+
+      final item = TxDxItem.fromText('do something due:+7');
+      expect(item.dueOn, equals(futureDate));
     });
   });
 
