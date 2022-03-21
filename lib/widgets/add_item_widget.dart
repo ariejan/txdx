@@ -34,9 +34,6 @@ class AddItemWidget extends ConsumerWidget {
                 return KeyEventResult.ignored;
               },
               child: TextField(
-                onTap: () {
-                  ref.read(editingItemIdStateProvider.state).state = null;
-                },
                 focusNode: addNewFocusNode,
                 controller: textController,
                 decoration: const InputDecoration(

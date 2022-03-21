@@ -24,6 +24,7 @@ final startEditKeySet = LogicalKeySet(
 );
 
 final toggleCompletionKeySet = LogicalKeySet(
+  LogicalKeyboardKey.meta,
   LogicalKeyboardKey.keyX
 );
 
