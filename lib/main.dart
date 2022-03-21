@@ -8,6 +8,8 @@ import 'package:txdx/screens/home_screen.dart';
 import 'package:txdx/screens/settings_screen.dart';
 import 'package:window_size/window_size.dart';
 
+import 'providers/shared_preferences_provider.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -29,9 +31,11 @@ class TxDxApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final namespace = ref.watch(namespaceProvider);
+
     return GetMaterialApp(
-      title: 'TxDx',
-      debugShowCheckedModeBanner: false,
+      title: namespace == 'release'  ? 'TxDx' : 'TxDx - Debug',
+      debugShowCheckedModeBanner: namespace != 'release',
       theme: NordTheme.light(),
       darkTheme: NordTheme.dark(),
       initialRoute: '/',

@@ -8,6 +8,13 @@ import 'menu_header_widget.dart';
 class ItemsListView extends ConsumerWidget {
   const ItemsListView({Key? key}) : super(key: key);
 
+  String _getTitle(String? filter) {
+    if (filter == null || filter == 'all') {
+      return 'Everything';
+    }
+    return filter;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Consumer(builder: (context, ref, _) {
@@ -22,7 +29,7 @@ class ItemsListView extends ConsumerWidget {
       return Column(
         children: [
           MenuHeaderWidget(
-            ref.read(itemFilter) ?? 'Everything',
+            _getTitle(ref.read(itemFilter)),
             margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
           ),
           ...groupList,
