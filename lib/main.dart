@@ -15,7 +15,7 @@ Future<void> main() async {
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('TxDx');
-    setWindowMinSize(const Size(400, 300));
+    setWindowMinSize(const Size(600, 380));
     setWindowMaxSize(Size.infinite);
   }
 
@@ -32,9 +32,14 @@ class TxDxApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final namespace = ref.watch(namespaceProvider);
+    final appTitle = namespace == 'release'  ? 'TxDx' : 'TxDx - Debug';
+
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      setWindowTitle(appTitle);
+    }
 
     return GetMaterialApp(
-      title: namespace == 'release'  ? 'TxDx' : 'TxDx - Debug',
+      title: appTitle,
       debugShowCheckedModeBanner: namespace != 'release',
       theme: NordTheme.light(),
       darkTheme: NordTheme.dark(),

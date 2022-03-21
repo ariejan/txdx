@@ -5,6 +5,7 @@ import 'package:txdx/input/browser.dart';
 import 'package:txdx/providers/file_notifier_provider.dart';
 import 'package:txdx/providers/shared_preferences_provider.dart';
 
+import '../providers/platform_info_provider.dart';
 import '../widgets/menu_header_widget.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -27,6 +28,7 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final namespace = ref.watch(namespaceProvider);
+    final appVersion = ref.watch(appVersionProvider);
 
     return Material(
       child: Column(
@@ -129,7 +131,7 @@ class SettingsScreen extends ConsumerWidget {
                   margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
                 ),
 
-                Text('TxDx 1.0.0 ($namespace)', style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text('TxDx $appVersion ($namespace)', style: const TextStyle(fontWeight: FontWeight.bold)),
                 const Text('Copyright © 2022 Ariejan de Vroom'),
                 const Text('Published under the MIT License'),
                 TextButton(

@@ -47,6 +47,7 @@ dependencies:
   intl: ^0.17.0
   lit_relative_date_time: ^1.2.0
   url_launcher: ^6.0.20
+  package_info_plus: ^1.4.0
 
 dev_dependencies:
   flutter_test:

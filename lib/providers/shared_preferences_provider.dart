@@ -7,5 +7,5 @@ final namespaceProvider = Provider<String>((ref) {
 });
 
 final sharedPreferencesProvider = FutureProvider(
-      (ref) async => SharedPreferences.getInstance(),
+  (ref) async => SharedPreferences.getInstance(),
 );
