@@ -76,6 +76,8 @@ upload:
   rules:
     - if: $CI_COMMIT_TAG
   script:
+    - echo $PACKAGE_REGISTRY_URL
+    - echo $DARWIN_AMD64_BINARY
     - |
       curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file TxDx.zip "${PACKAGE_REGISTRY_URL}/${DARWIN_AMD64_BINARY}"
 
