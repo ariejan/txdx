@@ -54,7 +54,7 @@ build_macos:
   script:
     - flutter clean
     - flutter pub get
-    - flutter build macos --relase
+    - flutter build macos --release
   after_script:
     - mkdir -p dist/
     - zip -r dist/TxDx.zip build/macos/Build/Products/Release/TxDx.app
