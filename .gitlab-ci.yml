@@ -11,6 +11,7 @@ stages:
   - lint
   - test
   - coverage
+  - build
 
 analyze:
   stage: lint
@@ -40,3 +41,24 @@ coverage:
   artifacts:
     paths:
       - coverage
+
+build_macos:
+  stage: build
+  tags: macos
+  before_script:
+    - rm -rf dist
+    - flutter channel stable
+    - flutter upgrade
+    - flutter precache
+  script:
+    - flutter clean
+    - flutter pub get
+    - flutter build macos --relase
+  after_script:
+    - mkdir -p dist/
+    - zip -r dist/TxDx.zip build/macos/Build/Products/Release/TxDx.app
+  artifacts:
+    paths: 
+      - dist
+
+
