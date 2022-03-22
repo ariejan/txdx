@@ -44,7 +44,8 @@ coverage:
 
 build_macos:
   stage: build
-  tags: macos
+  tags: 
+    - macos
   before_script:
     - rm -rf dist
     - flutter channel stable
