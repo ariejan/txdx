@@ -58,7 +58,7 @@ build_macos:
   after_script:
     - cd build/macos/Build/Products/Release
     - zip -r TxDx.zip TxDx.app
-    - mv TxDx.zip 
+    - mv TxDx.zip $CI_PROJECT_DIR
     - cd $CI_PROJECT_DIR
   artifacts:
     paths: 
