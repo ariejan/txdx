@@ -47,7 +47,7 @@ build_macos:
   tags: 
     - macos
   before_script:
-    - rm -rf dist
+    - rm -rf TxDx.zip
     - flutter channel stable
     - flutter upgrade
     - flutter precache
@@ -56,10 +56,12 @@ build_macos:
     - flutter pub get
     - flutter build macos --release
   after_script:
-    - mkdir -p dist/
-    - zip -r dist/TxDx.zip build/macos/Build/Products/Release/TxDx.app
+    - cd build/macos/Build/Products/Release
+    - zip -r TxDx.zip TxDx.app
+    - mv TxDx.zip 
+    - cd $CI_PROJECT_DIR
   artifacts:
     paths: 
-      - dist
+      - TxDx.zip
 
 
