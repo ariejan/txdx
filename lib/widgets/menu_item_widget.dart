@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/scoped_item_notifier.dart';
+import '../theme/colors.dart';
 
 class MenuItemWidget extends ConsumerWidget {
   const MenuItemWidget({
@@ -44,10 +44,10 @@ class MenuItemWidget extends ConsumerWidget {
 
     switch(Theme.of(context).brightness) {
       case Brightness.dark:
-        bgColor = NordColors.polarNight.lighter;
+        bgColor = TxDxColors.darkSelection;
         break;
       case Brightness.light:
-        bgColor = NordColors.snowStorm.darkest;
+        bgColor = TxDxColors.lightSelection;
         break;
     }
 

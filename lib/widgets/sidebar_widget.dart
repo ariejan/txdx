@@ -7,6 +7,7 @@ import 'package:txdx/providers/item_notifier_provider.dart';
 import 'package:txdx/providers/projects_provider.dart';
 
 import '../providers/file_notifier_provider.dart';
+import '../theme/colors.dart';
 import 'menu_header_widget.dart';
 import 'menu_item_widget.dart';
 
@@ -59,7 +60,7 @@ class SidebarWidget extends ConsumerWidget {
                 children: contexts.map((context) =>
                     MenuItemWidget(
                       title: context,
-                      indicatorColor: Colors.teal,
+                      indicatorColor: TxDxColors.contexts,
                       itemFilterValue: context,
                     )
                 ).toList(),
@@ -75,7 +76,7 @@ class SidebarWidget extends ConsumerWidget {
                 children: projects.map((project) =>
                   MenuItemWidget(
                     title: project,
-                    indicatorColor: Colors.orange,
+                    indicatorColor: TxDxColors.projects,
                     itemFilterValue: project,
                   )
                 ).toList(),

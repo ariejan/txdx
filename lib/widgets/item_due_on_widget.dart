@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:lit_relative_date_time/lit_relative_date_time.dart';
+
+import '../theme/colors.dart';
 
 class ItemDueOnWidget extends StatelessWidget {
 
@@ -14,11 +15,11 @@ class ItemDueOnWidget extends StatelessWidget {
     final today = DateTime(now.year, now.month, now.day);
 
     if (dueOn == today) {
-      return NordColors.aurora.green;
+      return TxDxColors.dueOnToday;
     } else if (dueOn.isBefore(today)) {
-      return NordColors.aurora.red;
+      return TxDxColors.dueOnOverdue;
     } else {
-      return NordColors.$9;
+      return TxDxColors.dueOn;
     }
   }
 

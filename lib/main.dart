@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:txdx/screens/home_screen.dart';
@@ -9,6 +8,7 @@ import 'package:txdx/screens/settings_screen.dart';
 import 'package:window_size/window_size.dart';
 
 import 'providers/shared_preferences_provider.dart';
+import 'theme/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,8 +41,8 @@ class TxDxApp extends ConsumerWidget {
     return GetMaterialApp(
       title: appTitle,
       debugShowCheckedModeBanner: namespace != 'release',
-      theme: NordTheme.light(),
-      darkTheme: NordTheme.dark(),
+      theme: TxDxTheme.light(),
+      darkTheme: TxDxTheme.dark(),
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),

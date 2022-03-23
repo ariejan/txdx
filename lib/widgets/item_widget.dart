@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/input/browser.dart';
@@ -9,6 +8,7 @@ import 'package:txdx/providers/item_notifier_provider.dart';
 import 'package:txdx/providers/selected_item_provider.dart';
 import 'package:txdx/widgets/pill_widget.dart';
 
+import '../theme/colors.dart';
 import '../txdx/txdx_item.dart';
 import 'item_due_on_widget.dart';
 import 'item_tag_widget.dart';
@@ -25,18 +25,11 @@ class ItemWidget extends ConsumerWidget {
 
   static const opacity = 0.5;
 
-  static final priorityColours = {
-    'A': NordColors.aurora.red,
-    'B': NordColors.aurora.orange,
-    'C': NordColors.aurora.yellow,
-    'D': NordColors.aurora.green,
-  };
-
   Color _getRowColor(bool isSelected, bool isEditing) {
     if (isEditing) {
       return Colors.transparent;
     } else {
-      return priorityColours[item.priority] ?? Colors.transparent;
+      return TxDxColors.forPriority(item.priority);
     }
   }
 
@@ -127,7 +120,7 @@ class ItemWidget extends ConsumerWidget {
                     )
                         : Theme.of(context).textTheme.bodyText2!.copyWith(
                       height: 1,
-                      color: NordColors.frost.darkest,
+                      color: TxDxColors.linkText,
                     ),
                   ),
                 ),
@@ -147,19 +140,20 @@ class ItemWidget extends ConsumerWidget {
                     for (var context in item.contexts) ...[
                       PillWidget(
                         context,
-                        color: Colors.teal,
+                        color: TxDxColors.contexts,
                       )
                     ],
                     for (var project in item.projects) ...[
                       PillWidget(
                         project,
-                        color: Colors.orange,
+                        color: TxDxColors.projects,
                       )
                     ],
                     for (var key in item.tagsWithoutDue.keys) ...[
                       ItemTagWidget(
                         name: key,
                         value: item.tags[key],
+                        color: TxDxColors.tags,
                       )
                     ],
                   ]
@@ -194,14 +188,7 @@ class ItemWidget extends ConsumerWidget {
     var bgColor = Colors.transparent;
 
     if (isSelected) {
-      switch(Theme.of(context).brightness) {
-        case Brightness.dark:
-          bgColor = NordColors.polarNight.lighter;
-          break;
-        case Brightness.light:
-          bgColor = NordColors.snowStorm.darkest;
-          break;
-      }
+      bgColor = Theme.of(context).hoverColor;
     }
 
     return Padding(
