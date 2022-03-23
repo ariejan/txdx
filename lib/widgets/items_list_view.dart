@@ -21,9 +21,18 @@ class ItemsListView extends ConsumerWidget {
       final items = ref.watch(groupedItems);
       final groupList = <Widget>[];
 
-      for (var groupName in items.keys) {
-        final groupItems = items[groupName] ?? [];
-        groupList.add(ItemGroupWidget(groupName, groupItems));
+      if (items.isEmpty) {
+        groupList.add(const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Center(
+            child: Text('Nothing to see here ¯\\_(ツ)_/¯')
+          ),
+        ));
+      } else {
+        for (var groupName in items.keys) {
+          final groupItems = items[groupName] ?? [];
+          groupList.add(ItemGroupWidget(groupName, groupItems));
+        }
       }
 
       return Column(
