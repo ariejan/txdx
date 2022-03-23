@@ -13,7 +13,7 @@ class AddItemWidget extends ConsumerWidget {
     final newItemId = ref.read(itemsNotifierProvider.notifier).createItem(value);
     textController.text = '';
     ref.read(selectedItemIdStateProvider.state).state = newItemId;
-    shortcutsFocusNode.requestFocus();
+    addNewFocusNode.requestFocus();
   }
 
   final textController = TextEditingController();
