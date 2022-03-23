@@ -25,6 +25,9 @@ abstract class TxDxColors {
   static final Color prioD = NordColors.aurora.green;
   static const Color prioDefault = NordColors.$9;
 
+  static const Color checkbox = NordColors.$3;
+  static final Color checkboxHover = NordColors.frost.darkest;
+
   static final Color dueOnToday = NordColors.aurora.green;
   static final Color dueOnOverdue = NordColors.aurora.red;
   static final Color dueOn = NordColors.frost.darker;

@@ -179,9 +179,9 @@ class ItemWidget extends ConsumerWidget {
         MaterialState.focused,
       };
       if (states.any(interactiveStates.contains)) {
-        return Theme.of(context).hoverColor;
+        return TxDxColors.checkboxHover;
       }
-      return Theme.of(context).primaryColor;
+      return TxDxColors.checkbox;
     }
 
     var statusColor = _getRowColor(isSelected, isEditing);
@@ -209,6 +209,7 @@ class ItemWidget extends ConsumerWidget {
                   shape: const CircleBorder(),
                   fillColor: MaterialStateProperty.resolveWith(getColor),
                   tristate: false,
+                  splashRadius: 0,
                   value: item.completed,
                   onChanged: (bool? value) {
                     ref.read(editingItemIdStateProvider.state).state = null;
