@@ -47,3 +47,5 @@ app.*.map.json
 
 # Generated project files
 test/examples/write-test.txt
+
+*.snap

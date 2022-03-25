@@ -1,0 +1,24 @@
+name: txdx
+version: 1.0.3+4
+summary: Todo.txt for your desktop
+description: Are you using Todo.txt? But do you want a good looking desktop app? TxDx's got you covered!
+confinement: strict
+base: core18
+grade: stable
+architectures:
+  - build-on: amd64
+
+apps:
+  txdx:
+    command: txdx
+    extensions: [flutter-stable] 
+    plugs:
+      - network
+      - home
+
+parts:
+  txdx:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart
+
