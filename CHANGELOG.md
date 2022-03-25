@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Detect file changes in todo.txt and offer to reload
+- Added setting to auto reload when todo.txt changes
 
 ## [1.0.1] - 2022-03-23
 ### Changed

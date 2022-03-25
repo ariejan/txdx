@@ -5,6 +5,7 @@ import 'package:txdx/input/browser.dart';
 import 'package:txdx/providers/file_notifier_provider.dart';
 import 'package:txdx/providers/shared_preferences_provider.dart';
 
+import '../providers/file_change_provider.dart';
 import '../providers/platform_info_provider.dart';
 import '../widgets/menu_header_widget.dart';
 
@@ -122,7 +123,30 @@ class SettingsScreen extends ConsumerWidget {
                             ),
                           )
                         ]
-                    )
+                    ),
+
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('Auto-reload Todo.txt changes from disk'),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Switch(
+                                  value: ref.watch(fileAutoReloadNotifierProvider),
+                                  onChanged: (value) {
+                                    ref.read(fileAutoReloadNotifierProvider.notifier).setAutoReload(value);
+                                  }
+                              ),
+                            ]
+                          )
+                        )
+                      ]
+                    ),
                   ]
                 ),
 

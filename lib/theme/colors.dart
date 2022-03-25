@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 
 abstract class TxDxColors {
-
   static Color forPriority(String? prio) {
     switch (prio) {
       case 'A': return prioA;
@@ -37,4 +36,6 @@ abstract class TxDxColors {
   static final Color projects = NordColors.aurora.green;
   static final Color contexts = NordColors.aurora.orange;
   static final Color tags = NordColors.frost.darkest;
+
+  static final Color banner = NordColors.frost.darker.withOpacity(0.4);
 }

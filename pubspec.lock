@@ -511,6 +511,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  watcher:
+    dependency: "direct main"
+    description:
+      name: watcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   win32:
     dependency: transitive
     description:

@@ -25,36 +25,40 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     archiveFilename = await ref.watch(archiveTxtFilenameProvider.future);
 
     if (todoFilename != null && todoFilename != '') {
-      TxDxFile.openFromFile(todoFilename!).then((theItems) {
-        state = theItems;
-      }).catchError((e) {
-        state = [];
-        Get.dialog(
-            AlertDialog(
-              title: const Text("Cannot open your TODO.txt file!"),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    const Text('Oh noes! It seems we cannot open that file for you.'),
-                    Text('$todoFilename'),
-                    const Text('Please select a file from settings.')
-                  ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: const Text('Okay'),
-                  onPressed: () {
-                    Get.back();
-                  },
-                )
-              ],
-            ),
-        barrierDismissible: false);
-      });
+      loadItemsFromDisk();
     } else {
       state = [];
     }
+  }
+
+  void loadItemsFromDisk() {
+    TxDxFile.openFromFile(todoFilename!).then((theItems) {
+      state = theItems;
+    }).catchError((e) {
+      state = [];
+      Get.dialog(
+          AlertDialog(
+            title: const Text("Cannot open your TODO.txt file!"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  const Text('Oh noes! It seems we cannot open that file for you.'),
+                  Text('$todoFilename'),
+                  const Text('Please select a file from settings.')
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Okay'),
+                onPressed: () {
+                  Get.back();
+                },
+              )
+            ],
+          ),
+          barrierDismissible: false);
+    });
   }
 
   List<TxDxItem> getItems() {
