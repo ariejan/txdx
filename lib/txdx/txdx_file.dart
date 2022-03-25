@@ -46,7 +46,6 @@ class TxDxFile {
     }
 
     for (final fileItem in fileItems) {
-      // FIXME: Check equality based on String version to avoid IDs
       if (!items.contains(fileItem)) {
         return false;
       }

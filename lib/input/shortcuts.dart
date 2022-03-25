@@ -19,6 +19,16 @@ final upKeySet = LogicalKeySet(
   LogicalKeyboardKey.arrowUp
 );
 
+final prioDownKeySet = LogicalKeySet(
+  LogicalKeyboardKey.meta,
+  LogicalKeyboardKey.arrowDown
+);
+
+final prioUpKeySet = LogicalKeySet(
+  LogicalKeyboardKey.meta,
+  LogicalKeyboardKey.arrowUp
+);
+
 final startEditKeySet = LogicalKeySet(
   LogicalKeyboardKey.enter
 );
@@ -37,6 +47,8 @@ class CancelEditingIntent extends Intent {}
 class AddNewIntent extends Intent {}
 class DownIntent extends Intent {}
 class UpIntent extends Intent {}
+class PrioDownIntent extends Intent {}
+class PrioUpIntent extends Intent {}
 class StartEditIntent extends Intent {}
 class ToggleCompletionIntent extends Intent {}
 class DeleteItemIntent extends Intent {}
@@ -48,6 +60,8 @@ class AppShortcuts extends StatelessWidget {
     required this.onAddNew,
     required this.onDown,
     required this.onUp,
+    required this.onPrioDown,
+    required this.onPrioUp,
     required this.onStartEdit,
     required this.onToggle,
     required this.onDelete,
@@ -59,6 +73,8 @@ class AppShortcuts extends StatelessWidget {
   final VoidCallback onAddNew;
   final VoidCallback onDown;
   final VoidCallback onUp;
+  final VoidCallback onPrioDown;
+  final VoidCallback onPrioUp;
   final VoidCallback onStartEdit;
   final VoidCallback onToggle;
   final VoidCallback onDelete;
@@ -73,6 +89,8 @@ class AppShortcuts extends StatelessWidget {
         addNewKeySet: AddNewIntent(),
         downKeySet: DownIntent(),
         upKeySet: UpIntent(),
+        prioDownKeySet: PrioDownIntent(),
+        prioUpKeySet: PrioUpIntent(),
         startEditKeySet: StartEditIntent(),
         toggleCompletionKeySet: ToggleCompletionIntent(),
         deleteKeySet: DeleteItemIntent(),
@@ -86,6 +104,10 @@ class AppShortcuts extends StatelessWidget {
             CallbackAction(onInvoke: (e) => onDown.call()),
         UpIntent:
             CallbackAction(onInvoke: (e) => onUp.call()),
+        PrioDownIntent:
+            CallbackAction(onInvoke: (e) => onPrioDown.call()),
+        PrioUpIntent:
+            CallbackAction(onInvoke: (e) => onPrioUp.call()),
         StartEditIntent:
             CallbackAction(onInvoke: (e) => onStartEdit.call()),
         ToggleCompletionIntent:
