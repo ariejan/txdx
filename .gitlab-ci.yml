@@ -1,5 +1,5 @@
 default:
-  image: cirrusci/flutter:2.8.1
+  image: cirrusci/flutter:stable
   cache:
     key:
       files:
