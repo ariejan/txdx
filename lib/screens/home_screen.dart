@@ -51,6 +51,18 @@ class HomeScreen extends ConsumerWidget {
           ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
         }
       },
+      onPrioDown: () {
+        final current = ref.read(selectedItemIdStateProvider);
+        if (current == null) return;
+
+        ref.read(itemsNotifierProvider.notifier).prioDown(current);
+      },
+      onPrioUp: () {
+        final current = ref.read(selectedItemIdStateProvider);
+        if (current == null) return;
+
+        ref.read(itemsNotifierProvider.notifier).prioUp(current);
+      },
       onStartEdit: () {
         final current = ref.read(selectedItemIdStateProvider);
         if (current == null) return;

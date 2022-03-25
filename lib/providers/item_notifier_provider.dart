@@ -119,6 +119,27 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     }
   }
 
+  Future<void> prioDown(String id) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.prioDown()]);
+      _setState(items);
+    }
+  }
+
+  Future<void> prioUp(String id) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.prioUp()]);
+      _setState(items);
+    }
+  }
+
+
   Future<void> toggleComplete(String id) async {
     final items = getItems().toList();
     final itemIdx = items.indexWhere((item) => item.id == id);

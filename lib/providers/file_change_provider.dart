@@ -41,8 +41,7 @@ final fileWasChanged = StateProvider.autoDispose<bool>((ref) {
 
   return asyncHasChanged.when(
       data: (hasChanged) {
-        if (autoReload) {
-          // Auto reload
+        if (hasChanged && autoReload) {
           ref.read(itemsNotifierProvider.notifier).loadItemsFromDisk();
           return false;
         } else {

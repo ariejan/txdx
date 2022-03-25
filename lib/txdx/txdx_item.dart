@@ -1,4 +1,5 @@
 import 'package:jiffy/jiffy.dart';
+import 'package:quiver/core.dart';
 import 'package:uuid/uuid.dart';
 
 import 'txdx_syntax.dart';
@@ -6,6 +7,8 @@ import 'txdx_syntax.dart';
 const _uuid = Uuid();
 
 class TxDxItem {
+
+  static const priorities = ['A', 'B', 'C', 'D', null];
 
   final String id;
   final bool completed;
@@ -62,7 +65,7 @@ class TxDxItem {
   TxDxItem copyWith({
     bool? completed,
     String? description,
-    String? priority,
+    Optional<String>? priority,
     DateTime? createdOn,
     DateTime? completedOn,
     Iterable<String>? contexts,
@@ -73,7 +76,7 @@ class TxDxItem {
       id: id,
       completed: completed ?? this.completed,
       description: description ?? this.description,
-      priority: priority ?? this.priority,
+      priority: priority != null ? priority.orNull : this.priority,
       createdOn: createdOn ?? this.createdOn,
       completedOn: completedOn ?? this.completedOn,
       contexts: contexts ?? this.contexts,
@@ -88,6 +91,22 @@ class TxDxItem {
     } else {
       return _markNotCompleted();
     }
+  }
+
+  TxDxItem prioDown() {
+    final pIdx = priorities.indexOf(priority);
+    final newIdx = (pIdx + 1) % priorities.length;
+    return copyWith(
+      priority: Optional.fromNullable(priorities[newIdx]),
+    );
+  }
+
+  TxDxItem prioUp() {
+    final pIdx = priorities.indexOf(priority);
+    final newIdx = (pIdx - 1) % priorities.length;
+    return copyWith(
+      priority: Optional.fromNullable(priorities[newIdx]),
+    );
   }
 
   TxDxItem _markCompleted() {
