@@ -50,7 +50,7 @@ class SidebarWidget extends ConsumerWidget {
                 title: 'Overdue',
                 itemFilterValue: "due:overdue",
               ),
-              const MenuHeaderWidget(
+              if (contexts.isNotEmpty) const MenuHeaderWidget(
                 'Contexts',
                 fontSize: 11,
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -66,7 +66,7 @@ class SidebarWidget extends ConsumerWidget {
                 ).toList(),
               ),
 
-              const MenuHeaderWidget(
+              if (projects.isNotEmpty) const MenuHeaderWidget(
                 'Projects',
                 fontSize: 11,
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
