@@ -172,4 +172,17 @@ class TxDxItem {
 
     return null;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is TxDxItem) {
+      return toString() == other.toString();
+    }
+
+    return false;
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
 }

@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/scoped_item_notifier.dart';
 import 'package:txdx/widgets/item_group_widget.dart';
 
+import '../providers/file_change_provider.dart';
+import 'file_changed_widget.dart';
 import 'menu_header_widget.dart';
 
 class ItemsListView extends ConsumerWidget {
@@ -17,6 +19,8 @@ class ItemsListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final hasFileChanges = ref.watch(fileWasChanged);
+
     return Consumer(builder: (context, ref, _) {
       final items = ref.watch(groupedItems);
       final groupList = <Widget>[];
@@ -41,6 +45,7 @@ class ItemsListView extends ConsumerWidget {
             _getTitle(ref.read(itemFilter)),
             margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
           ),
+          if (hasFileChanges) const FileChangedWidget(),
           ...groupList,
         ],
       );

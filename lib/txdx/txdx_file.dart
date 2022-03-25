@@ -37,4 +37,21 @@ class TxDxFile {
     return File(filename);
   }
 
+  // Returns true if data in the file and the provided list are the same
+  static Future<bool> compareFileToDataEquality(String filename, List<TxDxItem> items) async {
+    final fileItems = await openFromFile(filename);
+
+    if (fileItems.length != items.length) {
+      return false;
+    }
+
+    for (final fileItem in fileItems) {
+      // FIXME: Check equality based on String version to avoid IDs
+      if (!items.contains(fileItem)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
