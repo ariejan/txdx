@@ -4,7 +4,7 @@ import 'package:txdx/providers/settings_provider.dart';
 import 'package:watcher/watcher.dart';
 import 'package:path/path.dart' as p;
 
-import '../constants.dart';
+import '../settings.dart';
 import '../txdx/txdx_file.dart';
 
 class FileChangeEvent {
@@ -37,7 +37,7 @@ final fileHasChangedProvider = FutureProvider.autoDispose<bool>((ref) async {
 
 final fileWasChanged = StateProvider.autoDispose<bool>((ref) {
   final asyncHasChanged = ref.watch(fileHasChangedProvider);
-  final autoReload = ref.watch(settingsProvider).getBoolOrDefault(settingsFileAutoReload, false);
+  final autoReload = ref.watch(settingsProvider).getBool(settingsFileAutoReload);
 
   return asyncHasChanged.when(
       data: (hasChanged) {

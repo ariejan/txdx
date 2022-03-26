@@ -7,7 +7,7 @@ import 'package:txdx/providers/settings_provider.dart';
 import 'package:txdx/txdx/txdx_file.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
-import '../constants.dart';
+import '../settings.dart';
 
 final itemsNotifierProvider =
   StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) => ItemNotifier(ref));

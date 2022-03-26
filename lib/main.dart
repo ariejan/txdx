@@ -8,6 +8,7 @@ import 'package:txdx/screens/settings_screen.dart';
 import 'package:window_size/window_size.dart';
 
 import 'providers/settings_provider.dart';
+import 'settings.dart';
 import 'theme/theme.dart';
 
 Future<void> main() async {
@@ -45,11 +46,17 @@ class TxDxApp extends ConsumerWidget {
       setWindowTitle(appTitle);
     }
 
+    final useSystemTheme = ref.watch(settingsProvider).getBool(settingsThemeUseSystem);
+    final useDarkTheme = ref.watch(settingsProvider).getBool(settingsThemeUseDark);
+
+    final themeMode = useSystemTheme ? ThemeMode.system : (useDarkTheme ? ThemeMode.dark : ThemeMode.light);
+
     return GetMaterialApp(
       title: appTitle,
       debugShowCheckedModeBanner: namespace != 'release',
       theme: TxDxTheme.light(),
       darkTheme: TxDxTheme.dark(),
+      themeMode: themeMode,
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),
