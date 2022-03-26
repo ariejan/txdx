@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/input/browser.dart';
 
-import '../constants.dart';
+import '../settings.dart';
 import '../providers/platform_info_provider.dart';
 import '../providers/settings_provider.dart';
 import '../widgets/menu_header_widget.dart';
@@ -29,6 +29,8 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final namespace = ref.watch(namespaceProvider);
     final appVersion = ref.watch(appVersionProvider);
+
+    final usingSystemTheme = ref.watch(settingsProvider).getBool(settingsThemeUseSystem);
 
     return Material(
       child: Column(
@@ -128,15 +130,61 @@ class SettingsScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Switch(
-                                  value: ref.watch(settingsProvider).getBoolOrDefault(settingsFileAutoReload, false),
+                                  value: ref.watch(settingsProvider).getBool(settingsFileAutoReload),
                                   onChanged: (value) {
-                                    ref.read(settingsProvider).setBool(settingsFileAutoReload, value);
+                                    ref.watch(settingsProvider).setBool(settingsFileAutoReload, value);
                                   }
                               ),
                             ]
                           )
                         )
                       ]
+                    ),
+
+                    TableRow(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Use system theme brightness'),
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Switch(
+                                        value: ref.watch(settingsProvider).getBool(settingsThemeUseSystem),
+                                        onChanged: (value) {
+                                          ref.read(settingsProvider).setBool(settingsThemeUseSystem, value);
+                                        }
+                                    ),
+                                  ]
+                              )
+                          )
+                        ]
+                    ),
+
+                    TableRow(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Use system dark theme'),
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Switch(
+                                        value: ref.watch(settingsProvider).getBool(settingsThemeUseDark),
+                                        onChanged: !usingSystemTheme ? (value) {
+                                          ref.read(settingsProvider).setBool(settingsThemeUseDark, value);
+                                        } : null,
+                                    ),
+                                  ]
+                              )
+                          )
+                        ]
                     ),
                   ]
                 ),
