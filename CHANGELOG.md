@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+- Add settings for system/light/dark theme mode [#38]
 
 ## [1.0.2] - 2022-03-25
 ### Added
