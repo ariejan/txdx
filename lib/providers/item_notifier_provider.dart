@@ -170,4 +170,14 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
       TxDxFile.saveToFile(todoFilename!, value);
     }
   }
+
+  Future<void> moveToToday(String id) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.moveToToday()]);
+      _setState(items);
+    }
+  }
 }

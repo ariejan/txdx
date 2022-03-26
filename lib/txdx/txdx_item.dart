@@ -204,4 +204,9 @@ class TxDxItem {
   @override
   int get hashCode => toString().hashCode;
 
+  TxDxItem moveToToday() {
+    var newTags = Map<String, String>.from(tags);
+    newTags['due'] = Jiffy().format('yyyy-MM-dd');
+    return copyWith(tags: newTags);
+  }
 }

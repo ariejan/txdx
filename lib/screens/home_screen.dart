@@ -75,6 +75,12 @@ class HomeScreen extends ConsumerWidget {
 
         ref.read(itemsNotifierProvider.notifier).toggleComplete(current);
       },
+      onMoveToToday: () {
+        final current = ref.read(selectedItemIdStateProvider);
+        if (current == null) return;
+
+        ref.read(itemsNotifierProvider.notifier).moveToToday(current);
+      },
       onDelete: () {
         final current = ref.read(selectedItemIdStateProvider);
         if (current == null) return;
