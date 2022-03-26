@@ -1,7 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [1.0.3] - 2022-03-26
+### Added
 - Add settings for system/light/dark theme mode [#38]
 - Add cmd-t shortcut to move the selected item to 'due:today' [#41]
 
