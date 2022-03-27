@@ -1,0 +1,52 @@
+name: txdx
+version: 1.0.4+7
+summary: Todo.txt for your desktop
+description: Are you using Todo.txt? But do you want a good looking desktop app? TxDx's got you covered!
+confinement: strict
+base: core18
+grade: stable
+architectures:
+  - build-on: amd64
+
+plugs:
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/share/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/share/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/share/sounds
+    default-provider: gtk-common-themes
+
+apps:
+  txdx:
+    command: txdx
+    extensions: [flutter-stable] 
+    plugs:
+      - desktop
+      - desktop-legacy
+      - removable-media
+      - network
+      - home
+      - gsettings
+      - wayland
+      - x11
+      - storage-framework-service
+
+parts:
+  zenity:
+    plugin: nil
+    stage-packages:
+      - zenity
+
+  txdx:
+    after:
+      - zenity
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart
+
