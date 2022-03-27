@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.4] - 2022-03-27
+### Fixed
+- Fixed correct scrolling behavior for sidebar and item list [#32]
+
 ## [1.0.3] - 2022-03-26
 ### Added
 - Add settings for system/light/dark theme mode [#38]
