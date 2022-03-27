@@ -15,6 +15,14 @@ import '../providers/selected_item_provider.dart';
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  void _jumpTo(int index) {
+    ItemsListView.controller.scrollTo(
+      index: index,
+      duration: const Duration(microseconds: 250),
+      alignment: 0.33,
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppShortcuts(
@@ -34,9 +42,11 @@ class HomeScreen extends ConsumerWidget {
         final current = ref.read(selectedItemIdStateProvider);
         if (current == null) {
           ref.read(selectedItemIdStateProvider.state).state = items.first.id;
+          _jumpTo(0);
         } else {
           final idx = (items.indexWhere((item) => item.id == current) + 1) % items.length;
           ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
+          _jumpTo(idx);
         }
       },
       onUp: () {
@@ -46,9 +56,11 @@ class HomeScreen extends ConsumerWidget {
         final current = ref.read(selectedItemIdStateProvider);
         if (current == null) {
           ref.read(selectedItemIdStateProvider.state).state = items.last.id;
+          _jumpTo(items.length - 1);
         } else {
           final idx = (items.indexWhere((item) => item.id == current) - 1) % items.length;
           ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
+          _jumpTo(idx);
         }
       },
       onPrioDown: () {
@@ -106,9 +118,7 @@ class HomeScreen extends ConsumerWidget {
               children: [
                 const Expanded(
                   flex: 2,
-                  child: SingleChildScrollView(
-                    child: ItemsListView(),
-                  ),
+                  child: ItemsListView(),
                 ),
                 SizedBox(
                   child: AddItemWidget(),
