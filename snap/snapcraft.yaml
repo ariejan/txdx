@@ -1,5 +1,5 @@
 name: txdx
-version: 1.0.3+4
+version: 1.0.4+7
 summary: Todo.txt for your desktop
 description: Are you using Todo.txt? But do you want a good looking desktop app? TxDx's got you covered!
 confinement: strict
@@ -7,13 +7,6 @@ base: core18
 grade: stable
 architectures:
   - build-on: amd64
-
-
-slots:
-  dbus-txdx: # adjust accordingly to your app name
-    interface: dbus
-    bus: session
-    name: io.devroom.txdx
 
 plugs:
   gtk-3-themes:
@@ -33,8 +26,6 @@ apps:
   txdx:
     command: txdx
     extensions: [flutter-stable] 
-    slots:
-      - dbus-txdx
     plugs:
       - desktop
       - desktop-legacy
