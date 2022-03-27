@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:txdx/providers/settings_provider.dart';
 import 'package:txdx/txdx/txdx_file.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
-import 'file_notifier_provider.dart';
+import '../settings.dart';
 
 final itemsNotifierProvider =
   StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) => ItemNotifier(ref));
@@ -21,8 +22,8 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
   late final String? archiveFilename;
 
   Future<void> _initialize() async {
-    todoFilename = await ref.watch(todoTxtFilenameProvider.future);
-    archiveFilename = await ref.watch(archiveTxtFilenameProvider.future);
+    todoFilename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
+    archiveFilename = ref.watch(settingsProvider).getString(settingsFileArchiveTxt);
 
     if (todoFilename != null && todoFilename != '') {
       loadItemsFromDisk();
@@ -167,6 +168,16 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
 
     if (todoFilename != null && todoFilename != '') {
       TxDxFile.saveToFile(todoFilename!, value);
+    }
+  }
+
+  Future<void> moveToToday(String id) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.moveToToday()]);
+      _setState(items);
     }
   }
 }

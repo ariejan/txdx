@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/providers/file_notifier_provider.dart';
 import 'package:txdx/providers/item_notifier_provider.dart';
+import 'package:txdx/providers/settings_provider.dart';
 import 'package:watcher/watcher.dart';
 import 'package:path/path.dart' as p;
 
+import '../settings.dart';
 import '../txdx/txdx_file.dart';
-import 'shared_preferences_provider.dart';
 
 class FileChangeEvent {
   final WatchEvent watchEvent;
@@ -15,7 +15,7 @@ class FileChangeEvent {
 }
 
 final fileWatcherProvider = StreamProvider.autoDispose<FileChangeEvent>((ref) async* {
-  final filename = await ref.watch(todoTxtFilenameProvider.future);
+  final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
 
   if (filename != null) {
     var watcher = FileWatcher(p.absolute(filename));
@@ -37,7 +37,7 @@ final fileHasChangedProvider = FutureProvider.autoDispose<bool>((ref) async {
 
 final fileWasChanged = StateProvider.autoDispose<bool>((ref) {
   final asyncHasChanged = ref.watch(fileHasChangedProvider);
-  final autoReload = ref.watch(fileAutoReloadNotifierProvider);
+  final autoReload = ref.watch(settingsProvider).getBool(settingsFileAutoReload);
 
   return asyncHasChanged.when(
       data: (hasChanged) {
@@ -52,32 +52,3 @@ final fileWasChanged = StateProvider.autoDispose<bool>((ref) {
       loading: () => false,
   );
 });
-
-final fileAutoReloadNotifierProvider = StateNotifierProvider<FileAutoReloadNotifier, bool>((ref) {
-  final namespace = ref.watch(namespaceProvider);
-  return FileAutoReloadNotifier('${namespace}_file_autoreload', ref.read);
-});
-
-class FileAutoReloadNotifier extends StateNotifier<bool> {
-  FileAutoReloadNotifier(
-      this.settingsKey,
-      this.read
-      ) : super(false) {
-    // Can't await _initialize method.
-    _initialize();
-  }
-
-  final Reader read;
-  final String settingsKey;
-
-  Future<void> _initialize() async {
-    final prefs = await read(sharedPreferencesProvider.future);
-    state = prefs.getBool(settingsKey) ?? false;
-  }
-
-  Future<void> setAutoReload(bool autoReload) async {
-    state = autoReload;
-    final prefs = await read(sharedPreferencesProvider.future);
-    await prefs.setBool(settingsKey, autoReload);
-  }
-}

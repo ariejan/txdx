@@ -38,6 +38,11 @@ final toggleCompletionKeySet = LogicalKeySet(
   LogicalKeyboardKey.keyX
 );
 
+final moveToTodayKeySet = LogicalKeySet(
+  LogicalKeyboardKey.meta,
+  LogicalKeyboardKey.keyT,
+);
+
 final deleteKeySet = LogicalKeySet(
   LogicalKeyboardKey.meta,
   LogicalKeyboardKey.keyD
@@ -51,6 +56,7 @@ class PrioDownIntent extends Intent {}
 class PrioUpIntent extends Intent {}
 class StartEditIntent extends Intent {}
 class ToggleCompletionIntent extends Intent {}
+class MoveToTodayIntent extends Intent {}
 class DeleteItemIntent extends Intent {}
 
 class AppShortcuts extends StatelessWidget {
@@ -64,6 +70,7 @@ class AppShortcuts extends StatelessWidget {
     required this.onPrioUp,
     required this.onStartEdit,
     required this.onToggle,
+    required this.onMoveToToday,
     required this.onDelete,
     required this.child
   }) : super(key: key);
@@ -77,6 +84,7 @@ class AppShortcuts extends StatelessWidget {
   final VoidCallback onPrioUp;
   final VoidCallback onStartEdit;
   final VoidCallback onToggle;
+  final VoidCallback onMoveToToday;
   final VoidCallback onDelete;
 
   @override
@@ -93,6 +101,7 @@ class AppShortcuts extends StatelessWidget {
         prioUpKeySet: PrioUpIntent(),
         startEditKeySet: StartEditIntent(),
         toggleCompletionKeySet: ToggleCompletionIntent(),
+        moveToTodayKeySet: MoveToTodayIntent(),
         deleteKeySet: DeleteItemIntent(),
       },
       actions: {
@@ -112,6 +121,8 @@ class AppShortcuts extends StatelessWidget {
             CallbackAction(onInvoke: (e) => onStartEdit.call()),
         ToggleCompletionIntent:
             CallbackAction(onInvoke: (e) => onToggle.call()),
+        MoveToTodayIntent:
+            CallbackAction(onInvoke: (e) => onMoveToToday.call()),
         DeleteItemIntent:
             CallbackAction(onInvoke: (e) => onDelete.call()),
       },
