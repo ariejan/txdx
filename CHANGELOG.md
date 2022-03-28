@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.5] - 2022-03-28
+### Fixed
+- Misc. improvements and fixes
+
 ## [1.0.4] - 2022-03-27
 ### Fixed
 - Fixed correct scrolling behavior for sidebar and item list [#32]
