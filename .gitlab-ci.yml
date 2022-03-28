@@ -51,8 +51,8 @@ coverage:
 
 build_snap:
   stage: build
-  # tags:
-  #   - ubuntu
+  tags:
+    - ubuntu
   before_script:
     - rm -rf *.snap
     - flutter channel stable
