@@ -63,7 +63,7 @@ build_snap:
     - flutter build linux --release
   artifacts:
     paths:
-      - *.snap
+      - "*.snap"
 
 build_macos:
   stage: build
