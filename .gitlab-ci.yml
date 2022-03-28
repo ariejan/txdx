@@ -51,8 +51,8 @@ coverage:
 
 build_snap:
   stage: build
-  # rules:
-  #   - if: $CI_COMMIT_TAG
+  rules:
+    - if: $CI_COMMIT_TAG
   tags:
     - ubuntu
   before_script:
