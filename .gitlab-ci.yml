@@ -58,7 +58,7 @@ build_snap:
     - flutter upgrade
     - flutter precache
     - flutter clean
-    - snap clean
+    - snapcraft clean
   script:
     - snapcraft
   artifacts:
