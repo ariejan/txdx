@@ -51,8 +51,8 @@ coverage:
 
 build_snap:
   stage: build
-  tags:
-    - ubuntu
+  # tags:
+  #   - ubuntu
   before_script:
     - rm -rf *.snap
     - flutter channel stable
@@ -63,10 +63,10 @@ build_snap:
   script:
     - snapcraft --use-lxd
   after_script:
-    - find . -name 'txdx*_amd64.snap' -exec bash -c 'mv $0 $SNAP_AMD64_BINARY' {} \;
+   - find . -name 'txdx*amd64.snap' -exec bash -c 'mv $0 $SNAP_AMD64_BINARY' {} \;
   artifacts:
     paths:
-      - "$SNAP_AMD64_BINARY.snap"
+      - "$SNAP_AMD64_BINARY"
 
 build_macos:
   stage: build

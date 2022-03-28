@@ -1,10 +1,10 @@
 name: txdx
-version: 1.0.4+7
 summary: Todo.txt for your desktop
 description: Are you using Todo.txt? But do you want a good looking desktop app? TxDx's got you covered!
 confinement: strict
 base: core18
 grade: stable
+adopt-info: ci-version
 architectures:
   - build-on: amd64
 
@@ -37,6 +37,12 @@ apps:
       - x11
 
 parts:
+  ci-version:
+    plugin: nil
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version "$CI_COMMIT_TAG"
+
   zenity:
     plugin: nil
     stage-packages:
