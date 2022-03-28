@@ -35,7 +35,6 @@ apps:
       - gsettings
       - wayland
       - x11
-      - storage-framework-service
 
 parts:
   zenity:
