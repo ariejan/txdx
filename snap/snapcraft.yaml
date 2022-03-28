@@ -41,7 +41,8 @@ parts:
     plugin: nil
     override-pull: |
       snapcraftctl pull
-      snapcraftctl set-version "$CI_COMMIT_TAG"
+      export SNAP_VERSION=`cat pubspec.yaml | grep ^version | cut -d':' -f 2 | xargs`
+      snapcraftctl set-version "$SNAP_VERSION"
 
   zenity:
     plugin: nil
