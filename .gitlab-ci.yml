@@ -60,7 +60,7 @@ build_snap:
     - flutter clean
     - snapcraft clean
   script:
-    - snapcraft
+    - snapcraft --use-lxd
   artifacts:
     paths:
       - "*.snap"
