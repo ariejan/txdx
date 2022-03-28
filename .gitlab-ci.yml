@@ -58,7 +58,7 @@ build_snap:
     - flutter upgrade
     - flutter precache
     - flutter clean
-    - snapcraft clean
+    - snapcraft clean --use-lxd
   script:
     - snapcraft --use-lxd
   artifacts:
