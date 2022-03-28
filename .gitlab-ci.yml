@@ -48,6 +48,23 @@ coverage:
     paths:
       - coverage
 
+build_snap:
+  stage: build
+  tags:
+    - ubuntu
+  before_script:
+    - rm -rf *.snap
+    - flutter channel stable
+    - flutter upgrade
+    - flutter precache
+  script:
+    - flutter clean
+    - flutter pub get
+    - flutter build linux --release
+  artifacts:
+    paths:
+      - *.snap
+
 build_macos:
   stage: build
   rules:
