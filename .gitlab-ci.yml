@@ -57,10 +57,10 @@ build_snap:
     - flutter channel stable
     - flutter upgrade
     - flutter precache
-  script:
     - flutter clean
-    - flutter pub get
-    - flutter build linux --release
+    - snap clean
+  script:
+    - snapcraft
   artifacts:
     paths:
       - "*.snap"
