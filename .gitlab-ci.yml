@@ -66,7 +66,7 @@ build_msix:
     - mv build\windows\runner\Release\txdx.msix %MSIX_X86_BINARY%
   artifacts:
     paths:
-      - "$MSIX_X86_BINARY"
+      - "%MSIX_X86_BINARY%"
 
 build_snap:
   stage: build
