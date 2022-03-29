@@ -117,9 +117,7 @@ upload:
     - ls -lah build/windows/runner/Release
     - echo $CI_PROJECT_DIR
     - ls -lah "${CI_PROJECT_DIR}"/build/windows/runner/Release
-    - cp "${CI_PROJECT_DIR}"/build/windows/runner/Release/txdx.msix .
-    - mv "${CI_PROJECT_DIR}"/build/windows/runner/Release/txdx.msix "${MSIX_X86_BINARY}"
-      # - mv build/windows/runner/Release/txdx.msix "$MSIX_X86_BINARY"
+    - cp "${CI_PROJECT_DIR}"/build/windows/runner/Release/txdx.msix "#{MSIX_X64_BINARY}"
     - ls -lah
     - sha256sum $DARWIN_AMD64_BINARY > SHA256SUMS
     - sha256sum $SNAP_AMD64_BINARY >> SHA256SUMS
