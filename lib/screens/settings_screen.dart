@@ -1,6 +1,8 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/input/browser.dart';
 
 import '../settings.dart';
@@ -186,6 +188,38 @@ class SettingsScreen extends ConsumerWidget {
                           )
                         ]
                     ),
+
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('Number of days for "Next up"'),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: FaIcon(FontAwesomeIcons.minus, size: 12),
+                                onPressed: () {
+                                  _updateSettingsNextUpDays(-1, ref);
+                                },
+                              ),
+                              Text(ref.watch(settingsProvider).getInt(settingsNextUpDays).toString(),
+                              ),
+                              IconButton(
+                                icon: FaIcon(FontAwesomeIcons.plus, size: 12),
+                                onPressed: () {
+                                  _updateSettingsNextUpDays(1, ref);
+                                },
+                              ),
+                            ]
+                          )
+                        )
+                      ]
+                    )
                   ]
                 ),
 
@@ -208,5 +242,12 @@ class SettingsScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  void _updateSettingsNextUpDays(int change, WidgetRef ref) {
+    final settings = ref.read(settingsProvider);
+
+    var current = settings.getInt(settingsNextUpDays);
+    settings.setInt(settingsNextUpDays, (current + change).clamp(nextUpDaysMin, nextUpDaysMax));
   }
 }

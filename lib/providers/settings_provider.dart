@@ -51,6 +51,16 @@ class Settings extends ChangeNotifier {
     return sharedPreferences.getBool(theKey) ?? defaultSettings[key] as bool;
   }
 
+  void setInt(String key, int value) {
+    sharedPreferences.setInt(_key(key), value);
+    notifyListeners();
+  }
+
+  int getInt(String key) {
+    final theKey = _key(key);
+    return sharedPreferences.getInt(theKey) ?? defaultSettings[key] as int;
+  }
+
   String _key(String key) {
     return "${namespace}_$key";
   }
