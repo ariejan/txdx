@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:txdx/providers/scoped_item_notifier.dart';
+import 'package:txdx/providers/settings_provider.dart';
+import 'package:txdx/settings.dart';
 
 import '../providers/file_change_provider.dart';
 import '../providers/item_notifier_provider.dart';
@@ -14,11 +16,25 @@ class ItemsListView extends ConsumerWidget {
 
   const ItemsListView({Key? key}) : super(key: key);
 
-  String _getTitle(String? filter) {
-    if (filter == null || filter == 'all') {
-      return 'Everything';
+  String _getTitle(WidgetRef ref) {
+    final filter = ref.read(itemFilter);
+    final upcomingDays = ref.read(settingsProvider).getInt(settingsNextUpDays);
+
+    switch (filter) {
+      case null:
+      case 'all':
+        return 'Everything';
+      case 'due:today':
+        return 'Today';
+      case 'due:upcoming':
+        return 'Next $upcomingDays days';
+      case 'due:overdue':
+        return 'Overdue';
+      case 'due:someday':
+        return 'Someday';
+      default:
+        return filter!;
     }
-    return filter;
   }
 
   @override
@@ -32,7 +48,7 @@ class ItemsListView extends ConsumerWidget {
           child: Column(
             children: [
               MenuHeaderWidget(
-                _getTitle(ref.read(itemFilter)),
+                _getTitle(ref),
                 margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
               ),
               if (hasFileChanges) const FileChangedWidget(),

@@ -47,12 +47,16 @@ class SidebarWidget extends ConsumerWidget {
                       ),
                       const MenuItemWidget(
                         icon: FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
-                        title: 'Next 7 days',
-                        itemFilterValue: "due:in7days",
+                        title: 'Upcoming',
+                        itemFilterValue: "due:upcoming",
                       ),
-                      const Divider(),
                       const MenuItemWidget(
-                        icon: FaIcon(FontAwesomeIcons.angry, size: 16),
+                        icon: FaIcon(FontAwesomeIcons.calendarAlt, size: 16),
+                        title: 'Someday',
+                        itemFilterValue: "due:someday",
+                      ),
+                      const MenuItemWidget(
+                        icon: FaIcon(FontAwesomeIcons.calendarTimes, size: 16),
                         title: 'Overdue',
                         itemFilterValue: "due:overdue",
                       ),
