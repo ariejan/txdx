@@ -63,7 +63,7 @@ build_msix:
     - flutter pub get
     - flutter pub run msix:create
   after_script:
-    - mv build\windows\runner\Release\txdx.msix $MSIX_X86_BINARY
+    - mv build\windows\runner\Release\txdx.msix %MSIX_X86_BINARY%
   artifacts:
     paths:
       - "$MSIX_X86_BINARY"
