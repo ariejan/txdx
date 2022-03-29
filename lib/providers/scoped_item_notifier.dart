@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/providers/settings_provider.dart';
+import 'package:txdx/settings.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 import 'item_notifier_provider.dart';
@@ -102,10 +104,11 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     result.removeWhere((item) => (item.hasDueOn && item.dueOn != today) || !item.hasDueOn);
-  } else if (filter == 'due:in7days') {
+  } else if (filter == 'due:nextup') {
+    final nextUpDays = ref.watch(settingsProvider).getInt(settingsNextUpDays);
     final now = DateTime.now();
     final yesterday = DateTime(now.year, now.month, now.day - 1);
-    final sevenDays = DateTime(now.year, now.month, now.day + 7);
+    final sevenDays = DateTime(now.year, now.month, now.day + nextUpDays);
     result.removeWhere((item) => (item.hasDueOn && (item.dueOn!.isBefore(yesterday) || item.dueOn!.isAfter(sevenDays))) || !item.hasDueOn);
   } else if (filter == 'due:overdue') {
     final now = DateTime.now();

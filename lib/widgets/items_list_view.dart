@@ -15,10 +15,19 @@ class ItemsListView extends ConsumerWidget {
   const ItemsListView({Key? key}) : super(key: key);
 
   String _getTitle(String? filter) {
-    if (filter == null || filter == 'all') {
-      return 'Everything';
+    switch (filter) {
+      case null:
+      case 'all':
+        return 'Everything';
+      case 'due:today':
+        return 'Today';
+      case 'due:nextup':
+        return 'Next up';
+      case 'due:overdue':
+        return 'Overdue';
+      default:
+        return filter!;
     }
-    return filter;
   }
 
   @override

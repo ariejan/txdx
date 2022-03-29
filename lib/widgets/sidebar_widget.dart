@@ -47,8 +47,8 @@ class SidebarWidget extends ConsumerWidget {
                       ),
                       const MenuItemWidget(
                         icon: FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
-                        title: 'Next 7 days',
-                        itemFilterValue: "due:in7days",
+                        title: 'Next up',
+                        itemFilterValue: "due:nextup",
                       ),
                       const Divider(),
                       const MenuItemWidget(
