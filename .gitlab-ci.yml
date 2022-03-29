@@ -14,15 +14,13 @@ variables:
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/txdx/${CI_COMMIT_TAG}"
 
 stages:
-  - lint
   - test
-  - coverage
   - build
   - upload
   - release
 
 analyze:
-  stage: lint
+  stage: test
   script:
     - flutter pub get
     - flutter analyze
@@ -41,7 +39,7 @@ test:
       - coverage
 
 coverage:
-  stage: coverage
+  stage: test
   script:
     - flutter test --coverage ./lib
     - lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info
