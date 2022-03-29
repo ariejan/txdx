@@ -22,7 +22,7 @@ class ItemsListView extends ConsumerWidget {
       case 'due:today':
         return 'Today';
       case 'due:nextup':
-        return 'Next up';
+        return 'Upcoming';
       case 'due:overdue':
         return 'Overdue';
       default:

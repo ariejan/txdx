@@ -1,6 +1,5 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/input/browser.dart';
@@ -193,7 +192,7 @@ class SettingsScreen extends ConsumerWidget {
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text('Number of days for "Next up"'),
+                          child: Text('Number of days for "Upcoming" items'),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -202,7 +201,7 @@ class SettingsScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               IconButton(
-                                icon: FaIcon(FontAwesomeIcons.minus, size: 12),
+                                icon: const FaIcon(FontAwesomeIcons.minus, size: 12),
                                 onPressed: () {
                                   _updateSettingsNextUpDays(-1, ref);
                                 },
@@ -210,7 +209,7 @@ class SettingsScreen extends ConsumerWidget {
                               Text(ref.watch(settingsProvider).getInt(settingsNextUpDays).toString(),
                               ),
                               IconButton(
-                                icon: FaIcon(FontAwesomeIcons.plus, size: 12),
+                                icon: const FaIcon(FontAwesomeIcons.plus, size: 12),
                                 onPressed: () {
                                   _updateSettingsNextUpDays(1, ref);
                                 },
