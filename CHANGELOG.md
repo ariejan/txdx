@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.0.6] - 2022-03-29
 ### Added
 - Refactored the Upcoming and Someday filtered views [#55]
 - Automatically add due:today, project or context if a filter is selected. [#39]
