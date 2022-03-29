@@ -103,13 +103,25 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
   } else if (filter == 'due:today') {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    result.removeWhere((item) => (item.hasDueOn && item.dueOn != today) || !item.hasDueOn);
-  } else if (filter == 'due:nextup') {
+    return result.where((item) =>
+      item.hasDueOn && item.dueOn == today
+    ).toList();
+  } else if (filter == 'due:upcoming') {
     final nextUpDays = ref.watch(settingsProvider).getInt(settingsNextUpDays);
     final now = DateTime.now();
-    final yesterday = DateTime(now.year, now.month, now.day - 1);
-    final sevenDays = DateTime(now.year, now.month, now.day + nextUpDays);
-    result.removeWhere((item) => (item.hasDueOn && (item.dueOn!.isBefore(yesterday) || item.dueOn!.isAfter(sevenDays))) || !item.hasDueOn);
+    final today = DateTime(now.year, now.month, now.day);
+    final futureDay = DateTime(now.year, now.month, now.day + nextUpDays + 1);
+    return result.where((item) =>
+      item.hasDueOn && item.dueOn!.isAfter(today) && item.dueOn!.isBefore(futureDay)
+    ).toList();
+  } else if (filter == 'due:someday') {
+    final nextUpDays = ref.watch(settingsProvider).getInt(settingsNextUpDays);
+    final now = DateTime.now();
+    final futureDay = DateTime(now.year, now.month, now.day + nextUpDays);
+    return result.where((item) =>
+      !item.hasDueOn
+        || (item.hasDueOn && item.dueOn!.isAfter(futureDay))
+    ).toList();
   } else if (filter == 'due:overdue') {
     final now = DateTime.now();
     final yesterday = DateTime(now.year, now.month, now.day - 1);
