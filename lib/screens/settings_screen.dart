@@ -218,7 +218,30 @@ class SettingsScreen extends ConsumerWidget {
                           )
                         )
                       ]
-                    )
+                    ),
+
+                    TableRow(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Automatically add current project or context filter to new items.'),
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Switch(
+                                      value: ref.watch(settingsProvider).getBool(settingsAutoAddFilter),
+                                      onChanged: (value) {
+                                        ref.read(settingsProvider).setBool(settingsAutoAddFilter, value);
+                                      },
+                                    ),
+                                  ]
+                              )
+                          )
+                        ]
+                    ),
                   ]
                 ),
 

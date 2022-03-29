@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [unreleased]
 ### Added
 - Refactored the Upcoming and Someday filtered views [#55]
+- Automatically add due:today, project or context if a filter is selected. [#39]
 ### Fixed
 - Fixed off-by-one issue with relative time for due dates.
 
