@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+### Added
+- Refactored the Upcoming and Someday filtered views [#55]
+### Fixed
+- Fixed off-by-one issue with relative time for due dates.
+
 ## [1.0.5] - 2022-03-28
 ### Fixed
 - Misc. improvements and fixes
