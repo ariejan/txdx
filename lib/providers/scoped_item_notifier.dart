@@ -21,7 +21,7 @@ final itemStateGrouper = StateProvider<ItemStateSorter>((ref) {
 });
 
 final itemFilter = StateProvider<String?>((ref) {
-  return 'all';
+  return ref.read(settingsProvider).getString(settingsDefaultFilter);
 });
 
 int descriptionSort(TxDxItem a, TxDxItem b) => a.description.compareTo(b.description);

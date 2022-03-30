@@ -8,7 +8,7 @@ import 'test_helpers.dart';
 void main() {
 
   testWidgets('shows menu item title', (tester) async {
-    await tester.pumpWidget(TestHelpers.wrapWidget(
+    await tester.pumpWidget(await TestHelpers.wrapWidget(
       const MenuItemWidget(
           icon: FaIcon(FontAwesomeIcons.check),
           title: 'Menu Item Text',
@@ -20,7 +20,7 @@ void main() {
   });
 
   testWidgets('shows menu icon', (tester) async {
-    await tester.pumpWidget(TestHelpers.wrapWidget(
+    await tester.pumpWidget(await TestHelpers.wrapWidget(
         const MenuItemWidget(
           icon: FaIcon(FontAwesomeIcons.check),
           title: 'Menu Item Text',
@@ -34,7 +34,7 @@ void main() {
   testWidgets('handles on tap events', (tester) async {
     var checkTap = false;
 
-    await tester.pumpWidget(TestHelpers.wrapWidget(
+    await tester.pumpWidget(await TestHelpers.wrapWidget(
         MenuItemWidget(
           icon: const FaIcon(FontAwesomeIcons.check),
           title: 'Menu Item Text',

@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -98,6 +99,55 @@ class SettingsScreen extends ConsumerWidget {
                                             onChanged: !usingSystemTheme ? (value) {
                                               ref.read(settingsProvider).setBool(settingsThemeUseDark, value);
                                             } : null,
+                                        ),
+                                      ]
+                                  )
+                              )
+                            ]
+                        ),
+
+                        TableRow(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Start-up default filter'),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        DropdownButtonHideUnderline(
+                                            child: DropdownButton2(
+                                              value: ref.watch(settingsProvider).getString(settingsDefaultFilter),
+                                              buttonHeight: 28,
+                                              buttonPadding: const EdgeInsets.all(0),
+                                              buttonWidth: 140,
+                                              itemHeight: 28,
+                                              onChanged: (value) {
+                                                ref.read(settingsProvider).setString(settingsDefaultFilter, value as String);
+                                              },
+                                              hint: Text(
+                                                'Select Item',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Theme
+                                                      .of(context)
+                                                      .hintColor,
+                                                ),
+                                              ),
+                                              items: settingsDefaultFilterItems.keys
+                                                  .map((key) =>
+                                                  DropdownMenuItem<String>(
+                                                    value: key,
+                                                    child: Text(
+                                                      settingsDefaultFilterItems[key]!,
+                                                      style: const TextStyle(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  )).toList(),
+                                            ),
                                         ),
                                       ]
                                   )

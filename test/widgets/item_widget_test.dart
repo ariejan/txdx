@@ -11,7 +11,7 @@ void main() {
     testWidgets('for item description visible', (tester) async {
       final item = TxDxItem.fromText(
           '(A) 2022-01-18 Buy birthday cake @shopping due:2022-01-18');
-      await tester.pumpWidget(TestHelpers.wrapWidget(ItemWidget(item)));
+      await tester.pumpWidget(await TestHelpers.wrapWidget(ItemWidget(item)));
       final descriptionWidget = find.text("Buy birthday cake");
 
       expect(descriptionWidget, findsOneWidget);
@@ -22,7 +22,7 @@ void main() {
     testWidgets('for open task', (tester) async {
       final item = TxDxItem.fromText(
           '(A) 2022-01-18 Buy birthday cake @shopping due:2022-01-18');
-      await tester.pumpWidget(TestHelpers.wrapWidget(ItemWidget(item)));
+      await tester.pumpWidget(await TestHelpers.wrapWidget(ItemWidget(item)));
       final checkboxFinder = find.byType(Checkbox);
       var checkbox = tester.firstWidget(checkboxFinder) as Checkbox;
       expect(checkbox.value, isFalse);
@@ -31,7 +31,7 @@ void main() {
     testWidgets('for completed task', (tester) async {
       final item = TxDxItem.fromText(
           'x 2022-01-19 20220-01-18 Buy birthday cake @shopping due:2022-01-18');
-      await tester.pumpWidget(TestHelpers.wrapWidget(ItemWidget(item)));
+      await tester.pumpWidget(await TestHelpers.wrapWidget(ItemWidget(item)));
       final checkboxFinder = find.byType(Checkbox);
       var checkbox = tester.firstWidget(checkboxFinder) as Checkbox;
       expect(checkbox.value, isTrue);
@@ -42,7 +42,7 @@ void main() {
 
       final item = TxDxItem.fromText(
           '(A) 2022-01-18 Buy birthday cake @shopping due:2022-01-18');
-      await tester.pumpWidget(TestHelpers.wrapWidget(ItemWidget(
+      await tester.pumpWidget(await TestHelpers.wrapWidget(ItemWidget(
         item,
         onCompletedToggle: (value) => checkboxChecked = value,
       )));
