@@ -34,234 +34,238 @@ class SettingsScreen extends ConsumerWidget {
     final usingSystemTheme = ref.watch(settingsProvider).getBool(settingsThemeUseSystem);
 
     return Material(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              TextButton(
-                child: const Text('❮ back'),
-                onPressed: () => Navigator.pop(context)
-              ),
-            ],
-          ),
-          SizedBox(
-            width: 500,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
               children: [
-                const MenuHeaderWidget(
-                  'Settings',
-                  margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                TextButton(
+                  child: const Text('❮ back'),
+                  onPressed: () => Navigator.pop(context)
                 ),
-
-
-                Table(
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 16, 0, 32),
+              child: SizedBox(
+                width: 500,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TableRow(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('Todo.txt file'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Consumer(builder: (context, ref, _) {
-                                final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
-                                return Text(
-                                      filename ?? 'No file selected'
-                                  );
-                              }),
-                              TextButton(
-                                child: const Text('📂 Select file'),
-                                onPressed: () => {
-                                  _pickFile().then((filename) {
-                                    ref.read(settingsProvider).setString(settingsFileTodoTxt, filename ?? '');
-                                  })
-                                },
-                              ),
-                            ],
-                          ),
-                        )
-                      ]
+                    const MenuHeaderWidget(
+                      'Settings',
+                      margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
                     ),
 
-                    TableRow(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text('Archive.txt file'),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Consumer(builder: (context, ref, _) {
-                                  final filename = ref.watch(settingsProvider).getString(settingsFileArchiveTxt);
-                                  return Text(
-                                        filename ?? 'No file selected'
-                                    );
-                                }),
-                                TextButton(
-                                  child: const Text('📂 Select file'),
-                                  onPressed: () => {
-                                    _pickFile().then((filename) {
-                                      ref.read(settingsProvider).setString(settingsFileArchiveTxt, filename ?? '');
-                                    })
-                                  },
-                                ),
-                              ],
+                    Table(
+                      children: [
+                        TableRow(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('Todo.txt file'),
                             ),
-                          )
-                        ]
-                    ),
-
-                    TableRow(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('Auto-reload Todo.txt changes from disk'),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Consumer(builder: (context, ref, _) {
+                                    final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
+                                    return Text(
+                                          filename ?? 'No file selected'
+                                      );
+                                  }),
+                                  TextButton(
+                                    child: const Text('📂 Select file'),
+                                    onPressed: () => {
+                                      _pickFile().then((filename) {
+                                        ref.read(settingsProvider).setString(settingsFileTodoTxt, filename ?? '');
+                                      })
+                                    },
+                                  ),
+                                ],
+                              ),
+                            )
+                          ]
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+
+                        TableRow(
                             children: [
-                              Switch(
-                                  value: ref.watch(settingsProvider).getBool(settingsFileAutoReload),
-                                  onChanged: (value) {
-                                    ref.watch(settingsProvider).setBool(settingsFileAutoReload, value);
-                                  }
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Archive.txt file'),
                               ),
-                            ]
-                          )
-                        )
-                      ]
-                    ),
-
-                    TableRow(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text('Use system theme brightness'),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Switch(
-                                        value: ref.watch(settingsProvider).getBool(settingsThemeUseSystem),
-                                        onChanged: (value) {
-                                          ref.read(settingsProvider).setBool(settingsThemeUseSystem, value);
-                                        }
-                                    ),
-                                  ]
-                              )
-                          )
-                        ]
-                    ),
-
-                    TableRow(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text('Use system dark theme'),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Switch(
-                                        value: ref.watch(settingsProvider).getBool(settingsThemeUseDark),
-                                        onChanged: !usingSystemTheme ? (value) {
-                                          ref.read(settingsProvider).setBool(settingsThemeUseDark, value);
-                                        } : null,
-                                    ),
-                                  ]
-                              )
-                          )
-                        ]
-                    ),
-
-                    TableRow(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('Number of days for "Upcoming" items'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                icon: const FaIcon(FontAwesomeIcons.minus, size: 12),
-                                onPressed: () {
-                                  _updateSettingsNextUpDays(-1, ref);
-                                },
-                              ),
-                              Text(ref.watch(settingsProvider).getInt(settingsNextUpDays).toString(),
-                              ),
-                              IconButton(
-                                icon: const FaIcon(FontAwesomeIcons.plus, size: 12),
-                                onPressed: () {
-                                  _updateSettingsNextUpDays(1, ref);
-                                },
-                              ),
-                            ]
-                          )
-                        )
-                      ]
-                    ),
-
-                    TableRow(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text('Automatically add current project or context filter to new items.'),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Switch(
-                                      value: ref.watch(settingsProvider).getBool(settingsAutoAddFilter),
-                                      onChanged: (value) {
-                                        ref.read(settingsProvider).setBool(settingsAutoAddFilter, value);
+                                    Consumer(builder: (context, ref, _) {
+                                      final filename = ref.watch(settingsProvider).getString(settingsFileArchiveTxt);
+                                      return Text(
+                                            filename ?? 'No file selected'
+                                        );
+                                    }),
+                                    TextButton(
+                                      child: const Text('📂 Select file'),
+                                      onPressed: () => {
+                                        _pickFile().then((filename) {
+                                          ref.read(settingsProvider).setString(settingsFileArchiveTxt, filename ?? '');
+                                        })
                                       },
                                     ),
-                                  ]
+                                  ],
+                                ),
                               )
-                          )
-                        ]
+                            ]
+                        ),
+
+                        TableRow(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('Auto-reload Todo.txt changes from disk'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Switch(
+                                      value: ref.watch(settingsProvider).getBool(settingsFileAutoReload),
+                                      onChanged: (value) {
+                                        ref.watch(settingsProvider).setBool(settingsFileAutoReload, value);
+                                      }
+                                  ),
+                                ]
+                              )
+                            )
+                          ]
+                        ),
+
+                        TableRow(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Use system theme brightness'),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Switch(
+                                            value: ref.watch(settingsProvider).getBool(settingsThemeUseSystem),
+                                            onChanged: (value) {
+                                              ref.read(settingsProvider).setBool(settingsThemeUseSystem, value);
+                                            }
+                                        ),
+                                      ]
+                                  )
+                              )
+                            ]
+                        ),
+
+                        TableRow(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Use system dark theme'),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Switch(
+                                            value: ref.watch(settingsProvider).getBool(settingsThemeUseDark),
+                                            onChanged: !usingSystemTheme ? (value) {
+                                              ref.read(settingsProvider).setBool(settingsThemeUseDark, value);
+                                            } : null,
+                                        ),
+                                      ]
+                                  )
+                              )
+                            ]
+                        ),
+
+                        TableRow(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('Number of days for "Upcoming" items'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    icon: const FaIcon(FontAwesomeIcons.minus, size: 12),
+                                    onPressed: () {
+                                      _updateSettingsNextUpDays(-1, ref);
+                                    },
+                                  ),
+                                  Text(ref.watch(settingsProvider).getInt(settingsNextUpDays).toString(),
+                                  ),
+                                  IconButton(
+                                    icon: const FaIcon(FontAwesomeIcons.plus, size: 12),
+                                    onPressed: () {
+                                      _updateSettingsNextUpDays(1, ref);
+                                    },
+                                  ),
+                                ]
+                              )
+                            )
+                          ]
+                        ),
+
+                        TableRow(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Automatically add current project or context filter to new items.'),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Switch(
+                                          value: ref.watch(settingsProvider).getBool(settingsAutoAddFilter),
+                                          onChanged: (value) {
+                                            ref.read(settingsProvider).setBool(settingsAutoAddFilter, value);
+                                          },
+                                        ),
+                                      ]
+                                  )
+                              )
+                            ]
+                        ),
+                      ]
                     ),
+
+                    const MenuHeaderWidget(
+                      'About',
+                      margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                    ),
+
+                    Text('TxDx $appVersion ($namespace)', style: const TextStyle(fontWeight: FontWeight.bold)),
+                    const Text('Copyright © 2022 Ariejan de Vroom'),
+                    const Text('Published under the MIT License'),
+                    TextButton(
+                      onPressed: () => launchInBrowser('https://www.devroom.io/txdx'),
+                      child: const Text('https://www.devroom.io/txdx')
+                    )
+
                   ]
-                ),
-
-                const MenuHeaderWidget(
-                  'About',
-                  margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
-                ),
-
-                Text('TxDx $appVersion ($namespace)', style: const TextStyle(fontWeight: FontWeight.bold)),
-                const Text('Copyright © 2022 Ariejan de Vroom'),
-                const Text('Published under the MIT License'),
-                TextButton(
-                  onPressed: () => launchInBrowser('https://www.devroom.io/txdx'),
-                  child: const Text('https://www.devroom.io/txdx')
                 )
-
-              ]
-            )
-          ),
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
