@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:txdx/input/focus.dart';
@@ -7,7 +9,7 @@ final cancelEditingKeySet = LogicalKeySet(
 );
 
 final addNewKeySet = LogicalKeySet(
-  LogicalKeyboardKey.meta,
+  Platform.isMacOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control,
   LogicalKeyboardKey.keyN,
 );
 
@@ -20,12 +22,12 @@ final upKeySet = LogicalKeySet(
 );
 
 final prioDownKeySet = LogicalKeySet(
-  LogicalKeyboardKey.meta,
+  Platform.isMacOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control,
   LogicalKeyboardKey.arrowDown
 );
 
 final prioUpKeySet = LogicalKeySet(
-  LogicalKeyboardKey.meta,
+  Platform.isMacOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control,
   LogicalKeyboardKey.arrowUp
 );
 
@@ -34,17 +36,17 @@ final startEditKeySet = LogicalKeySet(
 );
 
 final toggleCompletionKeySet = LogicalKeySet(
-  LogicalKeyboardKey.meta,
+  Platform.isMacOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control,
   LogicalKeyboardKey.keyX
 );
 
 final moveToTodayKeySet = LogicalKeySet(
-  LogicalKeyboardKey.meta,
+  Platform.isMacOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control,
   LogicalKeyboardKey.keyT,
 );
 
 final deleteKeySet = LogicalKeySet(
-  LogicalKeyboardKey.meta,
+  Platform.isMacOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control,
   LogicalKeyboardKey.keyD
 );
 
