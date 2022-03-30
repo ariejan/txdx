@@ -3,8 +3,11 @@ const settingsFileArchiveTxt = 'archivetxt_filename';
 const settingsFileAutoReload = 'file_autoreload';
 const settingsThemeUseSystem = 'theme_system_brightness';
 const settingsThemeUseDark = 'theme_use_dark';
-const settingsNextUpDays = 'filter_next_up_days';
+
+const settingsUpcomingDays = 'filter_next_up_days';
+const settingsTodayInUpcoming = 'filter_today_in_upcoming';
 const settingsAutoAddFilter = 'item_auto_add_filter';
+
 
 const defaultSettings = {
   settingsFileTodoTxt: null,
@@ -12,8 +15,9 @@ const defaultSettings = {
   settingsFileAutoReload: true,
   settingsThemeUseSystem: true,
   settingsThemeUseDark: false,
-  settingsNextUpDays: 7,
+  settingsUpcomingDays: 7,
   settingsAutoAddFilter: true,
+  settingsTodayInUpcoming: true,
 };
 
 const nextUpDaysMin = 0;

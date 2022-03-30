@@ -96,6 +96,8 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
   final items = ref.watch(scopedItems);
   final filter = ref.watch(itemFilter);
 
+  final settings = ref.watch(settingsProvider);
+
   final result = items.toList();
 
   if (filter == null || filter == 'all') {
@@ -107,15 +109,17 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
       item.hasDueOn && item.dueOn == today
     ).toList();
   } else if (filter == 'due:upcoming') {
-    final nextUpDays = ref.watch(settingsProvider).getInt(settingsNextUpDays);
+    final nextUpDays = ref.watch(settingsProvider).getInt(settingsUpcomingDays);
     final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
+    final today = settings.getBool(settingsTodayInUpcoming)
+      ? DateTime(now.year, now.month, now.day - 1)
+      : DateTime(now.year, now.month, now.day);
     final futureDay = DateTime(now.year, now.month, now.day + nextUpDays + 1);
     return result.where((item) =>
       item.hasDueOn && item.dueOn!.isAfter(today) && item.dueOn!.isBefore(futureDay)
     ).toList();
   } else if (filter == 'due:someday') {
-    final nextUpDays = ref.watch(settingsProvider).getInt(settingsNextUpDays);
+    final nextUpDays = ref.watch(settingsProvider).getInt(settingsUpcomingDays);
     final now = DateTime.now();
     final futureDay = DateTime(now.year, now.month, now.day + nextUpDays);
     return result.where((item) =>

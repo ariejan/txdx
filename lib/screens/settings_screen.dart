@@ -53,97 +53,12 @@ class SettingsScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const MenuHeaderWidget(
-                      'Settings',
+                      'Interface settings',
                       margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
                     ),
 
                     Table(
                       children: [
-                        TableRow(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text('Todo.txt file'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Consumer(builder: (context, ref, _) {
-                                    final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
-                                    return Text(
-                                          filename ?? 'No file selected'
-                                      );
-                                  }),
-                                  TextButton(
-                                    child: const Text('📂 Select file'),
-                                    onPressed: () => {
-                                      _pickFile().then((filename) {
-                                        ref.read(settingsProvider).setString(settingsFileTodoTxt, filename ?? '');
-                                      })
-                                    },
-                                  ),
-                                ],
-                              ),
-                            )
-                          ]
-                        ),
-
-                        TableRow(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text('Archive.txt file'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Consumer(builder: (context, ref, _) {
-                                      final filename = ref.watch(settingsProvider).getString(settingsFileArchiveTxt);
-                                      return Text(
-                                            filename ?? 'No file selected'
-                                        );
-                                    }),
-                                    TextButton(
-                                      child: const Text('📂 Select file'),
-                                      onPressed: () => {
-                                        _pickFile().then((filename) {
-                                          ref.read(settingsProvider).setString(settingsFileArchiveTxt, filename ?? '');
-                                        })
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ]
-                        ),
-
-                        TableRow(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text('Auto-reload Todo.txt changes from disk'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Switch(
-                                      value: ref.watch(settingsProvider).getBool(settingsFileAutoReload),
-                                      onChanged: (value) {
-                                        ref.watch(settingsProvider).setBool(settingsFileAutoReload, value);
-                                      }
-                                  ),
-                                ]
-                              )
-                            )
-                          ]
-                        ),
-
                         TableRow(
                             children: [
                               const Padding(
@@ -191,10 +106,33 @@ class SettingsScreen extends ConsumerWidget {
                         ),
 
                         TableRow(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Show items due today in Upcoming'),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Switch(
+                                          value: ref.watch(settingsProvider).getBool(settingsTodayInUpcoming),
+                                          onChanged: (value) {
+                                            ref.read(settingsProvider).setBool(settingsTodayInUpcoming, value);
+                                          },
+                                        ),
+                                      ]
+                                  )
+                              )
+                            ]
+                        ),
+
+                        TableRow(
                           children: [
                             const Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Text('Number of days for "Upcoming" items'),
+                              child: Text('Number of days for Upcoming items'),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -208,7 +146,7 @@ class SettingsScreen extends ConsumerWidget {
                                       _updateSettingsNextUpDays(-1, ref);
                                     },
                                   ),
-                                  Text(ref.watch(settingsProvider).getInt(settingsNextUpDays).toString(),
+                                  Text(ref.watch(settingsProvider).getInt(settingsUpcomingDays).toString(),
                                   ),
                                   IconButton(
                                     icon: const FaIcon(FontAwesomeIcons.plus, size: 12),
@@ -248,6 +186,98 @@ class SettingsScreen extends ConsumerWidget {
                     ),
 
                     const MenuHeaderWidget(
+                      'File settings',
+                      margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                    ),
+
+                    Table(
+                      children: [
+                        TableRow(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Todo.txt file'),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Consumer(builder: (context, ref, _) {
+                                      final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
+                                      return Text(
+                                          filename ?? 'No file selected'
+                                      );
+                                    }),
+                                    TextButton(
+                                      child: const Text('📂 Select file'),
+                                      onPressed: () => {
+                                        _pickFile().then((filename) {
+                                          ref.read(settingsProvider).setString(settingsFileTodoTxt, filename ?? '');
+                                        })
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ]
+                        ),
+                        TableRow(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Auto-reload Todo.txt changes from disk'),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Switch(
+                                            value: ref.watch(settingsProvider).getBool(settingsFileAutoReload),
+                                            onChanged: (value) {
+                                              ref.watch(settingsProvider).setBool(settingsFileAutoReload, value);
+                                            }
+                                        ),
+                                      ]
+                                  )
+                              )
+                            ]
+                        ),
+                        TableRow(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Archive.txt file'),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Consumer(builder: (context, ref, _) {
+                                      final filename = ref.watch(settingsProvider).getString(settingsFileArchiveTxt);
+                                      return Text(
+                                          filename ?? 'No file selected'
+                                      );
+                                    }),
+                                    TextButton(
+                                      child: const Text('📂 Select file'),
+                                      onPressed: () => {
+                                        _pickFile().then((filename) {
+                                          ref.read(settingsProvider).setString(settingsFileArchiveTxt, filename ?? '');
+                                        })
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ]
+                        ),
+                      ]
+                    ),
+
+                    const MenuHeaderWidget(
                       'About',
                       margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
                     ),
@@ -273,7 +303,7 @@ class SettingsScreen extends ConsumerWidget {
   void _updateSettingsNextUpDays(int change, WidgetRef ref) {
     final settings = ref.read(settingsProvider);
 
-    var current = settings.getInt(settingsNextUpDays);
-    settings.setInt(settingsNextUpDays, (current + change).clamp(nextUpDaysMin, nextUpDaysMax));
+    var current = settings.getInt(settingsUpcomingDays);
+    settings.setInt(settingsUpcomingDays, (current + change).clamp(nextUpDaysMin, nextUpDaysMax));
   }
 }
