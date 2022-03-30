@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleases]
+## [1.0.7] - 2022-03-30
 ### Added
 - Item context menu (right click) for quick item tasks [#62]
 - Add setting for the default item filter on start-up [#56]

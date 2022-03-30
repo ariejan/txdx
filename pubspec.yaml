@@ -3,7 +3,7 @@ description: TxDx
 
 publish_to: 'none'
 
-version: 1.0.6+9
+version: 1.0.7+10
 
 environment:
   sdk: ">=2.15.1 <3.0.0"
@@ -49,7 +49,7 @@ flutter:
 
 msix_config:
   display_name: TxDx
-  msix_version: 1.0.6.9
+  msix_version: 1.0.7.10
   publisher_display_name: Ariejan de Vroom
   install_certificate: false
   identity_name: io.devroom.txdx
