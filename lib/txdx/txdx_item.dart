@@ -209,4 +209,17 @@ class TxDxItem {
     newTags['due'] = Jiffy().format('yyyy-MM-dd');
     return copyWith(tags: newTags);
   }
+
+  TxDxItem postpone(int days) {
+    var newTags = Map<String, String>.from(tags);
+    final futureDate = DateTime.now().add(Duration(days: days));
+    newTags['due'] = Jiffy(futureDate).format('yyyy-MM-dd');
+    return copyWith(tags: newTags);
+  }
+
+  TxDxItem setPriority(String? priority) {
+    return copyWith(
+      priority: Optional.fromNullable(priority),
+    );
+  }
 }

@@ -36,7 +36,7 @@ class SidebarWidget extends ConsumerWidget {
                     children: [
                       const MenuHeaderWidget('TxDx'),
                       const MenuItemWidget(
-                        icon: FaIcon(FontAwesomeIcons.th, size: 16),
+                        icon: FaIcon(FontAwesomeIcons.tableCells, size: 16),
                         title: 'All',
                         itemFilterValue: "all",
                       ),
@@ -51,12 +51,12 @@ class SidebarWidget extends ConsumerWidget {
                         itemFilterValue: "due:upcoming",
                       ),
                       const MenuItemWidget(
-                        icon: FaIcon(FontAwesomeIcons.calendarAlt, size: 16),
+                        icon: FaIcon(FontAwesomeIcons.calendarDays, size: 16),
                         title: 'Someday',
                         itemFilterValue: "due:someday",
                       ),
                       const MenuItemWidget(
-                        icon: FaIcon(FontAwesomeIcons.calendarTimes, size: 16),
+                        icon: FaIcon(FontAwesomeIcons.calendarXmark, size: 16),
                         title: 'Overdue',
                         itemFilterValue: "due:overdue",
                       ),
@@ -106,7 +106,7 @@ class SidebarWidget extends ConsumerWidget {
                     title: 'Archive completed',
                     color: Theme.of(context).disabledColor,
                     icon: FaIcon(
-                      FontAwesomeIcons.archive,
+                      FontAwesomeIcons.boxArchive,
                       size: 16,
                       color: Theme.of(context).disabledColor,
                     ),
@@ -117,7 +117,7 @@ class SidebarWidget extends ConsumerWidget {
                     color: Theme.of(context).disabledColor,
                     title: 'Settings',
                     icon: FaIcon(
-                      FontAwesomeIcons.cog,
+                      FontAwesomeIcons.gear,
                       size: 16,
                       color: Theme.of(context).disabledColor,
                     ),

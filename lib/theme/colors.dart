@@ -38,4 +38,9 @@ abstract class TxDxColors {
   static final Color tags = NordColors.frost.darkest;
 
   static final Color banner = NordColors.frost.darker.withOpacity(0.4);
+
+  static final Color lightContextBackgroundColor = lightSelection;
+  static final Color lightContextHoverColor = lightSelection.withAlpha(50);
+  static final Color darkContextBackgroundColor = darkBackground.withAlpha(20);
+  static final Color darkContextHoverColor = darkBackground.withOpacity(0.5);
 }

@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [unreleases]
+### Added
+- Item context menu (right click) for quick item tasks [#62]
+
 ## [1.0.6] - 2022-03-29
 ### Added
 - Refactored the Upcoming and Someday filtered views [#55]

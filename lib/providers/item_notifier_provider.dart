@@ -180,4 +180,23 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
       _setState(items);
     }
   }
-}
+
+  Future<void> postpone(String id, int days) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.postpone(days)]);
+      _setState(items);
+    }
+  }
+
+  Future<void> setPriority(String id, String? priority) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.setPriority(priority)]);
+      _setState(items);
+    }
+  }}

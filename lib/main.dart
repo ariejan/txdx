@@ -10,6 +10,7 @@ import 'package:window_size/window_size.dart';
 import 'providers/settings_provider.dart';
 import 'settings.dart';
 import 'theme/theme.dart';
+import 'widgets/no_glow_scroll_behavior.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,6 +59,14 @@ class TxDxApp extends ConsumerWidget {
       darkTheme: TxDxTheme.dark(),
       themeMode: themeMode,
       initialRoute: '/',
+      builder: (_, navigator) {
+        if (navigator == null) return Container();
+        
+        return ScrollConfiguration(
+            behavior: NoGlowScrollBehavior(),
+            child: navigator,
+        );
+      },
       routes: {
         '/': (context) => const HomeScreen(),
         '/settings': (context) => const SettingsScreen(),
