@@ -32,20 +32,8 @@ class TxDxItem {
     this.tags = const <String, String>{},
   });
 
-
-  /// Creates a TxDxItem from a Todo.txt formatted `text`.
   static TxDxItem fromText(String text) {
-    return TxDxItem(
-      id: _uuid.v4(),
-      completed: TxDxSyntax.getCompleted(text),
-      description: TxDxSyntax.getDescription(text),
-      priority: TxDxSyntax.getPriority(text),
-      createdOn: TxDxSyntax.getCreatedOn(text),
-      completedOn: TxDxSyntax.getCompletedOn(text),
-      tags: TxDxSyntax.getTags(text),
-      contexts: TxDxSyntax.getContexts(text),
-      projects: TxDxSyntax.getProjects(text),
-    );
+    return fromTextWithId(_uuid.v4(), text);
   }
 
   static TxDxItem fromTextWithId(String id, String text) {
@@ -137,26 +125,6 @@ class TxDxItem {
     );
   }
 
-  Map<String, dynamic> _toMap() {
-    return {
-      'completed': completed,
-      'description': description,
-      'priority': priority,
-      'createdOn': createdOn,
-      'completedOn': completedOn,
-      'dueOn': dueOn,
-    };
-  }
-
-  ///get function to get the properties of Item
-  dynamic get(String propertyName) {
-    var _mapRep = _toMap();
-    if (_mapRep.containsKey(propertyName)) {
-      return _mapRep[propertyName];
-    }
-    throw ArgumentError('propery not found');
-  }
-
   @override
   String toString() {
     return [
@@ -182,7 +150,6 @@ class TxDxItem {
     return result;
   }
   bool get hasDueOn => tags.containsKey('due');
-  bool get dueOnParsable => dueOn != null;
 
   DateTime? get dueOn {
     if (tags.containsKey('due')) {
@@ -205,9 +172,7 @@ class TxDxItem {
   int get hashCode => toString().hashCode;
 
   TxDxItem moveToToday() {
-    var newTags = Map<String, String>.from(tags);
-    newTags['due'] = Jiffy().format('yyyy-MM-dd');
-    return copyWith(tags: newTags);
+    return postpone(0);
   }
 
   TxDxItem postpone(int days) {
