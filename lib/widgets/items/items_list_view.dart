@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:txdx/providers/scoped_item_notifier.dart';
-import 'package:txdx/providers/settings_provider.dart';
-import 'package:txdx/settings.dart';
+import 'package:txdx/providers/items/scoped_item_notifier.dart';
+import 'package:txdx/providers/settings/settings_provider.dart';
+import 'package:txdx/config/settings.dart';
 
-import '../providers/file_change_provider.dart';
-import '../providers/item_notifier_provider.dart';
-import 'file_changed_widget.dart';
+import '../../providers/files/file_change_provider.dart';
+import '../../providers/items/item_notifier_provider.dart';
+import '../misc/file_changed_widget.dart';
 import 'item_widget.dart';
-import 'menu_header_widget.dart';
+import '../navigation/menu_header_widget.dart';
 
 class ItemsListView extends ConsumerWidget {
   static ItemScrollController controller = ItemScrollController();

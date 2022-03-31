@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pill_widget.dart';
+import '../misc/pill_widget.dart';
 
 class ItemTagWidget extends StatelessWidget {
 

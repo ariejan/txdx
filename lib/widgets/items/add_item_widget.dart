@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/input/focus.dart';
-import 'package:txdx/providers/scoped_item_notifier.dart';
-import 'package:txdx/providers/selected_item_provider.dart';
+import 'package:txdx/providers/items/scoped_item_notifier.dart';
+import 'package:txdx/providers/items/selected_item_provider.dart';
 
-import '../providers/item_notifier_provider.dart';
-import '../providers/settings_provider.dart';
-import '../settings.dart';
+import '../../providers/items/item_notifier_provider.dart';
+import '../../providers/settings/settings_provider.dart';
+import '../../config/settings.dart';
 
 class AddItemWidget extends ConsumerWidget {
   AddItemWidget({Key? key}) : super(key: key);

@@ -2,15 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/input/shortcuts.dart';
-import 'package:txdx/providers/item_notifier_provider.dart';
-import 'package:txdx/widgets/add_item_widget.dart';
-import 'package:txdx/widgets/items_list_view.dart';
-import 'package:txdx/widgets/sidebar_widget.dart';
-import 'package:txdx/widgets/split_view.dart';
+import 'package:txdx/providers/items/item_notifier_provider.dart';
+import 'package:txdx/widgets/items/add_item_widget.dart';
+import 'package:txdx/widgets/items/items_list_view.dart';
+import 'package:txdx/widgets/navigation/sidebar_widget.dart';
+import 'package:txdx/widgets/layout/split_view.dart';
 
 import '../input/focus.dart';
-import '../providers/scoped_item_notifier.dart';
-import '../providers/selected_item_provider.dart';
+import '../providers/items/scoped_item_notifier.dart';
+import '../providers/items/selected_item_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);

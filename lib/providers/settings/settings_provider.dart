@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:txdx/providers/shared_preferences_provider.dart';
-import 'package:txdx/settings.dart';
+import 'package:txdx/providers/settings/shared_preferences_provider.dart';
+import 'package:txdx/config/settings.dart';
 
 final namespaceProvider = Provider<String>((ref) {
   return kReleaseMode ? 'release' : 'debug';

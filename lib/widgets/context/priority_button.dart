@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../theme/colors.dart';
-import '../txdx/txdx_item.dart';
+import '../../config/colors.dart';
+import '../../txdx/txdx_item.dart';
 
 class PriorityButton extends StatelessWidget {
 

@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/input/browser.dart';
 
-import '../settings.dart';
-import '../providers/platform_info_provider.dart';
-import '../providers/settings_provider.dart';
-import '../widgets/menu_header_widget.dart';
+import '../config/settings.dart';
+import '../providers/settings/platform_info_provider.dart';
+import '../providers/settings/settings_provider.dart';
+import '../widgets/navigation/menu_header_widget.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}) : super(key: key);

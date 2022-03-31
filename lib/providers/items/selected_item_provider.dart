@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/providers/item_notifier_provider.dart';
+import 'package:txdx/providers/items/item_notifier_provider.dart';
 
-import '../txdx/txdx_item.dart';
+import '../../txdx/txdx_item.dart';
 
 final editingItemIdStateProvider = StateProvider<String?>((ref) {
   return null;

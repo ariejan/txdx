@@ -4,17 +4,17 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/input/browser.dart';
-import 'package:txdx/providers/item_notifier_provider.dart';
-import 'package:txdx/providers/selected_item_provider.dart';
-import 'package:txdx/widgets/context_menu_item.dart';
-import 'package:txdx/widgets/pill_widget.dart';
+import 'package:txdx/providers/items/item_notifier_provider.dart';
+import 'package:txdx/providers/items/selected_item_provider.dart';
+import 'package:txdx/widgets/context/context_menu_item.dart';
+import 'package:txdx/widgets/misc/pill_widget.dart';
 
-import '../theme/colors.dart';
-import '../txdx/txdx_item.dart';
-import 'context_menu_area.dart';
+import '../../config/colors.dart';
+import '../../txdx/txdx_item.dart';
+import '../context/context_menu_area.dart';
 import 'item_due_on_widget.dart';
 import 'item_tag_widget.dart';
-import 'priority_button.dart';
+import '../context/priority_button.dart';
 
 class ItemWidget extends ConsumerWidget {
   ItemWidget(this.item, {Key? key, this.onCompletedToggle})

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lit_relative_date_time/lit_relative_date_time.dart';
 
-import '../theme/colors.dart';
+import '../../config/colors.dart';
 
 class ItemDueOnWidget extends StatelessWidget {
 

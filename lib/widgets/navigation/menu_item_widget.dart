@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers/scoped_item_notifier.dart';
-import '../theme/colors.dart';
+import '../../providers/items/scoped_item_notifier.dart';
+import '../../config/colors.dart';
 
 class MenuItemWidget extends ConsumerWidget {
   const MenuItemWidget({

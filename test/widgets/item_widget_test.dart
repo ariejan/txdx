@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:txdx/txdx/txdx_item.dart';
-import 'package:txdx/widgets/item_widget.dart';
+import 'package:txdx/widgets/items/item_widget.dart';
 
 import 'test_helpers.dart';
 

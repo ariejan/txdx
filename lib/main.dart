@@ -7,10 +7,10 @@ import 'package:txdx/screens/home_screen.dart';
 import 'package:txdx/screens/settings_screen.dart';
 import 'package:window_size/window_size.dart';
 
-import 'providers/settings_provider.dart';
-import 'settings.dart';
-import 'theme/theme.dart';
-import 'widgets/no_glow_scroll_behavior.dart';
+import 'providers/settings/settings_provider.dart';
+import 'config/settings.dart';
+import 'config/theme.dart';
+import 'widgets/misc/no_glow_scroll_behavior.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

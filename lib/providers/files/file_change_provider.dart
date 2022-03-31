@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/providers/item_notifier_provider.dart';
-import 'package:txdx/providers/settings_provider.dart';
+import 'package:txdx/providers/items/item_notifier_provider.dart';
+import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:watcher/watcher.dart';
 import 'package:path/path.dart' as p;
 
-import '../settings.dart';
-import '../txdx/txdx_file.dart';
+import '../../config/settings.dart';
+import '../../txdx/txdx_file.dart';
 
 class FileChangeEvent {
   final WatchEvent watchEvent;

@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:txdx/providers/settings_provider.dart';
+import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:txdx/txdx/txdx_file.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
-import '../settings.dart';
+import '../../config/settings.dart';
 
 final itemsNotifierProvider =
   StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) => ItemNotifier(ref));

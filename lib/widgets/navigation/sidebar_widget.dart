@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:txdx/providers/contexts_provider.dart';
-import 'package:txdx/providers/item_notifier_provider.dart';
-import 'package:txdx/providers/projects_provider.dart';
+import 'package:txdx/providers/items/contexts_provider.dart';
+import 'package:txdx/providers/items/item_notifier_provider.dart';
+import 'package:txdx/providers/items/projects_provider.dart';
 
-import '../providers/file_notifier_provider.dart';
-import '../theme/colors.dart';
+import '../../providers/files/file_notifier_provider.dart';
+import '../../config/colors.dart';
 import 'menu_header_widget.dart';
 import 'menu_item_widget.dart';
 

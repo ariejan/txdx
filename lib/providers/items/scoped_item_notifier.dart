@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/providers/settings_provider.dart';
-import 'package:txdx/settings.dart';
+import 'package:txdx/providers/settings/settings_provider.dart';
+import 'package:txdx/config/settings.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 import 'item_notifier_provider.dart';

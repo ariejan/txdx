@@ -1,7 +1,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:txdx/widgets/menu_item_widget.dart';
+import 'package:txdx/widgets/navigation/menu_item_widget.dart';
 
 import 'test_helpers.dart';
 

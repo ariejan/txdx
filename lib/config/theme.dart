@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_nord_theme/flutter_nord_theme.dart';
 
-import 'colors.dart';
+import '../config/colors.dart';
 
 
 abstract class TxDxTheme {
