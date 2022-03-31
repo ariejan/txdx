@@ -47,6 +47,6 @@ app.*.map.json
 /android/app/release
 
 # Generated project files
-test/examples/write-test.txt
+test/examples/*test.txt
 
 *.snap

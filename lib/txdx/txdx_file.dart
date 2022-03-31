@@ -7,7 +7,7 @@ class TxDxFile {
   static Future<void> saveToFile(String filename, List<TxDxItem> items) async {
     final contents = items.map((e) => e.toString()).join('\n');
     File file = await _getFile(filename);
-    await file.writeAsString(contents, flush: true);
+    await file.writeAsString(contents + '\n', flush: true);
   }
 
   static Future<void> appendToFile(String filename, List<TxDxItem> items) async {
@@ -41,14 +41,10 @@ class TxDxFile {
   static Future<bool> compareFileToDataEquality(String filename, List<TxDxItem> items) async {
     final fileItems = await openFromFile(filename);
 
-    if (fileItems.length != items.length) {
-      return false;
-    }
+    if (fileItems.length != items.length) return false;
 
     for (final fileItem in fileItems) {
-      if (!items.contains(fileItem)) {
-        return false;
-      }
+      if (!items.contains(fileItem)) return false;
     }
 
     return true;
