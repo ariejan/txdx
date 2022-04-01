@@ -6,7 +6,6 @@ import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:txdx/config/settings.dart';
 
 import '../../providers/files/file_change_provider.dart';
-import '../../providers/items/item_notifier_provider.dart';
 import '../misc/file_changed_widget.dart';
 import 'item_widget.dart';
 import '../navigation/menu_header_widget.dart';
@@ -68,17 +67,7 @@ class ItemsListView extends ConsumerWidget {
               child: ScrollablePositionedList.builder(
                 itemCount: items.length,
                 itemScrollController: controller,
-                itemBuilder: (_, i) {
-                  final item = items[i];
-                  return ItemWidget(
-                    item,
-                    onCompletedToggle: (bool value) {
-                      ref
-                          .read(itemsNotifierProvider.notifier)
-                          .toggleComplete(item.id);
-                    },
-                  );
-                },
+                itemBuilder: (_, i) => ItemWidget(items[i]),
               ),
             ),
           ),

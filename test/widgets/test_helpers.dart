@@ -4,19 +4,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:txdx/providers/settings/settings_provider.dart';
 
 class TestHelpers {
-  static Future<Widget> wrapWidget(Widget widget) async {
-    SharedPreferences.setMockInitialValues({}); //set values here
+  static Future<Widget> wrapWidget(
+      Widget widget, { List<Override>? overrides = const [] }) async {
+
+    SharedPreferences.setMockInitialValues({});
     SharedPreferences pref = await SharedPreferences.getInstance();
 
+    List<Override> theOverrides = [
+      settingsProvider.overrideWithValue(Settings('test', pref)),
+    ];
+
+    if (overrides != null) {
+      theOverrides.addAll(overrides);
+    }
+
     return ProviderScope(
-      overrides: [
-        settingsProvider.overrideWithValue(Settings('test', pref)),
-      ],
-      child: MaterialApp(
+        overrides: theOverrides,
+        child: MaterialApp(
           home: Material(
             child: widget,
-          )
-      )
-    );
+        )));
   }
 }

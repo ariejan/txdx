@@ -51,7 +51,7 @@ class ItemDueOnWidget extends StatelessWidget {
       return _justText('yesterday', color);
     } else {
       return AnimatedRelativeDateTimeBuilder(
-        date: dueOn.add(const Duration(days: 1)),
+        date: dueOn,
         builder: (relDateTime, formatted) {
           return _justText(formatted, color );
         },
