@@ -105,6 +105,9 @@ class HomeScreen extends ConsumerWidget {
 
         ref.read(itemsNotifierProvider.notifier).deleteItem(current);
       },
+      onTab: () {
+        return;
+      },
       child: Material(
         child: SplitView(
           sidebarWidth: 220,

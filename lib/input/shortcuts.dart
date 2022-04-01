@@ -50,6 +50,10 @@ final deleteKeySet = LogicalKeySet(
   LogicalKeyboardKey.keyD
 );
 
+final tabKeySet = LogicalKeySet(
+  LogicalKeyboardKey.tab,
+);
+
 class CancelEditingIntent extends Intent {}
 class AddNewIntent extends Intent {}
 class DownIntent extends Intent {}
@@ -60,6 +64,7 @@ class StartEditIntent extends Intent {}
 class ToggleCompletionIntent extends Intent {}
 class MoveToTodayIntent extends Intent {}
 class DeleteItemIntent extends Intent {}
+class TabIntent extends Intent {}
 
 class AppShortcuts extends StatelessWidget {
   const AppShortcuts({
@@ -74,6 +79,7 @@ class AppShortcuts extends StatelessWidget {
     required this.onToggle,
     required this.onMoveToToday,
     required this.onDelete,
+    required this.onTab,
     required this.child
   }) : super(key: key);
 
@@ -88,6 +94,7 @@ class AppShortcuts extends StatelessWidget {
   final VoidCallback onToggle;
   final VoidCallback onMoveToToday;
   final VoidCallback onDelete;
+  final VoidCallback onTab;
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +112,7 @@ class AppShortcuts extends StatelessWidget {
         toggleCompletionKeySet: ToggleCompletionIntent(),
         moveToTodayKeySet: MoveToTodayIntent(),
         deleteKeySet: DeleteItemIntent(),
+        tabKeySet: TabIntent(),
       },
       actions: {
         CancelEditingIntent:
@@ -127,6 +135,8 @@ class AppShortcuts extends StatelessWidget {
             CallbackAction(onInvoke: (e) => onMoveToToday.call()),
         DeleteItemIntent:
             CallbackAction(onInvoke: (e) => onDelete.call()),
+        TabIntent:
+            CallbackAction(onInvoke: (e) => onTab.call()),
       },
       child: child,
     );
