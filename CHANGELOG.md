@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+- Add option to sort items when writing to file. [#29]
+
 ## [1.0.7] - 2022-03-30
 ### Added
 - Item context menu (right click) for quick item tasks [#62]
