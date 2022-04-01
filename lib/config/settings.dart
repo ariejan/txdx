@@ -10,6 +10,8 @@ const settingsDefaultFilter = 'filter_default_selection';
 
 const settingsAutoAddFilter = 'item_auto_add_filter';
 
+const settingsFileSaveOrdered = 'todotxt_file_save_ordered';
+
 
 const defaultSettings = {
   settingsFileTodoTxt: null,
@@ -21,6 +23,7 @@ const defaultSettings = {
   settingsAutoAddFilter: true,
   settingsTodayInUpcoming: true,
   settingsDefaultFilter: 'all',
+  settingsFileSaveOrdered: true,
 };
 
 const nextUpDaysMin = 0;

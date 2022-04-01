@@ -89,7 +89,8 @@ void main() {
     });
 
     testWidgets('shows in n days', (tester) async {
-      final futureDate = DateTime.now().add(const Duration(days: 3));
+      final now = DateTime.now();
+      final futureDate = DateTime(now.year, now.month, now.day + 3);
       final strDate = Jiffy(futureDate).format('yyyy-MM-dd');
 
       final item = TxDxItem.fromText(

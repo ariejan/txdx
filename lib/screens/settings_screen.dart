@@ -298,6 +298,28 @@ class SettingsScreen extends ConsumerWidget {
                             children: [
                               const Padding(
                                 padding: EdgeInsets.all(8.0),
+                                child: Text('Save Todo.txt sorted alphabetically'),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Switch(
+                                            value: ref.watch(settingsProvider).getBool(settingsFileSaveOrdered),
+                                            onChanged: (value) {
+                                              ref.watch(settingsProvider).setBool(settingsFileSaveOrdered, value);
+                                            }
+                                        ),
+                                      ]
+                                  )
+                              )
+                            ]
+                        ),
+                        TableRow(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
                                 child: Text('Archive.txt file'),
                               ),
                               Padding(
