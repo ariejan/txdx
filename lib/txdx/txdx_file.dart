@@ -4,8 +4,17 @@ import 'txdx_item.dart';
 
 class TxDxFile {
 
-  static Future<void> saveToFile(String filename, List<TxDxItem> items) async {
-    final contents = items.map((e) => e.toString()).join('\n');
+  static Future<void> saveToFile(String filename, List<TxDxItem> items,
+      {bool sorted = false}) async {
+
+    var itemLines = items.map((e) => e.toString()).toList();
+
+    if (sorted) {
+      itemLines.sort();
+    }
+
+    final contents = itemLines.join('\n');
+
     File file = await _getFile(filename);
     await file.writeAsString(contents + '\n', flush: true);
   }

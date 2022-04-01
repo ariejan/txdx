@@ -165,9 +165,9 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
 
   void _setState(List<TxDxItem> value) {
     state = value;
-
+    
     if (todoFilename != null && todoFilename != '') {
-      TxDxFile.saveToFile(todoFilename!, value);
+      TxDxFile.saveToFile(todoFilename!, value, sorted: ref.read(settingsProvider).getBool(settingsFileSaveOrdered));
     }
   }
 
