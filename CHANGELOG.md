@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 - Add option to sort items when writing to file. [#29]
+- Add search/filter through cmd-f. [#64]
 
 ## [1.0.7] - 2022-03-30
 ### Added
