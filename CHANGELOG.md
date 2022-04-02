@@ -2,9 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
 - Add option to sort items when writing to file. [#29]
 - Add search/filter through cmd-f. [#64]
 - Handle future due dates: due:1y2m3w4d format. [#63]
+### Fixed
+- Fix dueOn words calculation. [#65]
 
 ## [1.0.7] - 2022-03-30
 ### Added

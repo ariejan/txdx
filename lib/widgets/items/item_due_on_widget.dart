@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lit_relative_date_time/lit_relative_date_time.dart';
 
 import '../../config/colors.dart';
+import '../misc/animated_relative_date_builder.dart';
 
 class ItemDueOnWidget extends StatelessWidget {
 
@@ -50,8 +50,8 @@ class ItemDueOnWidget extends StatelessWidget {
     } else if (dueOn == yesterday) {
       return _justText('yesterday', color);
     } else {
-      return AnimatedRelativeDateTimeBuilder(
-        date: dueOn.add(const Duration(days: 1)),
+      return AnimatedRelativeDateBuilder(
+        date: dueOn,
         builder: (relDateTime, formatted) {
           return _justText(formatted, color );
         },

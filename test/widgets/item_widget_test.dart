@@ -88,18 +88,18 @@ void main() {
       expect(dueOnWidget, findsOneWidget);
     });
 
-    // testWidgets('shows in n days', (tester) async {
-    //   final now = DateTime.now();
-    //   final futureDate = DateTime(now.year, now.month, now.day + 3);
-    //   final strDate = Jiffy(futureDate).format('yyyy-MM-dd');
-    //
-    //   final item = TxDxItem.fromText(
-    //       '(A) 2022-01-18 Buy birthday cake @shopping due:$strDate');
-    //   await tester.pumpWidget(await TestHelpers.wrapWidget(ItemWidget(item)));
-    //   final dueOnWidget = find.text("in 3 days");
-    //
-    //   expect(dueOnWidget, findsOneWidget);
-    // });
+    testWidgets('shows in n days', (tester) async {
+      final now = DateTime.now();
+      final futureDate = DateTime(now.year, now.month, now.day + 3);
+      final strDate = Jiffy(futureDate).format('yyyy-MM-dd');
+
+      final item = TxDxItem.fromText(
+          '(A) 2022-01-18 Buy birthday cake @shopping due:$strDate');
+      await tester.pumpWidget(await TestHelpers.wrapWidget(ItemWidget(item)));
+      final dueOnWidget = find.text("in 3 days");
+
+      expect(dueOnWidget, findsOneWidget);
+    });
   });
 
   group('completed checkbox', () {
