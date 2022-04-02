@@ -16,13 +16,14 @@ final itemStateSorter = StateProvider<List<ItemStateSorter>>((ref) {
   return [ItemStateSorter.completion, ItemStateSorter.priority, ItemStateSorter.dueOn, ItemStateSorter.description];
 });
 
-final itemStateGrouper = StateProvider<ItemStateSorter>((ref) {
-  return ItemStateSorter.priority;
-});
+final itemStateGrouper = StateProvider<ItemStateSorter>((ref) => ItemStateSorter.priority);
 
 final itemFilter = StateProvider<String?>((ref) {
   return ref.read(settingsProvider).getString(settingsDefaultFilter);
 });
+
+final isSearchingProvider = StateProvider<bool>((_) => false);
+final searchTextProvider = StateProvider<String?>((_) => null);
 
 int descriptionSort(TxDxItem a, TxDxItem b) => a.description.compareTo(b.description);
 
@@ -96,16 +97,19 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
   final items = ref.watch(scopedItems);
   final filter = ref.watch(itemFilter);
 
+  final isSearching = ref.watch(isSearchingProvider);
+  final searchText = ref.watch(searchTextProvider);
+
   final settings = ref.watch(settingsProvider);
 
-  final result = items.toList();
+  var result = items.toList();
 
   if (filter == null || filter == 'all') {
     // Noop
   } else if (filter == 'due:today') {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    return result.where((item) =>
+    result = result.where((item) =>
       item.hasDueOn && item.dueOn == today
     ).toList();
   } else if (filter == 'due:upcoming') {
@@ -115,14 +119,14 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
       ? DateTime(now.year, now.month, now.day - 1)
       : DateTime(now.year, now.month, now.day);
     final futureDay = DateTime(now.year, now.month, now.day + nextUpDays + 1);
-    return result.where((item) =>
+    result = result.where((item) =>
       item.hasDueOn && item.dueOn!.isAfter(today) && item.dueOn!.isBefore(futureDay)
     ).toList();
   } else if (filter == 'due:someday') {
     final nextUpDays = ref.watch(settingsProvider).getInt(settingsUpcomingDays);
     final now = DateTime.now();
     final futureDay = DateTime(now.year, now.month, now.day + nextUpDays);
-    return result.where((item) =>
+    result = result.where((item) =>
       !item.hasDueOn
         || (item.hasDueOn && item.dueOn!.isAfter(futureDay))
     ).toList();
@@ -134,57 +138,8 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
     result.removeWhere((item) => !item.hasContextOrProject(filter));
   }
 
-  return result;
-
-});
-
-final groupedItems = Provider<Map<String, List<TxDxItem>>>((ref) {
-  final items = ref.watch(filteredItems);
-  final grouper = ref.watch(itemStateGrouper);
-
-  final result = <String, List<TxDxItem>>{};
-
-  switch(grouper) {
-    case ItemStateSorter.dueOn: {
-      for (var item in items) {
-        final key = item.dueOn?.microsecondsSinceEpoch.toString() ?? '0';
-
-        if (!result.containsKey(key)) {
-          result[key] = [];
-        }
-        result[key]?.add(item);
-      }
-    }
-    break;
-
-    case ItemStateSorter.completion: {
-      for (var item in items) {
-        final key = item.completed.toString();
-
-        if (!result.containsKey(key)) {
-          result[key] = [];
-        }
-        result[key]?.add(item);
-      }
-    }
-    break;
-
-    case ItemStateSorter.description: {
-      result["everything"] = items;
-    }
-    break;
-
-    case ItemStateSorter.priority: {
-      for (var item in items) {
-        final key = item.priority ?? 'Not prioritized';
-
-        if (!result.containsKey(key)) {
-          result[key] = [];
-        }
-        result[key]?.add(item);
-      }
-    }
-    break;
+  if (isSearching && searchText != null && searchText.isNotEmpty) {
+    result = result.where((item) => item.description.contains(searchText)).toList();
   }
 
   return result;

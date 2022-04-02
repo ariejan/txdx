@@ -27,8 +27,15 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AppShortcuts(
       onCancelEditingDetected: () {
-        ref.read(editingItemIdStateProvider.state).state = null;
-        shortcutsFocusNode.requestFocus();
+        if (ref.read(isSearchingProvider)) {
+          ref.read(searchTextProvider.state).state = null;
+          ref.read(isSearchingProvider.state).state = false;
+        } else {
+          ref
+              .read(editingItemIdStateProvider.state)
+              .state = null;
+          shortcutsFocusNode.requestFocus();
+        }
       },
       onAddNew: () {
         ref.read(editingItemIdStateProvider.state).state = null;
@@ -107,6 +114,11 @@ class HomeScreen extends ConsumerWidget {
       },
       onTab: () {
         return;
+      },
+      onSearch: () {
+        ref.read(searchTextProvider.state).state = '';
+        ref.read(isSearchingProvider.state).state = true;
+        searchFocusNode.requestFocus();
       },
       child: Material(
         child: SplitView(

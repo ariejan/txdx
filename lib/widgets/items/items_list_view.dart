@@ -4,6 +4,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
 import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:txdx/config/settings.dart';
+import 'package:txdx/widgets/misc/search_widget.dart';
 
 import '../../providers/files/file_change_provider.dart';
 import '../misc/file_changed_widget.dart';
@@ -40,6 +41,7 @@ class ItemsListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final hasFileChanges = ref.watch(fileWasChanged);
     final items = ref.watch(filteredItems);
+    final isSearching = ref.watch(isSearchingProvider);
 
     return Column(
       children: [
@@ -51,6 +53,7 @@ class ItemsListView extends ConsumerWidget {
                 margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
               ),
               if (hasFileChanges) const FileChangedWidget(),
+              if (isSearching) SearchWidget(),
               if (items.isEmpty)
                 const Padding(
                   padding: EdgeInsets.all(8.0),
