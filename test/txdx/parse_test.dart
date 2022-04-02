@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 void main() {
@@ -190,12 +191,17 @@ void main() {
       expect(item.dueOn, equals(yesterday));
     });
 
-    test('complex due date: +-modifier', () {
+    test('due modifier syntax', () {
       final now = DateTime.now();
-      final futureDate = DateTime(now.year, now.month, now.day + 7);
+      final today = DateTime(now.year, now.month, now.day);
 
-      final item = TxDxItem.fromText('do something due:+7');
-      expect(item.dueOn, equals(futureDate));
+      expect(TxDxItem.fromText('do it due:4d').dueOn, equals(Jiffy(today).add(days: 4).dateTime));
+      expect(TxDxItem.fromText('do it due:12d').dueOn, equals(Jiffy(today).add(days: 12).dateTime));
+      expect(TxDxItem.fromText('do it due:3w').dueOn, equals(Jiffy(today).add(weeks: 3).dateTime));
+      expect(TxDxItem.fromText('do it due:2m').dueOn, equals(Jiffy(today).add(months: 2).dateTime));
+      expect(TxDxItem.fromText('do it due:1y').dueOn, equals(Jiffy(today).add(years: 1).dateTime));
+      expect(TxDxItem.fromText('do it due:1w2d').dueOn, equals(Jiffy(today).add(weeks: 1, days: 2).dateTime));
+      expect(TxDxItem.fromText('do it due:1y2m3w4d').dueOn, equals(Jiffy(today).add(years: 1, months: 2, weeks: 3, days: 4).dateTime));
     });
   });
 

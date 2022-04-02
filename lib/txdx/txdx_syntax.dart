@@ -9,7 +9,8 @@ class TxDxSyntax {
   static RegExp completedRegExp = RegExp(r'^x\s+');
   static RegExp tagsRegExp = RegExp(r'([a-z]+):([\+?A-Za-z0-9_-]+)', caseSensitive: false);
 
-  static RegExp incDaysRegExp = RegExp(r'^\+(\d+)');
+  static RegExp incDaysRegExp = RegExp(r'(\d+y)?(\d+m)?(\d+w)?(\d+d)?');
+  static RegExp todoTxtDate = RegExp(r'(\d{4}-\d{1,2}-\d{1,2})');
 
   static bool getCompleted(String text) {
     return _getMatch(completedRegExp, text) != null;
@@ -37,35 +38,48 @@ class TxDxSyntax {
     // Find/replace the 'due' tag if it exists.
     if (tags.containsKey('due')) {
       final value = tags['due']!.toLowerCase();
-
       final now = DateTime.now();
-      final today = DateTime(now.year, now.month, now.day);
-      final tomorrow = DateTime(now.year, now.month, now.day + 1);
-      final yesterday = DateTime(now.year, now.month, now.day - 1);
 
-      DateTime? dueOn;
-
-      final matchResult = _getMatch(incDaysRegExp, value);
-
-      if (matchResult != null) {
-        dueOn = now.add(Duration(days: int.parse(matchResult)));
+      if (todoTxtDate.hasMatch(value)) {
+        tags['due'] = Jiffy(value).format('yyyy-MM-dd');
+      } else if (value == 'today') {
+        final today = DateTime(now.year, now.month, now.day);
+        tags['due'] = Jiffy(today).format('yyyy-MM-dd');
+      } else if (value == 'tomorrow') {
+        final tomorrow = DateTime(now.year, now.month, now.day + 1);
+        tags['due'] = Jiffy(tomorrow).format('yyyy-MM-dd');
+      } else if (value == 'yesterday') {
+        final yesterday = DateTime(now.year, now.month, now.day - 1);
+        tags['due'] = Jiffy(yesterday).format('yyyy-MM-dd');
       } else {
-        switch (value) {
-          case 'today':
-            dueOn = today;
-            break;
-          case 'tomorrow':
-            dueOn = tomorrow;
-            break;
-          case 'yesterday':
-            dueOn = yesterday;
-            break;
-          default:
-            dueOn = Jiffy(value).dateTime;
+        var match = incDaysRegExp.firstMatch(value);
+        if (match != null) {
+          var dueOn = now;
+          final yearVal = match.group(1);
+          final monthVal = match.group(2);
+          final weekVal = match.group(3);
+          final dayVal = match.group(4);
+
+          if (yearVal != null) {
+            final value = int.parse(yearVal.substring(0, yearVal.length - 1));
+            dueOn = Jiffy(dueOn).add(years: value).dateTime;
+          }
+          if (monthVal != null) {
+            final value = int.parse(monthVal.substring(0, monthVal.length - 1));
+            dueOn = Jiffy(dueOn).add(months: value).dateTime;
+          }
+          if (weekVal != null) {
+            final value = int.parse(weekVal.substring(0, weekVal.length - 1));
+            dueOn = Jiffy(dueOn).add(weeks: value).dateTime;
+          }
+          if (dayVal != null) {
+            final value = int.parse(dayVal.substring(0, dayVal.length - 1));
+            dueOn = Jiffy(dueOn).add(days: value).dateTime;
+          }
+
+          tags['due'] = Jiffy(dueOn).format('yyyy-MM-dd');
         }
       }
-
-      tags['due'] = Jiffy(dueOn).format('yyyy-MM-dd');
     }
 
 
