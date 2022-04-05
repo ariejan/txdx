@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+### Added
+- Enable Sandbox mode on macos for App Store release [#66]
+
 ## [1.0.8] - 2022-04-02
 ### Added
 - Add option to sort items when writing to file. [#29]

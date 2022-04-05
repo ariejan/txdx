@@ -4,8 +4,7 @@ import 'txdx_item.dart';
 
 class TxDxFile {
 
-  static Future<void> saveToFile(String filename, List<TxDxItem> items,
-      {bool sorted = false}) async {
+  static Future<void> saveToFile(File file, List<TxDxItem> items, { bool sorted = false }) async {
 
     var itemLines = items.map((e) => e.toString()).toList();
 
@@ -14,19 +13,16 @@ class TxDxFile {
     }
 
     final contents = itemLines.join('\n');
-
-    File file = await _getFile(filename);
     await file.writeAsString(contents + '\n', flush: true);
   }
 
-  static Future<void> appendToFile(String filename, List<TxDxItem> items) async {
+  static Future<void> appendToFile(File file, List<TxDxItem> items) async {
     final contents = items.map((e) => e.toString()).join('\n');
-    File file = await _getFile(filename);
     await file.writeAsString(contents + '\n', flush: true, mode: FileMode.writeOnlyAppend);
   }
 
-  static Future<List<TxDxItem>> openFromFile(String filename) async {
-    List<String> lines = await _readLines(filename);
+  static Future<List<TxDxItem>> openFromFile(File file) async {
+    List<String> lines = await file.readAsLines();
     final theList = <TxDxItem>[];
 
     for (var line in lines) {
@@ -36,19 +32,9 @@ class TxDxFile {
     return theList;
   }
 
-  static Future<List<String>> _readLines(String filename) async {
-    File file = await _getFile(filename);
-    List<String> lines = await file.readAsLines();
-    return lines;
-  }
-
-  static Future<File> _getFile(String filename) async {
-    return File(filename);
-  }
-
   // Returns true if data in the file and the provided list are the same
-  static Future<bool> compareFileToDataEquality(String filename, List<TxDxItem> items) async {
-    final fileItems = await openFromFile(filename);
+  static Future<bool> compareFileToDataEquality(File file, List<TxDxItem> items) async {
+    final fileItems = await openFromFile(file);
 
     if (fileItems.length != items.length) return false;
 

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
 import 'package:txdx/input/browser.dart';
 
 import '../config/settings.dart';
@@ -262,7 +265,12 @@ class SettingsScreen extends ConsumerWidget {
                                     TextButton(
                                       child: const Text('📂 Select file'),
                                       onPressed: () => {
-                                        _pickFile().then((filename) {
+                                        _pickFile().then((filename) async {
+                                          if (Platform.isMacOS && filename != null) {
+                                            final _secureBookmarks = SecureBookmarks();
+                                            final bookmark = await _secureBookmarks.bookmark(File(filename));
+                                            ref.read(settingsProvider).setString(settingsTodoTxtMacosSecureBookmark, bookmark);
+                                          }
                                           ref.read(settingsProvider).setString(settingsFileTodoTxt, filename ?? '');
                                         })
                                       },
@@ -336,7 +344,13 @@ class SettingsScreen extends ConsumerWidget {
                                     TextButton(
                                       child: const Text('📂 Select file'),
                                       onPressed: () => {
-                                        _pickFile().then((filename) {
+                                        _pickFile().then((filename) async {
+                                          if (Platform.isMacOS && filename != null) {
+                                            final _secureBookmarks = SecureBookmarks();
+                                            final bookmark = await _secureBookmarks.bookmark(File(filename));
+                                            ref.read(settingsProvider).setString(settingsArchiveTxtMacosSecureBookmark, bookmark);
+                                          }
+
                                           ref.read(settingsProvider).setString(settingsFileArchiveTxt, filename ?? '');
                                         })
                                       },

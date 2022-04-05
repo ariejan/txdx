@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/settings/settings_provider.dart';
@@ -30,7 +32,7 @@ final fileHasChangedProvider = FutureProvider.autoDispose<bool>((ref) async {
   final event = await ref.watch(fileWatcherProvider.future);
 
   final items = ref.read(itemsNotifierProvider);
-  final areEqual = await TxDxFile.compareFileToDataEquality(event.filename, items);
+  final areEqual = await TxDxFile.compareFileToDataEquality(File(event.filename), items);
 
   return !areEqual;
 });

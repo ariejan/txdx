@@ -3,37 +3,51 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:txdx/providers/files/file_notifier_provider.dart';
 import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:txdx/txdx/txdx_file.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 import '../../config/settings.dart';
 
-final itemsNotifierProvider =
-  StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) => ItemNotifier(ref));
+final itemsNotifierProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) {
+  final settings = ref.watch(settingsProvider);
+
+  final todoFilename = settings.getString(settingsFileTodoTxt);
+  final todoFile = ref.watch(todoFileProvider).maybeWhen(
+      data: (file) => file,
+      orElse: () => null);
+
+  final archiveFilename = settings.getString(settingsFileArchiveTxt);
+  final archiveFile = ref.watch(archiveFileProvider).maybeWhen(
+      data: (file) => file,
+      orElse: () => null);
+
+  return ItemNotifier(ref, todoFile, archiveFile, todoFilename, archiveFilename);
+});
 
 class ItemNotifier extends StateNotifier<List<TxDxItem>> {
-  ItemNotifier(this.ref) : super(const []) {
+  ItemNotifier(this.ref, this.todoFile, this.archiveFile, this.todoFilename, this.archiveFilename) : super(const []) {
     _initialize();
   }
 
   final StateNotifierProviderRef ref;
-  late final String? todoFilename;
-  late final String? archiveFilename;
+  final File? todoFile;
+  final File? archiveFile;
+
+  final String? todoFilename;
+  final String? archiveFilename;
 
   Future<void> _initialize() async {
-    todoFilename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
-    archiveFilename = ref.watch(settingsProvider).getString(settingsFileArchiveTxt);
-
-    if (todoFilename != null && todoFilename != '') {
+    if (todoFile != null) {
       loadItemsFromDisk();
     } else {
       state = [];
     }
   }
 
-  void loadItemsFromDisk() {
-    TxDxFile.openFromFile(todoFilename!).then((theItems) {
+  void loadItemsFromDisk() async {
+    TxDxFile.openFromFile(todoFile!).then((theItems) {
       state = theItems;
     }).catchError((e) {
       state = [];
@@ -155,8 +169,8 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     final items = getItems().toList();
     final completedItems = items.where((item) => item.completed).toList();
 
-    if (archiveFilename != null && File(archiveFilename!).existsSync()) {
-      TxDxFile.appendToFile(archiveFilename!, completedItems);
+    if (archiveFile != null) {
+      TxDxFile.appendToFile(archiveFile!, completedItems);
 
       items.removeWhere((item) => item.completed);
       _setState(items);
@@ -165,9 +179,10 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
 
   void _setState(List<TxDxItem> value) {
     state = value;
-    
-    if (todoFilename != null && todoFilename != '') {
-      TxDxFile.saveToFile(todoFilename!, value, sorted: ref.read(settingsProvider).getBool(settingsFileSaveOrdered));
+    final sorted = ref.read(settingsProvider).getBool(settingsFileSaveOrdered);
+
+    if (todoFile != null) {
+      TxDxFile.saveToFile(todoFile!, value, sorted: sorted);
     }
   }
 

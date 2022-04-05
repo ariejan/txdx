@@ -5,14 +5,14 @@ import 'package:txdx/txdx/txdx_file.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 void main() {
-  Future<void> _expectNumberOfEntriesInFile(String filename, int expectedNumberOfItems) async {
-    final items = await TxDxFile.openFromFile(filename);
+  Future<void> _expectNumberOfEntriesInFile(File file, int expectedNumberOfItems) async {
+    final items = await TxDxFile.openFromFile(file);
     expect(items, hasLength(expectedNumberOfItems));
   }
 
   group('test example.txt reading/parsing', () {
     test('parse the file', () {
-      _expectNumberOfEntriesInFile(Directory.current.path + '/test/examples/example.txt', 3);
+      _expectNumberOfEntriesInFile(File(Directory.current.path + '/test/examples/example.txt'), 3);
     });
   });
 
@@ -24,11 +24,11 @@ void main() {
       ];
 
       final tmpFilename = Directory.current.path + '/test/examples/write-test.txt';
+      final tmpFile = File(tmpFilename);
 
-      TxDxFile.saveToFile(tmpFilename, items).then((_) {
-        _expectNumberOfEntriesInFile(tmpFilename, 2).then((_) {
-          final file = File(tmpFilename);
-          file.deleteSync();
+      TxDxFile.saveToFile(tmpFile, items).then((_) {
+        _expectNumberOfEntriesInFile(tmpFile, 2).then((_) {
+          tmpFile.deleteSync();
         });
       });
     });
@@ -45,13 +45,13 @@ void main() {
       ];
 
       final tmpFilename = Directory.current.path + '/test/examples/append-test.txt';
+      final tmpFile = File(tmpFilename);
 
-      TxDxFile.saveToFile(tmpFilename, items).then((_) {
-        _expectNumberOfEntriesInFile(tmpFilename, 2).then((_) {
-          TxDxFile.appendToFile(tmpFilename, newItems).then((_) {
-            _expectNumberOfEntriesInFile(tmpFilename, 3).then((_) {
-              final file = File(tmpFilename);
-              file.deleteSync();
+      TxDxFile.saveToFile(tmpFile, items).then((_) {
+        _expectNumberOfEntriesInFile(tmpFile, 2).then((_) {
+          TxDxFile.appendToFile(tmpFile, newItems).then((_) {
+            _expectNumberOfEntriesInFile(tmpFile, 3).then((_) {
+              tmpFile.deleteSync();
             });
           });
         });
@@ -66,7 +66,8 @@ void main() {
         TxDxItem.fromText('x 2022-01-25 2022-01-18 Buy flowers @shopping pri:B'),
       ];
       final tmpFilename = Directory.current.path + '/test/examples/equality-test.txt';
-      await TxDxFile.saveToFile(tmpFilename, items);
+      final tmpFile = File(tmpFilename);
+      await TxDxFile.saveToFile(tmpFile, items);
 
       final reorderedItems = [
         TxDxItem.fromText('x 2022-01-25 2022-01-18 Buy flowers @shopping pri:B'),
@@ -78,9 +79,9 @@ void main() {
         TxDxItem.fromText('x 2022-03-31 2022-01-25 Test writing files +txdx @testing due:2022-01-28'),
       ];
 
-      final sameItemsEquality = await TxDxFile.compareFileToDataEquality(tmpFilename, items);
-      final reorderedItemsEquality = await TxDxFile.compareFileToDataEquality(tmpFilename, reorderedItems);
-      final changedItemsEquality = await TxDxFile.compareFileToDataEquality(tmpFilename, changedItems);
+      final sameItemsEquality = await TxDxFile.compareFileToDataEquality(tmpFile, items);
+      final reorderedItemsEquality = await TxDxFile.compareFileToDataEquality(tmpFile, reorderedItems);
+      final changedItemsEquality = await TxDxFile.compareFileToDataEquality(tmpFile, changedItems);
 
       expect(sameItemsEquality, isTrue);
       expect(reorderedItemsEquality, isTrue);

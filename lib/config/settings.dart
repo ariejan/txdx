@@ -12,6 +12,8 @@ const settingsAutoAddFilter = 'item_auto_add_filter';
 
 const settingsFileSaveOrdered = 'todotxt_file_save_ordered';
 
+const settingsTodoTxtMacosSecureBookmark = 'todotxt_macos_secure_bookmark';
+const settingsArchiveTxtMacosSecureBookmark = 'archivetxt_macos_secure_bookmark';
 
 const defaultSettings = {
   settingsFileTodoTxt: null,
