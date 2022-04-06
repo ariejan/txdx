@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000356">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: app_store_connect_api_key" time="0.003265">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: get_certificates" time="0.935214">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: get_provisioning_profile" time="0.992831">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: flutter build macos --release" time="9.537694">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: build_mac_app" time="23.66818">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: codesign --sign Developer\ ID\ Application:\ Ariejan\ De\ Vroom\ \(5N4J4E7395\) --timestamp\=none /Users/ariejan/src/txdx/macos/output/TxDxTest.dmg" time="0.092031">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="7: notarize" time="68.749586">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>
