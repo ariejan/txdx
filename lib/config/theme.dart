@@ -11,6 +11,11 @@ abstract class TxDxTheme {
   static ThemeData light() {
     return _lightTheme.copyWith(
       canvasColor: TxDxColors.lightBackground,
+      appBarTheme: _darkTheme.appBarTheme.copyWith(
+        backgroundColor: _lightTheme.primaryColorDark,
+        shadowColor: Colors.transparent,
+      ),
+      scaffoldBackgroundColor: TxDxColors.lightBackground,
       colorScheme: _lightTheme.colorScheme.copyWith(
         background: TxDxColors.lightBackground,
       ),
@@ -20,6 +25,11 @@ abstract class TxDxTheme {
   static ThemeData dark() {
     return _darkTheme.copyWith(
       canvasColor: TxDxColors.darkBackground,
+      appBarTheme: _darkTheme.appBarTheme.copyWith(
+        backgroundColor: _lightTheme.primaryColorDark,
+        shadowColor: Colors.transparent,
+      ),
+      scaffoldBackgroundColor: TxDxColors.darkBackground,
       colorScheme: _darkTheme.colorScheme.copyWith(
         background: TxDxColors.darkBackground,
       ),
