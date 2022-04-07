@@ -136,6 +136,7 @@ build_macos_dmg:
     - flutter upgrade
     - flutter precache
     - flutter clean
+    - echo $APPLE_AUTH_KEY > authkey.p8
   script:
     - cd macos
     - fastlane mac_dmg
