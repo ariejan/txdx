@@ -128,8 +128,10 @@ build_macos_dmg:
   tags: 
     - macos
   before_script:
+    - cd macos
     - gem install bundler
     - bundle install
+    - cd $CI_PROJECT_DIR
     - flutter channel stable
     - flutter upgrade
     - flutter precache
