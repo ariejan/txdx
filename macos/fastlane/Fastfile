@@ -1,0 +1,78 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:mac)
+
+platform :mac do
+  desc "Build notarized dmg"
+  lane :mac_dmg do
+    version = ENV["CI_COMMIT_TAG"] || "test"
+    output_dir = "output"
+
+    api_key = app_store_connect_api_key(
+      key_id: "6K94WQ8LS9",
+      issuer_id: "69a6de78-36da-47e3-e053-5b8c7c11a4d1",
+      key_filepath: "authkey.p8",
+      duration: 1200,
+    )
+
+    get_certificates(
+      type: 'developer_id_application',
+      platform: 'macos',
+      generate_apple_certs: false,
+    )
+
+    get_provisioning_profile(
+      developer_id: true,
+      platform: 'macos',
+      readonly: true,
+    )
+
+    Dir.chdir("../") do
+      sh("flutter", "build", "macos", "--release")
+    end
+
+    build_mac_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "developer-id",
+      output_directory: output_dir,
+    )
+
+    dmg_path = create_dmg("../#{output_dir}", "txdx-#{version}")
+
+    Dir.chdir("../#{output_dir}") do
+      sh("codesign", "--sign", 'Developer ID Application: Ariejan De Vroom (5N4J4E7395)', "--timestamp=none", dmg_path)
+      
+    end
+
+    notarize(
+      package: dmg_path,
+      api_key: api_key,
+      bundle_id: "io.devroom.txdx",
+    )
+
+  end
+
+  def create_dmg(folder, dmg_name)
+    expanded_path = File.expand_path(folder)
+
+    UI.important "Creating dmg for folder #{expanded_path}"
+    UI.important "hdiutil create -fs HFS+ -srcfolder \"#{expanded_path}\" -volname #{dmg_name} #{folder}/#{dmg_name}.dmg"
+    `hdiutil create -fs HFS+ -srcfolder "#{expanded_path}" -volname #{dmg_name} #{folder}/#{dmg_name}.dmg`
+    raise "Unable to create DMG" unless $? == 0
+    return "#{expanded_path}/#{dmg_name}.dmg"
+  end
+end

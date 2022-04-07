@@ -5,3 +5,10 @@
 # Xcode-related
 **/dgph
 **/xcuserdata/
+
+*.cer
+*.certSigningRequest
+*.p12
+*.provisionprofile
+
+**/output/
