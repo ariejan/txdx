@@ -15,11 +15,14 @@ variables:
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/txdx/${CI_COMMIT_TAG}"
 
 stages:
-  #- test
   - build
-    #- package
-  #- upload
-  #- release
+
+# stages:
+#   - test
+#   - build
+#   - package
+#   - upload
+#   - release
 
 analyze:
   stage: test
@@ -136,7 +139,7 @@ build_macos_dmg:
     - flutter upgrade
     - flutter precache
     - flutter clean
-    - echo -n $APPLE_AUTH_KEY | base64 -d > macos/authkey.p8
+    - echo $APPLE_AUTH_KEY | base64 -d > macos/authkey.p8"
   script:
     - cd macos
     - fastlane mac_dmg
