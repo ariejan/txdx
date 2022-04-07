@@ -1,9 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.0.9] - 2022-04-07
 ### Added
-- Enable Sandbox mode on macos for App Store release [#66]
+- Enable Sandbox mode on macos for App Store/Notarized release [#66]
+### Fixed
+- Make setings screen more usable [#69]
+- Link to correct website [#67]
 
 ## [1.0.8] - 2022-04-02
 ### Added
