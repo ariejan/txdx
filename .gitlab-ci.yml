@@ -9,9 +9,9 @@ default:
 
 variables:
   DARWIN_AMD64_BINARY: "txdx-macos-${CI_COMMIT_TAG}.zip"
+  DMG_BINARY: "txdx-${CI_COMMIT_TAG}.dmg"
   SNAP_AMD64_BINARY: "txdx_${CI_COMMIT_TAG}_amd64.snap"
   WIN_PORTABLE_X64_BINARY: "txdx_${CI_COMMIT_TAG}_portable_x64.zip"
-  MSIX_X64_BINARY: "txdx_${CI_COMMIT_TAG}_x64.msix"
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/txdx/${CI_COMMIT_TAG}"
 
 stages:
@@ -144,9 +144,11 @@ build_macos_dmg:
     - cd macos
     - fastlane mac_dmg
     - cd $CI_PROJECT_DIR
+  after_script:
+    - mv macos/output/$DMG_BINARY $CI_PROJECT_DIR/$DMG_BINARY
   artifacts:
     paths:
-      - "macos/output/*.dmg"
+      - "$DMG_BINARY"
 
 build_macos:
   stage: build
