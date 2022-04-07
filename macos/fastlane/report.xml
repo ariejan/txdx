@@ -5,42 +5,42 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000356">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000262">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: app_store_connect_api_key" time="0.003265">
+      <testcase classname="fastlane.lanes" name="1: app_store_connect_api_key" time="0.068334">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: get_certificates" time="0.935214">
+      <testcase classname="fastlane.lanes" name="2: get_certificates" time="1.017996">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: get_provisioning_profile" time="0.992831">
+      <testcase classname="fastlane.lanes" name="3: get_provisioning_profile" time="1.002248">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: flutter build macos --release" time="9.537694">
+      <testcase classname="fastlane.lanes" name="4: flutter build macos --release" time="8.843163">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="5: build_mac_app" time="23.66818">
+      <testcase classname="fastlane.lanes" name="5: build_mac_app" time="21.786551">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="6: codesign --sign Developer\ ID\ Application:\ Ariejan\ De\ Vroom\ \(5N4J4E7395\) --timestamp\=none /Users/ariejan/src/txdx/macos/output/TxDxTest.dmg" time="0.092031">
+      <testcase classname="fastlane.lanes" name="6: codesign --sign Developer\ ID\ Application:\ Ariejan\ De\ Vroom\ \(5N4J4E7395\) --timestamp\=none /Users/ariejan/src/txdx/macos/output/TxDxTest.dmg" time="0.089628">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="7: notarize" time="68.749586">
+      <testcase classname="fastlane.lanes" name="7: notarize" time="61.562388">
         
       </testcase>
     

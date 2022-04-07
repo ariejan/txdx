@@ -29,12 +29,14 @@ platform :mac do
 
     get_certificates(
       type: 'developer_id_application',
-      platform: 'macos'
+      platform: 'macos',
+      generate_apple_certs: false,
     )
 
     get_provisioning_profile(
       developer_id: true,
-      platform: 'macos'
+      platform: 'macos',
+      readonly: true,
     )
 
     Dir.chdir("../") do
