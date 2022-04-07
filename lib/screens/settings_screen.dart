@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
-import 'package:txdx/input/browser.dart';
 
 import '../config/settings.dart';
+import '../input/browser.dart';
 import '../providers/settings/platform_info_provider.dart';
 import '../providers/settings/settings_provider.dart';
 import '../widgets/navigation/menu_header_widget.dart';
@@ -370,12 +371,12 @@ class SettingsScreen extends ConsumerWidget {
 
                     Text('TxDx $appVersion ($namespace)', style: const TextStyle(fontWeight: FontWeight.bold)),
                     const Text('Copyright © 2022 Ariejan de Vroom'),
-                    const Text('Published under the MIT License'),
-                    TextButton(
-                      onPressed: () => launchInBrowser('https://www.devroom.io/txdx'),
-                      child: const Text('https://www.devroom.io/txdx')
-                    )
-
+                    Linkify(
+                        text: "https://www.txdx.eu",
+                        onOpen: (LinkableElement link) {
+                          launchInBrowser(link.url);
+                        },
+                    ),
                   ]
                 )
               ),
