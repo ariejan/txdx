@@ -134,16 +134,9 @@ upload:
   rules:
     - if: $CI_COMMIT_TAG
   script:
-    - echo $MSIX_X64_BINARY
-    - ls -lah build/windows/runner/Release
-    - echo $CI_PROJECT_DIR
-    - ls -lah "${CI_PROJECT_DIR}"/build/windows/runner/Release
-    - cp "${CI_PROJECT_DIR}"/build/windows/runner/Release/txdx.msix "${MSIX_X64_BINARY}"
-    - ls -lah
     - sha256sum $DMG_BINARY > SHA256SUMS
     - sha256sum $SNAP_AMD64_BINARY >> SHA256SUMS
     - sha256sum $WIN_PORTABLE_X64_BINARY >> SHA256SUMS
-    # - sha256sum $MSIX_X64_BINARY >> SHA256SUMS
     - |
       curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file $DMG_BINARY "${PACKAGE_REGISTRY_URL}/${DMG_BINARY}"
     - |
