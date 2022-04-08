@@ -23,6 +23,13 @@ class SidebarWidget extends ConsumerWidget {
 
     final archiveAvailable = ref.watch(archivingAvailableProvider);
 
+    final badgeColor = Theme.of(context).brightness == Brightness.dark
+        ? TxDxColors.darkBadge
+        : TxDxColors.lightBadge;
+    final badgeColor2 = Theme.of(context).brightness == Brightness.dark
+        ? TxDxColors.darkBadge2
+        : TxDxColors.lightBadge2;
+
     return Container(
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -37,31 +44,38 @@ class SidebarWidget extends ConsumerWidget {
                   Column(
                     children: [
                       const MenuHeaderWidget('TxDx'),
-                      const MenuItemWidget(
-                        icon: FaIcon(FontAwesomeIcons.tableCells, size: 16),
+                      MenuItemWidget(
+                        icon: const FaIcon(FontAwesomeIcons.tableCells, size: 16),
                         title: 'All',
                         itemFilterValue: filterAll,
+                        badgeCount: ref.watch(itemsCountAll),
+                        badgeColor: badgeColor2,
                       ),
                       MenuItemWidget(
                         icon: const FaIcon(FontAwesomeIcons.calendarDay, size: 16),
                         title: 'Today',
                         itemFilterValue: filterToday,
                         badgeCount: ref.watch(itemsCountDueToday),
+                        badgeColor: badgeColor,
                       ),
-                      const MenuItemWidget(
-                        icon: FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
+                      MenuItemWidget(
+                        icon: const FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
                         title: 'Upcoming',
                         itemFilterValue: filterUpcoming,
+                        badgeCount: ref.watch(itemsCountUpcoming),
+                        badgeColor: badgeColor2,
                       ),
                       const MenuItemWidget(
                         icon: FaIcon(FontAwesomeIcons.calendarDays, size: 16),
                         title: 'Someday',
                         itemFilterValue: filterSomeday,
                       ),
-                      const MenuItemWidget(
-                        icon: FaIcon(FontAwesomeIcons.calendarXmark, size: 16),
+                      MenuItemWidget(
+                        icon: const FaIcon(FontAwesomeIcons.calendarXmark, size: 16),
                         title: 'Overdue',
                         itemFilterValue: filterOverdue,
+                        badgeCount: ref.watch(itemsCountOverdue),
+                        badgeColor: badgeColor2,
                       ),
                       if (contexts.isNotEmpty) const MenuHeaderWidget(
                         'Contexts',

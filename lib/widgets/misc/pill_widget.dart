@@ -9,11 +9,13 @@ class PillWidget extends ConsumerWidget {
         Key? key,
         this.color,
         this.backgroundColor,
+        this.fontSize,
       }) : super(key: key);
 
   final String text;
   final Color? color;
   final Color? backgroundColor;
+  final double? fontSize;
 
   Color _getColor(Color color) {
     Color result = Colors.white38;
@@ -48,7 +50,7 @@ class PillWidget extends ConsumerWidget {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: fontSize ?? 12,
             color: fgColor,
           )
         ),

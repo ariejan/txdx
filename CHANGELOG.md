@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+### Added
+- Show number of items in under each filter. [#72]
+- Show dock badge for today's items on macOS. [#73]
+
 ## [1.0.9] - 2022-04-07
 ### Added
 - Enable Sandbox mode on macos for App Store/Notarized release [#66]
