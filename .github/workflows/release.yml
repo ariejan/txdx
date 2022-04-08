@@ -1,10 +1,16 @@
 name: Release
 
+# on:
+#   push:
+#     tags:
+#       - '*'
+
 on:
   push:
-    tags:
-      - '*'
-
+    branches: [ master ]
+    paths-ignore:
+      - '**/README.md'    
+      
 jobs:
   build-windows:
     runs-on: windows-latest
