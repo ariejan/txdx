@@ -3,6 +3,8 @@ name: CI
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - '**/README.md'    
   pull_request:
     branches: [ master ]
 
@@ -10,9 +12,17 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable' # or: 'beta' or 'master'
-    - run: flutter --version
-    - run: flutter analyze
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # or: 'beta' or 'master'
+      - run: flutter analyze
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # or: 'beta' or 'master'
+      - run: flutter test
