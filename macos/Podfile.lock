@@ -1,5 +1,5 @@
 PODS:
-  - flutter_app_badger (0.0.1):
+  - flutter_app_badger (1.3.0):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - macos_secure_bookmarks (0.0.3):
@@ -39,7 +39,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/window_size/macos
 
 SPEC CHECKSUMS:
-  flutter_app_badger: 9cabdc3c58e893f6e535ff4c4d4f4308fd805854
+  flutter_app_badger: 55a64b179f8438e89d574320c77b306e327a1730
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
   macos_secure_bookmarks: cff041c4b377fa00941bb901aaec4d27fac5edf2
   package_info_plus_macos: f010621b07802a241d96d01876d6705f15e77c1c
@@ -49,4 +49,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6eac6b3292e5142cfc23bdeb71848a40ec51c14c
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

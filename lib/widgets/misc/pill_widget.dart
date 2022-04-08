@@ -39,10 +39,10 @@ class PillWidget extends ConsumerWidget {
 
     return GestureDetector(
       child: Container(
-        padding: const EdgeInsets.fromLTRB(2, 3, 2, 3),
+        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
         margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(16),
           color: bgColor,
         ),
         child: Text(

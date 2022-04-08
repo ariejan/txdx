@@ -1,3 +1,5 @@
+import 'filters.dart';
+
 const settingsFileTodoTxt = 'todotxt_filename';
 const settingsFileArchiveTxt = 'archivetxt_filename';
 const settingsFileAutoReload = 'file_autoreload';
@@ -24,7 +26,7 @@ const defaultSettings = {
   settingsUpcomingDays: 7,
   settingsAutoAddFilter: true,
   settingsTodayInUpcoming: true,
-  settingsDefaultFilter: 'all',
+  settingsDefaultFilter: filterAll,
   settingsFileSaveOrdered: true,
 };
 
@@ -32,9 +34,9 @@ const nextUpDaysMin = 0;
 const nextUpDaysMax = 90;
 
 const settingsDefaultFilterItems = {
-  'all': 'Everything',
-  'due:today': 'Today',
-  'due:upcoming': 'Upcoming',
-  'due:someday': 'Someday',
-  'due:overdue': 'Overdue',
+  filterAll: 'Everything',
+  filterToday: 'Today',
+  filterUpcoming: 'Upcoming',
+  filterSomeday: 'Someday',
+  filterOverdue: 'Overdue',
 };

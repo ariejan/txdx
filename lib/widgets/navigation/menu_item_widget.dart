@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/widgets/misc/pill_widget.dart';
 
 import '../../providers/items/scoped_item_notifier.dart';
 import '../../config/colors.dart';
@@ -14,6 +15,8 @@ class MenuItemWidget extends ConsumerWidget {
     this.onTap,
     this.color,
     this.highlighted = false,
+    this.badgeCount,
+    this.badgeColor,
   }) : super(key: key);
 
   final Widget? icon;
@@ -22,6 +25,9 @@ class MenuItemWidget extends ConsumerWidget {
   final String title;
   final GestureTapCallback? onTap;
   final bool highlighted;
+
+  final int? badgeCount;
+  final Color? badgeColor;
 
   final String? itemFilterValue;
 
@@ -82,6 +88,11 @@ class MenuItemWidget extends ConsumerWidget {
                       ),
                     ),
                   ),
+                ),
+                if (badgeCount != null && badgeCount! > 0)
+                  PillWidget(
+                    "$badgeCount",
+                    backgroundColor: badgeColor ?? TxDxColors.prioDefault,
                 ),
               ]
             ),

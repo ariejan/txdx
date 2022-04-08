@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/providers/items/contexts_provider.dart';
+import 'package:txdx/providers/items/item_count_provider.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/items/projects_provider.dart';
 
+import '../../config/filters.dart';
 import '../../providers/files/file_notifier_provider.dart';
 import '../../config/colors.dart';
 import 'menu_header_widget.dart';
@@ -38,27 +40,28 @@ class SidebarWidget extends ConsumerWidget {
                       const MenuItemWidget(
                         icon: FaIcon(FontAwesomeIcons.tableCells, size: 16),
                         title: 'All',
-                        itemFilterValue: "all",
+                        itemFilterValue: filterAll,
                       ),
-                      const MenuItemWidget(
-                        icon: FaIcon(FontAwesomeIcons.calendarDay, size: 16),
+                      MenuItemWidget(
+                        icon: const FaIcon(FontAwesomeIcons.calendarDay, size: 16),
                         title: 'Today',
-                        itemFilterValue: "due:today",
+                        itemFilterValue: filterToday,
+                        badgeCount: ref.watch(itemsCountDueToday),
                       ),
                       const MenuItemWidget(
                         icon: FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
                         title: 'Upcoming',
-                        itemFilterValue: "due:upcoming",
+                        itemFilterValue: filterUpcoming,
                       ),
                       const MenuItemWidget(
                         icon: FaIcon(FontAwesomeIcons.calendarDays, size: 16),
                         title: 'Someday',
-                        itemFilterValue: "due:someday",
+                        itemFilterValue: filterSomeday,
                       ),
                       const MenuItemWidget(
                         icon: FaIcon(FontAwesomeIcons.calendarXmark, size: 16),
                         title: 'Overdue',
-                        itemFilterValue: "due:overdue",
+                        itemFilterValue: filterOverdue,
                       ),
                       if (contexts.isNotEmpty) const MenuHeaderWidget(
                         'Contexts',
