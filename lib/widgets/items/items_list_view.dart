@@ -6,6 +6,7 @@ import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:txdx/config/settings.dart';
 import 'package:txdx/widgets/misc/search_widget.dart';
 
+import '../../config/filters.dart';
 import '../../providers/files/file_change_provider.dart';
 import '../misc/file_changed_widget.dart';
 import 'item_widget.dart';
@@ -22,16 +23,16 @@ class ItemsListView extends ConsumerWidget {
 
     switch (filter) {
       case null:
-      case 'all':
+      case filterAll:
         return 'Everything';
-      case 'due:today':
+      case filterToday:
         return 'Today';
-      case 'due:upcoming':
+      case filterUpcoming:
         return 'Next $upcomingDays days';
-      case 'due:overdue':
-        return 'Overdue';
-      case 'due:someday':
+      case filterSomeday:
         return 'Someday';
+      case filterOverdue:
+        return 'Overdue';
       default:
         return filter!;
     }

@@ -3,6 +3,7 @@ import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:txdx/config/settings.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
+import '../../config/filters.dart';
 import 'item_notifier_provider.dart';
 
 enum ItemStateSorter {
@@ -104,39 +105,7 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
 
   var result = items.toList();
 
-  if (filter == null || filter == 'all') {
-    // Noop
-  } else if (filter == 'due:today') {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    result = result.where((item) =>
-      item.hasDueOn && item.dueOn == today
-    ).toList();
-  } else if (filter == 'due:upcoming') {
-    final nextUpDays = ref.watch(settingsProvider).getInt(settingsUpcomingDays);
-    final now = DateTime.now();
-    final today = settings.getBool(settingsTodayInUpcoming)
-      ? DateTime(now.year, now.month, now.day - 1)
-      : DateTime(now.year, now.month, now.day);
-    final futureDay = DateTime(now.year, now.month, now.day + nextUpDays + 1);
-    result = result.where((item) =>
-      item.hasDueOn && item.dueOn!.isAfter(today) && item.dueOn!.isBefore(futureDay)
-    ).toList();
-  } else if (filter == 'due:someday') {
-    final nextUpDays = ref.watch(settingsProvider).getInt(settingsUpcomingDays);
-    final now = DateTime.now();
-    final futureDay = DateTime(now.year, now.month, now.day + nextUpDays);
-    result = result.where((item) =>
-      !item.hasDueOn
-        || (item.hasDueOn && item.dueOn!.isAfter(futureDay))
-    ).toList();
-  } else if (filter == 'due:overdue') {
-    final now = DateTime.now();
-    final yesterday = DateTime(now.year, now.month, now.day - 1);
-    result.removeWhere((item) => (item.hasDueOn && item.dueOn!.isAfter(yesterday)) || !item.hasDueOn);
-  } else {
-    result.removeWhere((item) => !item.hasContextOrProject(filter));
-  }
+  result = filterItems(result, filter, false, settings);
 
   if (isSearching && searchText != null && searchText.isNotEmpty) {
     result = result.where((item) => item.description.contains(searchText)).toList();
@@ -145,3 +114,45 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
   return result;
 
 });
+
+List<TxDxItem> filterItems(List<TxDxItem> items, String? filter, bool filterCompleted, Settings settings) {
+  if (filterCompleted) {
+    items = items.where((item) => !item.completed).toList();
+  }
+
+  if (filter == null || filter == filterAll) {
+    // Noop
+  } else if (filter == filterToday) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    items = items.where((item) =>
+      item.hasDueOn && item.dueOn == today
+    ).toList();
+  } else if (filter == filterUpcoming) {
+    final nextUpDays = settings.getInt(settingsUpcomingDays);
+    final now = DateTime.now();
+    final today = settings.getBool(settingsTodayInUpcoming)
+      ? DateTime(now.year, now.month, now.day - 1)
+      : DateTime(now.year, now.month, now.day);
+    final futureDay = DateTime(now.year, now.month, now.day + nextUpDays + 1);
+    items = items.where((item) =>
+      item.hasDueOn && item.dueOn!.isAfter(today) && item.dueOn!.isBefore(futureDay)
+    ).toList();
+  } else if (filter == filterSomeday) {
+    final nextUpDays = settings.getInt(settingsUpcomingDays);
+    final now = DateTime.now();
+    final futureDay = DateTime(now.year, now.month, now.day + nextUpDays);
+    items = items.where((item) =>
+      !item.hasDueOn
+        || (item.hasDueOn && item.dueOn!.isAfter(futureDay))
+    ).toList();
+  } else if (filter == filterOverdue) {
+    final now = DateTime.now();
+    final yesterday = DateTime(now.year, now.month, now.day - 1);
+    items.removeWhere((item) => (item.hasDueOn && item.dueOn!.isAfter(yesterday)) || !item.hasDueOn);
+  } else {
+    items.removeWhere((item) => !item.hasContextOrProject(filter));
+  }
+
+  return items;
+}

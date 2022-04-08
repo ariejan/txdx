@@ -1,12 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:txdx/screens/home_screen.dart';
 import 'package:txdx/screens/settings_screen.dart';
 import 'package:window_size/window_size.dart';
 
+import 'providers/items/item_count_provider.dart';
 import 'providers/settings/settings_provider.dart';
 import 'config/settings.dart';
 import 'config/theme.dart';
@@ -20,6 +23,8 @@ Future<void> main() async {
     setWindowMinSize(const Size(600, 380));
     setWindowMaxSize(Size.infinite);
   }
+
+  FlutterAppBadger.removeBadge();
 
   runApp(
     ProviderScope(
@@ -56,7 +61,6 @@ class TxDxLoadingScreen extends ConsumerWidget {
         ),
     );
   }
-
 }
 
 class TxDxApp extends ConsumerWidget {
@@ -65,6 +69,15 @@ class TxDxApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    if (Platform.isMacOS) {
+      ref.listen(itemsCountDueToday, (_, int? next) {
+        (next == null || next == 0)
+            ? FlutterAppBadger.removeBadge()
+            : FlutterAppBadger.updateBadgeCount(next);
+      });
+    }
+
     final namespace = ref.watch(namespaceProvider);
     final appTitle = namespace == 'release' ? 'TxDx' : 'TxDx - Debug';
 

@@ -43,4 +43,10 @@ abstract class TxDxColors {
   static final Color lightContextHoverColor = lightSelection.withAlpha(50);
   static final Color darkContextBackgroundColor = darkBackground.withAlpha(20);
   static final Color darkContextHoverColor = darkBackground.withOpacity(0.5);
+
+  static final Color lightBadge = NordColors.snowStorm.darkest;
+  static final Color lightBadge2 = NordColors.snowStorm.lightest;
+
+  static final Color darkBadge = NordColors.frost.darkest;
+  static final Color darkBadge2 = NordColors.polarNight.lighter;
 }

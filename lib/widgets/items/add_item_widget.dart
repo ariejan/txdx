@@ -5,6 +5,7 @@ import 'package:txdx/input/focus.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
 import 'package:txdx/providers/items/selected_item_provider.dart';
 
+import '../../config/filters.dart';
 import '../../providers/items/item_notifier_provider.dart';
 import '../../providers/settings/settings_provider.dart';
 import '../../config/settings.dart';
@@ -17,6 +18,7 @@ class AddItemWidget extends ConsumerWidget {
     textController.text = '';
     ref.read(selectedItemIdStateProvider.state).state = newItemId;
     addNewFocusNode.requestFocus();
+    _focusWithDefaults(ref);
   }
 
   final textController = TextEditingController();
@@ -38,7 +40,7 @@ class AddItemWidget extends ConsumerWidget {
     final filter = ref.read(itemFilter);
     if (filter == null || filter.isEmpty) return;
 
-    if (filter == 'due:today') {
+    if (filter == filterToday) {
       _setTextDefault('due:today');
     }
 
