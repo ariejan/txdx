@@ -37,6 +37,7 @@ dependencies:
   animations: ^2.0.1
   after_layout: ^1.1.0
   macos_secure_bookmarks: ^0.2.0
+  flutter_app_badger: ^1.4.0
 
 dev_dependencies:
   flutter_test:

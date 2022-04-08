@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:txdx/screens/home_screen.dart';
@@ -20,6 +22,8 @@ Future<void> main() async {
     setWindowMinSize(const Size(600, 380));
     setWindowMaxSize(Size.infinite);
   }
+
+  FlutterAppBadger.removeBadge();
 
   runApp(
     ProviderScope(
