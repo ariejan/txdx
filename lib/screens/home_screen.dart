@@ -5,12 +5,15 @@ import 'package:txdx/input/shortcuts.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/widgets/items/add_item_widget.dart';
 import 'package:txdx/widgets/items/items_list_view.dart';
+import 'package:txdx/widgets/misc/no_file_selected_widget.dart';
 import 'package:txdx/widgets/navigation/sidebar_widget.dart';
 import 'package:txdx/widgets/layout/split_view.dart';
 
+import '../config/settings.dart';
 import '../input/focus.dart';
 import '../providers/items/scoped_item_notifier.dart';
 import '../providers/items/selected_item_provider.dart';
+import '../providers/settings/settings_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,6 +28,9 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
+    final hasTodoTxt = filename!.isNotEmpty;
+
     return AppShortcuts(
       onCancelEditingDetected: () {
         if (ref.read(isSearchingProvider)) {
@@ -131,9 +137,9 @@ class HomeScreen extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
             child: Column(
               children: [
-                const Expanded(
+                Expanded(
                   flex: 2,
-                  child: ItemsListView(),
+                  child: hasTodoTxt ? const ItemsListView() : const NoFileSelectedWidget(),
                 ),
                 SizedBox(
                   child: AddItemWidget(),

@@ -259,18 +259,35 @@ class SettingsScreen extends ConsumerWidget {
                                                   filename ?? 'No file selected'
                                               );
                                             }),
-                                            TextButton(
-                                              child: const Text('📂 Select file'),
-                                              onPressed: () => {
-                                                _pickFile().then((filename) async {
-                                                  if (Platform.isMacOS && filename != null) {
-                                                    final _secureBookmarks = SecureBookmarks();
-                                                    final bookmark = await _secureBookmarks.bookmark(File(filename));
-                                                    ref.read(settingsProvider).setString(settingsTodoTxtMacosSecureBookmark, bookmark);
-                                                  }
-                                                  ref.read(settingsProvider).setString(settingsFileTodoTxt, filename ?? '');
-                                                })
-                                              },
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                if (ref.watch(settingsProvider).getString(settingsFileTodoTxt)!.isNotEmpty) TextButton(
+                                                  child: Row(
+                                                      children: const [
+                                                        FaIcon(FontAwesomeIcons.xmark, size: 12),
+                                                        Text(' Clear'),
+                                                      ]
+                                                  ),
+                                                  onPressed: () {
+                                                    ref.read(settingsProvider).setString(settingsTodoTxtMacosSecureBookmark, '');
+                                                    ref.read(settingsProvider).setString(settingsFileTodoTxt, '');
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: const Text('📂 Select file'),
+                                                  onPressed: () => {
+                                                    _pickFile().then((filename) async {
+                                                      if (Platform.isMacOS && filename != null) {
+                                                        final _secureBookmarks = SecureBookmarks();
+                                                        final bookmark = await _secureBookmarks.bookmark(File(filename));
+                                                        ref.read(settingsProvider).setString(settingsTodoTxtMacosSecureBookmark, bookmark);
+                                                      }
+                                                      ref.read(settingsProvider).setString(settingsFileTodoTxt, filename ?? '');
+                                                    })
+                                                  },
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
@@ -338,19 +355,41 @@ class SettingsScreen extends ConsumerWidget {
                                                   filename ?? 'No file selected'
                                               );
                                             }),
-                                            TextButton(
-                                              child: const Text('📂 Select file'),
-                                              onPressed: () => {
-                                                _pickFile().then((filename) async {
-                                                  if (Platform.isMacOS && filename != null) {
-                                                    final _secureBookmarks = SecureBookmarks();
-                                                    final bookmark = await _secureBookmarks.bookmark(File(filename));
-                                                    ref.read(settingsProvider).setString(settingsArchiveTxtMacosSecureBookmark, bookmark);
-                                                  }
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                if (ref.watch(settingsProvider).getString(settingsFileArchiveTxt)!.isNotEmpty) TextButton(
+                                                  child: Row(
+                                                    children: const [
+                                                      FaIcon(FontAwesomeIcons.xmark, size: 12),
+                                                      Text(' Clear'),
+                                                    ]
+                                                  ),
+                                                  onPressed: () {
+                                                    ref.read(settingsProvider).setString(settingsArchiveTxtMacosSecureBookmark, '');
+                                                    ref.read(settingsProvider).setString(settingsFileArchiveTxt, '');
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Row(
+                                                    children: const [
+                                                      FaIcon(FontAwesomeIcons.folderOpen, size: 12),
+                                                      Text(' Select file'),
+                                                    ]
+                                                  ),
+                                                  onPressed: () => {
+                                                    _pickFile().then((filename) async {
+                                                      if (Platform.isMacOS && filename != null) {
+                                                        final _secureBookmarks = SecureBookmarks();
+                                                        final bookmark = await _secureBookmarks.bookmark(File(filename));
+                                                        ref.read(settingsProvider).setString(settingsArchiveTxtMacosSecureBookmark, bookmark);
+                                                      }
 
-                                                  ref.read(settingsProvider).setString(settingsFileArchiveTxt, filename ?? '');
-                                                })
-                                              },
+                                                      ref.read(settingsProvider).setString(settingsFileArchiveTxt, filename ?? '');
+                                                    })
+                                                  },
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),

@@ -38,6 +38,7 @@ dependencies:
   after_layout: ^1.1.0
   macos_secure_bookmarks: ^0.2.0
   flutter_app_badger: ^1.4.0
+  flutter_markdown: ^0.6.9+1
 
 dev_dependencies:
   flutter_test:
@@ -48,3 +49,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/

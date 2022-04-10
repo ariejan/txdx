@@ -12,6 +12,8 @@ abstract class TxDxColors {
     }
   }
 
+  static final Color buttonPrimary = NordColors.frost.darkest;
+
   static const Color lightBackground = Color(0xffFFFFFF);
   static const Color darkBackground = Color(0xff1E1E1E);
 
