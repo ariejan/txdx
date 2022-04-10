@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Show number of items in under each filter. [#72]
 - Show dock badge for today's items on macOS. [#73]
+- Add a helpful welcome screen for new users. [#54]
 ### Fixed
 - Sort projects/context alphabetically. [#71]
 
