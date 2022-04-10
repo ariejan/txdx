@@ -128,6 +128,27 @@ build_macos_dmg:
     paths:
       - "$DMG_BINARY"
 
+build_macos_app_store:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_TAG
+  tags: 
+    - macos
+  before_script:
+    - cd macos
+    - gem install bundler
+    - bundle install
+    - cd $CI_PROJECT_DIR
+    - flutter channel stable
+    - flutter upgrade
+    - flutter precache
+    - flutter clean
+    - echo $APPLE_AUTH_KEY | base64 -d > macos/authkey.p8
+  script:
+    - cd macos
+    - fastlane mac_pkg
+    - cd $CI_PROJECT_DIR
+
 upload:
   stage: upload
   image: curlimages/curl:latest

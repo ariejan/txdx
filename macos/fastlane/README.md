@@ -15,6 +15,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Mac
 
+### mac mac_pkg
+
+```sh
+[bundle exec] fastlane mac mac_pkg
+```
+
+Build signed pkg for AppStore
+
 ### mac mac_dmg
 
 ```sh
