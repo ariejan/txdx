@@ -40,26 +40,38 @@ class NoFileSelectedWidget extends ConsumerWidget {
                 },
               ),
             ),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/settings');
-                  },
-                  child: Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                        child: FaIcon(FontAwesomeIcons.gear, size: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/settings');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                            child: FaIcon(FontAwesomeIcons.gear, size: 16),
+                          ),
+                          Text(
+                            'Go to Settings',
+                            style: TextStyle(
+                              fontSize: 16,
+                            )
+                          ),
+                        ]
                       ),
-                      Text('Go to Settings'),
-                    ]
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: TxDxColors.buttonPrimary,
+                    ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    primary: TxDxColors.buttonPrimary,
-                  ),
-                ),
-              ]
+                ]
+              ),
             )
           ],
         ),
