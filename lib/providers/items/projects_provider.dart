@@ -8,6 +8,8 @@ final projectsProvider = Provider<List<String>>((ref)  {
   for (var item in items) {
     theSet.addAll(item.projects);
   }
-  return theSet.toList();
 
+  final theList = theSet.toList();
+  theList.sort();
+  return theList;
 });
