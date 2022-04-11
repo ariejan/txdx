@@ -31,6 +31,32 @@ class HomeScreen extends ConsumerWidget {
     final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
     final hasTodoTxt = filename!.isNotEmpty;
 
+    void _moveToNextItem() {
+      final items = ref.read(filteredItems);
+      final current = ref.read(selectedItemIdStateProvider);
+      if (current == null) {
+        ref.read(selectedItemIdStateProvider.state).state = items.first.id;
+        _jumpTo(0);
+      } else {
+        final idx = (items.indexWhere((item) => item.id == current) + 1) % items.length;
+        ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
+        _jumpTo(idx);
+      }
+    }
+
+    void _moveToPreviousItem() {
+      final items = ref.read(filteredItems);
+      final current = ref.read(selectedItemIdStateProvider);
+      if (current == null) {
+        ref.read(selectedItemIdStateProvider.state).state = items.last.id;
+        _jumpTo(items.length - 1);
+      } else {
+        final idx = (items.indexWhere((item) => item.id == current) - 1) % items.length;
+        ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
+        _jumpTo(idx);
+      }
+    }
+
     return AppShortcuts(
       onCancelEditingDetected: () {
         if (ref.read(isSearchingProvider)) {
@@ -50,42 +76,20 @@ class HomeScreen extends ConsumerWidget {
       },
       onDown: () {
         shortcutsFocusNode.requestFocus();
-
-        final items = ref.read(filteredItems);
-        final current = ref.read(selectedItemIdStateProvider);
-        if (current == null) {
-          ref.read(selectedItemIdStateProvider.state).state = items.first.id;
-          _jumpTo(0);
-        } else {
-          final idx = (items.indexWhere((item) => item.id == current) + 1) % items.length;
-          ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
-          _jumpTo(idx);
-        }
+        _moveToNextItem();
       },
       onUp: () {
         shortcutsFocusNode.requestFocus();
-
-        final items = ref.read(filteredItems);
-        final current = ref.read(selectedItemIdStateProvider);
-        if (current == null) {
-          ref.read(selectedItemIdStateProvider.state).state = items.last.id;
-          _jumpTo(items.length - 1);
-        } else {
-          final idx = (items.indexWhere((item) => item.id == current) - 1) % items.length;
-          ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
-          _jumpTo(idx);
-        }
+        _moveToPreviousItem();
       },
       onPrioDown: () {
         final current = ref.read(selectedItemIdStateProvider);
         if (current == null) return;
-
         ref.read(itemsNotifierProvider.notifier).prioDown(current);
       },
       onPrioUp: () {
         final current = ref.read(selectedItemIdStateProvider);
         if (current == null) return;
-
         ref.read(itemsNotifierProvider.notifier).prioUp(current);
       },
       onStartEdit: () {
@@ -97,6 +101,15 @@ class HomeScreen extends ConsumerWidget {
       onToggle: () {
         final current = ref.read(selectedItemIdStateProvider);
         if (current == null) return;
+
+        final items = ref.read(filteredItems);
+        var idx = items.indexWhere((item) => item.id == current);
+        final item = items[idx];
+
+        if (!item.completed) {
+          idx = (idx + 1 >= items.length) ? items.length - 2 : idx + 1;
+          ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
+        }
 
         ref.read(itemsNotifierProvider.notifier).toggleComplete(current);
       },
@@ -112,7 +125,7 @@ class HomeScreen extends ConsumerWidget {
 
         final items = ref.read(filteredItems);
         var idx = items.indexWhere((item) => item.id == current);
-        idx = (idx - 1 < 0) ? 0 : idx - 1;
+        idx = (idx + 1 >= items.length) ? items.length - 2 : idx + 1;
 
         ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
 

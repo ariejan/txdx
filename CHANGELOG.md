@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+### Fixed
+- Improve selecting next item on toggle complete / delete. [#26]
+
 ## [1.0.10] - 2022-04-10
 ### Added
 - Show number of items in under each filter. [#72]
