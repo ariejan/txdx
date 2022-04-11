@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:txdx/widgets/misc/label_widget.dart';
 
 import '../../config/colors.dart';
 import '../../input/browser.dart';
@@ -12,9 +13,7 @@ import '../../txdx/txdx_item.dart';
 import '../context/context_menu_area.dart';
 import '../context/context_menu_item.dart';
 import '../context/priority_button.dart';
-import '../misc/pill_widget.dart';
 import 'item_due_on_widget.dart';
-import 'item_tag_widget.dart';
 
 class ShowItemWidget extends ConsumerWidget {
   const ShowItemWidget(this.item, {Key? key}) : super(key: key);
@@ -170,23 +169,13 @@ class ShowItemWidget extends ConsumerWidget {
                 child: Row(
                     children: [
                       for (var context in item.contexts) ...[
-                        PillWidget(
-                          context,
-                          color: TxDxColors.contexts,
-                        )
+                        LabelWidget(context, color: TxDxColors.contexts),
                       ],
                       for (var project in item.projects) ...[
-                        PillWidget(
-                          project,
-                          color: TxDxColors.projects,
-                        )
+                        LabelWidget(project, color: TxDxColors.projects),
                       ],
                       for (var key in item.tagsWithoutDue.keys) ...[
-                        ItemTagWidget(
-                          name: key,
-                          value: item.tags[key],
-                          color: TxDxColors.tags,
-                        )
+                        LabelWidget('$key:${item.tags[key]}', color: TxDxColors.tags),
                       ],
                     ]
                 )

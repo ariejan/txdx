@@ -223,7 +223,7 @@ void main() {
 
     test('due day helpers syntax', () {
       final now = DateTime(2022, 04, 11, 12, 00); // a Monday
-      
+
       final tue = DateTime(now.year, now.month, now.day + 1);
       final wed = DateTime(now.year, now.month, now.day + 2);
       final thu = DateTime(now.year, now.month, now.day + 3);
