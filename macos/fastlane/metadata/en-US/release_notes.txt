@@ -1,8 +1,7 @@
-New in 1.0.10
+New in 1.0.11
 
 Added
-- Show number of items in under each filter. [#72]
-- Show dock badge for today's items on macOS. [#73]
-- Add a helpful welcome screen for new users. [#54]
+- Handle `due:fri` and `due:sunday` due date helpers. [#74]
 Fixed
-- Sort projects/context alphabetically. [#71]
+- Improve selecting next item on toggle complete / delete. [#26]
+- Misc. bug fixes

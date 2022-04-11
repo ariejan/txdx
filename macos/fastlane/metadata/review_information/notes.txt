@@ -1,8 +1,11 @@
 TxDx uses plain text files with Todo.txt formatted items. Steps to verify:
 
- 1. Download https://gitlab.devroom.io/ariejan/txdx/-/blob/master/example.txt
+ 1. Download https://gitlab.devroom.io/ariejan/txdx/-/blob/master/example.txt or use the provided todo.txt (zipped) that comes with this application.
  2. Start TxDx
  3. Settings -> File Settings -> Todot.txt file -> Select File
+
+update: at the bottom left, click Settings. In the settings screen find the option: "Todo.txt file". On that row you can select your todo.txt file by clicking 'Select file'. You can use the downloaded todo.txt from step 1 or the unzipped todo.txt provided with these review instructions.
+
  4. Go 'Back' to see results.
 
 The `Archive.txt file` is optional, but you may create an empty archive.txt file

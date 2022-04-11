@@ -1,11 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.0.11] - 2022-04-11
 ### Added
 - Handle `due:fri` and `due:sunday` due date helpers. [#74]
 ### Fixed
 - Improve selecting next item on toggle complete / delete. [#26]
+- Misc. bug fixes
 
 ## [1.0.10] - 2022-04-10
 ### Added
