@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+### Added
+- Handle `due:fri` and `due:sunday` due date helpers. [#74]
 ### Fixed
 - Improve selecting next item on toggle complete / delete. [#26]
 

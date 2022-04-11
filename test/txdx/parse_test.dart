@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:txdx/txdx/txdx_item.dart';
@@ -202,6 +203,50 @@ void main() {
       expect(TxDxItem.fromText('do it due:1y').dueOn, equals(Jiffy(today).add(years: 1).dateTime));
       expect(TxDxItem.fromText('do it due:1w2d').dueOn, equals(Jiffy(today).add(weeks: 1, days: 2).dateTime));
       expect(TxDxItem.fromText('do it due:1y2m3w4d').dueOn, equals(Jiffy(today).add(years: 1, months: 2, weeks: 3, days: 4).dateTime));
+    });
+
+    test('handle leap years', () {
+      final now = DateTime(2020, 02, 29);
+      final target = DateTime(2021, 02, 28);
+      withClock(Clock.fixed(now), () {
+        expect(TxDxItem.fromText('do it due:1y').dueOn, equals(target));
+      });
+    });
+
+    test('handle months gracefully', () {
+      final now = DateTime(2020, 03, 31);
+      final target = DateTime(2020, 04, 30);
+      withClock(Clock.fixed(now), () {
+        expect(TxDxItem.fromText('do it due:1m').dueOn, equals(target));
+      });
+    });
+
+    test('due day helpers syntax', () {
+      final now = DateTime(2022, 04, 11, 12, 00); // a Monday
+      
+      final tue = DateTime(now.year, now.month, now.day + 1);
+      final wed = DateTime(now.year, now.month, now.day + 2);
+      final thu = DateTime(now.year, now.month, now.day + 3);
+      final fri = DateTime(now.year, now.month, now.day + 4);
+      final sat = DateTime(now.year, now.month, now.day + 5);
+      final sun = DateTime(now.year, now.month, now.day + 6);
+      final mon = DateTime(now.year, now.month, now.day + 7);
+
+      final expectations = {
+        'tue': tue, 'tuesday': tue,
+        'wed': wed, 'wednesday': wed,
+        'thu': thu, 'thursday': thu,
+        'fri': fri, 'friday': fri,
+        'sat': sat, 'saturday': sat,
+        'sun': sun, 'sunday': sun,
+        'mon': mon, 'monday': mon,
+      };
+
+      withClock(Clock.fixed(now), () {
+        expectations.forEach((day, target) {
+          expect(TxDxItem.fromText('do it due:$day').dueOn, equals(Jiffy(target).dateTime));
+        });
+      });
     });
   });
 
