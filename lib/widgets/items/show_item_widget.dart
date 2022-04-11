@@ -34,7 +34,7 @@ class ShowItemWidget extends ConsumerWidget {
         verticalPadding: 8,
         items: [
           Padding(
-            padding: const EdgeInsets.all(0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
