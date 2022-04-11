@@ -262,7 +262,7 @@ class SettingsScreen extends ConsumerWidget {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
-                                                if (ref.watch(settingsProvider).getString(settingsFileTodoTxt)!.isNotEmpty) TextButton(
+                                                if (ref.watch(settingsProvider).getString(settingsFileTodoTxt)?.isNotEmpty ?? false) TextButton(
                                                   child: Row(
                                                       children: const [
                                                         FaIcon(FontAwesomeIcons.xmark, size: 12),
@@ -358,7 +358,7 @@ class SettingsScreen extends ConsumerWidget {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
-                                                if (ref.watch(settingsProvider).getString(settingsFileArchiveTxt)!.isNotEmpty) TextButton(
+                                                if (ref.watch(settingsProvider).getString(settingsFileArchiveTxt)?.isNotEmpty ?? false) TextButton(
                                                   child: Row(
                                                     children: const [
                                                       FaIcon(FontAwesomeIcons.xmark, size: 12),
