@@ -1,18 +1,25 @@
-
-[![pipeline status](http://gitlab.devroom.io/ariejan/txdx/badges/master/pipeline.svg)](http://gitlab.devroom.io/ariejan/txdx/-/commits/master)
-[![coverage report](http://gitlab.devroom.io/ariejan/txdx/badges/master/coverage.svg)](http://gitlab.devroom.io/ariejan/txdx/-/commits/master)
-
 # TxDx
 
-## Getting Started
+_A Todo app that looks good and gives you all the power of plain text!_
 
-This project is a starting point for a Flutter application.
+![](https://github.com/ariejan/txdx/raw/master/images/Screenshot-Power-of-Text.jpg)
 
-A few resources to get you started if this is your first Flutter project:
+# Installation
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+You can install TxDx on Windows, macOS or Linux. See the [downloads page](https://www.txdx.eu/download/) on the TxDx website for details.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Support
+
+ * Check the [Getting Started](https://www.txdx.eu/getting-started/), [Todo.txt primer](https://www.txdx.eu/todotxt/) and [Support/FAQ](https://www.txdx.eu/support/) pages on the TxDx website.
+ * [Github Issues](https://github.com/ariejan/txdx/issues) and [Github Discussions](https://github.com/ariejan/txdx/discussions) are a good place to start
+ * [Discord](https://discord.gg/BTw3QVut5k) is also available.
+ 
+# Contributing
+
+ * Support the project through [Github Sponsorship](https://github.com/sponsors/ariejan) or via [Patreon](https://patreon.com/txdx).
+ * Bug fixes and features are welcome as [pull requests](https://github.com/ariejan/txdx/pulls). To avoid wasting effort, please [start a discussion](https://github.com/ariejan/txdx/discussions) first to see if your ideas fit the TxDx project. 
+ * Spread the word about TxDx
+
+# License
+
+TxDx is licensed under the [MIT License](https://github.com/ariejan/txdx/blob/master/LICENSE). The TxDx brand name and artwork (including the logo, screenshots, etc.) are trademarked/copyrighted material, you cannot re-use these without permission.
