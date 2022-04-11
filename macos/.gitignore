@@ -12,3 +12,5 @@
 *.provisionprofile
 
 **/output/
+
+authkey.p8
