@@ -130,6 +130,8 @@ build_macos_dmg:
 
 build_macos_app_store:
   stage: build
+  when: manual
+  allow_failure: true
   rules:
     - if: $CI_COMMIT_TAG
   tags: 
