@@ -1,5 +1,5 @@
 name: txdx
-version: 1.0.12+16
+version: 1.0.12+17
 summary: Todo.txt for your desktop
 description: Are you using Todo.txt? But do you want a good looking desktop app? TxDx's got you covered!
 confinement: strict
