@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.12] - 2022-04-12
+### Fixed
+- Fixed start-up issue when no user preferences are available. [#78]
+
 ## [1.0.11] - 2022-04-11
 ### Added
 - Handle `due:fri` and `due:sunday` due date helpers. [#74]
