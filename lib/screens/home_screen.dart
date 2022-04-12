@@ -29,7 +29,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
-    final hasTodoTxt = filename!.isNotEmpty;
+    final hasTodoTxt = filename?.isNotEmpty ?? false;
 
     void _moveToNextItem() {
       final items = ref.read(filteredItems);

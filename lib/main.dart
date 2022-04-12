@@ -22,6 +22,7 @@ Future<void> main() async {
     setWindowTitle('TxDx');
     setWindowMinSize(const Size(600, 380));
     setWindowMaxSize(Size.infinite);
+    setWindowFrame(const Rect.fromLTWH(100, 100, 960, 720));
   }
 
   FlutterAppBadger.removeBadge();

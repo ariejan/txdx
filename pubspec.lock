@@ -126,7 +126,7 @@ packages:
       name: dropdown_button2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.2"
+    version: "1.4.0"
   fake_async:
     dependency: transitive
     description:
@@ -407,7 +407,7 @@ packages:
       name: package_info_plus_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.5"
   package_info_plus_macos:
     dependency: transitive
     description:
@@ -428,14 +428,14 @@ packages:
       name: package_info_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   package_info_plus_windows:
     dependency: transitive
     description:
       name: package_info_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   path:
     dependency: transitive
     description:
@@ -797,7 +797,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.5.1"
   window_size:
     dependency: "direct main"
     description:
