@@ -5,7 +5,7 @@ import 'package:txdx/input/shortcuts.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/widgets/items/add_item_widget.dart';
 import 'package:txdx/widgets/items/items_list_view.dart';
-import 'package:txdx/widgets/misc/no_file_selected_widget.dart';
+import 'package:txdx/widgets/misc/no_txdx_directory_widget.dart';
 import 'package:txdx/widgets/navigation/sidebar_widget.dart';
 import 'package:txdx/widgets/layout/split_view.dart';
 

@@ -6,8 +6,8 @@ const settingsTxDxDirectoryMacosSecureBookmark = 'txdx_directory_macos_secure_bo
 const settingsFileTodoTxt = 'txdx_todotxt_filename';
 const settingsFileArchiveTxt = 'txdx_archivetxt_filename';
 const settingsFileAutoReload = 'file_autoreload';
-const settingsThemeUseSystem = 'theme_system_brightness';
-const settingsThemeUseDark = 'theme_use_dark';
+
+const settingsThemeBrightness = 'theme_brightness';
 
 const settingsUpcomingDays = 'filter_next_up_days';
 const settingsTodayInUpcoming = 'filter_today_in_upcoming';
@@ -24,8 +24,7 @@ const defaultSettings = {
   settingsFileTodoTxt: 'todo.txt',
   settingsFileArchiveTxt: 'archive.txt',
   settingsFileAutoReload: true,
-  settingsThemeUseSystem: true,
-  settingsThemeUseDark: false,
+  settingsThemeBrightness: 'system',
   settingsUpcomingDays: 7,
   settingsAutoAddFilter: true,
   settingsTodayInUpcoming: true,
@@ -35,6 +34,12 @@ const defaultSettings = {
 
 const nextUpDaysMin = 0;
 const nextUpDaysMax = 90;
+
+const settingsThemeBrightnessOptions = {
+  'system': 'Use system setting',
+  'dark': 'Dark theme',
+  'light': 'Light theme',
+};
 
 const settingsDefaultFilterItems = {
   filterAll: 'Everything',

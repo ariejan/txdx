@@ -19,8 +19,6 @@ class SettingsScreen extends ConsumerWidget {
     final namespace = ref.watch(namespaceProvider);
     final appVersion = ref.watch(appVersionProvider);
 
-    final usingSystemTheme = ref.watch(settingsProvider).getBool(settingsThemeUseSystem);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
@@ -47,18 +45,44 @@ class SettingsScreen extends ConsumerWidget {
                                     children: [
                                       const Padding(
                                         padding: EdgeInsets.all(8.0),
-                                        child: Text('Use system theme brightness'),
+                                        child: Text('Theme'),
                                       ),
                                       Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
-                                                Switch(
-                                                    value: ref.watch(settingsProvider).getBool(settingsThemeUseSystem),
+                                                DropdownButtonHideUnderline(
+                                                  child: DropdownButton2(
+                                                    value: ref.watch(settingsProvider).getString(settingsThemeBrightness),
+                                                    buttonHeight: 28,
+                                                    buttonPadding: const EdgeInsets.all(0),
+                                                    buttonWidth: 180,
+                                                    itemHeight: 28,
                                                     onChanged: (value) {
-                                                      ref.read(settingsProvider).setBool(settingsThemeUseSystem, value);
-                                                    }
+                                                      ref.read(settingsProvider).setString(settingsThemeBrightness, value as String);
+                                                    },
+                                                    hint: Text(
+                                                      'Select Item',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Theme
+                                                            .of(context)
+                                                            .hintColor,
+                                                      ),
+                                                    ),
+                                                    items: settingsThemeBrightnessOptions.keys
+                                                        .map((key) =>
+                                                        DropdownMenuItem<String>(
+                                                          value: key,
+                                                          child: Text(
+                                                            settingsThemeBrightnessOptions[key]!,
+                                                            style: const TextStyle(
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                        )).toList(),
+                                                  ),
                                                 ),
                                               ]
                                           )
@@ -66,28 +90,6 @@ class SettingsScreen extends ConsumerWidget {
                                     ]
                                 ),
 
-                                TableRow(
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text('Use system dark theme'),
-                                      ),
-                                      Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: [
-                                                Switch(
-                                                  value: ref.watch(settingsProvider).getBool(settingsThemeUseDark),
-                                                  onChanged: !usingSystemTheme ? (value) {
-                                                    ref.read(settingsProvider).setBool(settingsThemeUseDark, value);
-                                                  } : null,
-                                                ),
-                                              ]
-                                          )
-                                      )
-                                    ]
-                                ),
 
                                 TableRow(
                                     children: [
@@ -96,7 +98,7 @@ class SettingsScreen extends ConsumerWidget {
                                         child: Text('Start-up default filter'),
                                       ),
                                       Padding(
-                                          padding: const EdgeInsets.all(2.0),
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
@@ -105,7 +107,7 @@ class SettingsScreen extends ConsumerWidget {
                                                     value: ref.watch(settingsProvider).getString(settingsDefaultFilter),
                                                     buttonHeight: 28,
                                                     buttonPadding: const EdgeInsets.all(0),
-                                                    buttonWidth: 140,
+                                                    buttonWidth: 180,
                                                     itemHeight: 28,
                                                     onChanged: (value) {
                                                       ref.read(settingsProvider).setString(settingsDefaultFilter, value as String);
@@ -145,7 +147,7 @@ class SettingsScreen extends ConsumerWidget {
                                         child: Text('Show items due today in Upcoming'),
                                       ),
                                       Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(2.0),
                                           child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
@@ -168,13 +170,13 @@ class SettingsScreen extends ConsumerWidget {
                                         child: Text('Number of days for Upcoming items'),
                                       ),
                                       Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(2.0),
                                           child: Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 IconButton(
-                                                  icon: const FaIcon(FontAwesomeIcons.minus, size: 12),
+                                                  icon: const FaIcon(FontAwesomeIcons.minus, size: 10),
                                                   onPressed: () {
                                                     _updateSettingsNextUpDays(-1, ref);
                                                   },
@@ -182,7 +184,7 @@ class SettingsScreen extends ConsumerWidget {
                                                 Text(ref.watch(settingsProvider).getInt(settingsUpcomingDays).toString(),
                                                 ),
                                                 IconButton(
-                                                  icon: const FaIcon(FontAwesomeIcons.plus, size: 12),
+                                                  icon: const FaIcon(FontAwesomeIcons.plus, size: 10),
                                                   onPressed: () {
                                                     _updateSettingsNextUpDays(1, ref);
                                                   },
@@ -237,9 +239,10 @@ class SettingsScreen extends ConsumerWidget {
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
                                             Consumer(builder: (context, ref, _) {
-                                              final filename = ref.watch(settingsProvider).getString(settingsTxDxDirectory);
+                                              final txdxDir = ref.watch(settingsProvider).getString(settingsTxDxDirectory);
+                                              final txdxDirSet = txdxDir?.isNotEmpty ?? false;
                                               return Text(
-                                                  filename ?? 'No directory selected'
+                                                  txdxDirSet ? txdxDir! : 'No directory selected'
                                               );
                                             }),
                                             Row(

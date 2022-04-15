@@ -86,10 +86,19 @@ class TxDxApp extends ConsumerWidget {
       setWindowTitle(appTitle);
     }
 
-    final useSystemTheme = ref.watch(settingsProvider).getBool(settingsThemeUseSystem);
-    final useDarkTheme = ref.watch(settingsProvider).getBool(settingsThemeUseDark);
-
-    final themeMode = useSystemTheme ? ThemeMode.system : (useDarkTheme ? ThemeMode.dark : ThemeMode.light);
+    final themeBrightness = ref.watch(settingsProvider).getString(settingsThemeBrightness);
+    var themeMode = ThemeMode.system;
+    switch(themeBrightness) {
+      case 'system':
+        themeMode = ThemeMode.system;
+        break;
+      case 'dark':
+        themeMode = ThemeMode.dark;
+        break;
+      case 'ligth':
+        themeMode = ThemeMode.light;
+        break;
+    }
 
     return GetMaterialApp(
       title: appTitle,
