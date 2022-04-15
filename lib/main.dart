@@ -9,6 +9,7 @@ import 'package:txdx/screens/home_screen.dart';
 import 'package:txdx/screens/settings_screen.dart';
 import 'package:window_size/window_size.dart';
 
+import 'config/filters.dart';
 import 'providers/items/item_count_provider.dart';
 import 'providers/settings/settings_provider.dart';
 import 'config/settings.dart';
@@ -72,7 +73,7 @@ class TxDxApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     if (Platform.isMacOS) {
-      ref.listen(itemsCountDueToday, (_, int? next) {
+      ref.listen(itemsCount(filterToday), (_, int? next) {
         (next == null || next == 0)
             ? FlutterAppBadger.removeBadge()
             : FlutterAppBadger.updateBadgeCount(next);

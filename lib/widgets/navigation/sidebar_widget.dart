@@ -25,9 +25,6 @@ class SidebarWidget extends ConsumerWidget {
 
     final badgeColor = Theme.of(context).brightness == Brightness.dark
         ? TxDxColors.darkBadge
-        : TxDxColors.lightBadge;
-    final badgeColor2 = Theme.of(context).brightness == Brightness.dark
-        ? TxDxColors.darkBadge2
         : TxDxColors.lightBadge2;
 
     return Container(
@@ -48,34 +45,36 @@ class SidebarWidget extends ConsumerWidget {
                         icon: const FaIcon(FontAwesomeIcons.tableCells, size: 16),
                         title: 'All',
                         itemFilterValue: filterAll,
-                        badgeCount: ref.watch(itemsCountAll),
-                        badgeColor: badgeColor2,
+                        badgeCount: ref.watch(itemsCount(filterAll)),
+                        badgeColor: badgeColor,
                       ),
                       MenuItemWidget(
                         icon: const FaIcon(FontAwesomeIcons.calendarDay, size: 16),
                         title: 'Today',
                         itemFilterValue: filterToday,
-                        badgeCount: ref.watch(itemsCountDueToday),
+                        badgeCount: ref.watch(itemsCount(filterToday)),
                         badgeColor: badgeColor,
                       ),
                       MenuItemWidget(
                         icon: const FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
                         title: 'Upcoming',
                         itemFilterValue: filterUpcoming,
-                        badgeCount: ref.watch(itemsCountUpcoming),
-                        badgeColor: badgeColor2,
+                        badgeCount: ref.watch(itemsCount(filterUpcoming)),
+                        badgeColor: badgeColor,
                       ),
-                      const MenuItemWidget(
-                        icon: FaIcon(FontAwesomeIcons.calendarDays, size: 16),
+                      MenuItemWidget(
+                        icon: const FaIcon(FontAwesomeIcons.calendarDays, size: 16),
                         title: 'Someday',
                         itemFilterValue: filterSomeday,
+                        badgeCount: ref.watch(itemsCount(filterSomeday)),
+                        badgeColor: badgeColor,
                       ),
                       MenuItemWidget(
                         icon: const FaIcon(FontAwesomeIcons.calendarXmark, size: 16),
                         title: 'Overdue',
                         itemFilterValue: filterOverdue,
-                        badgeCount: ref.watch(itemsCountOverdue),
-                        badgeColor: badgeColor2,
+                        badgeCount: ref.watch(itemsCount(filterOverdue)),
+                        badgeColor: badgeColor,
                       ),
                       if (contexts.isNotEmpty) const MenuHeaderWidget(
                         'Contexts',
@@ -89,6 +88,8 @@ class SidebarWidget extends ConsumerWidget {
                               title: context,
                               indicatorColor: TxDxColors.contexts,
                               itemFilterValue: context,
+                              badgeCount: ref.watch(itemsCount(context)),
+                              badgeColor: badgeColor,
                             )
                         ).toList(),
                       ),
@@ -105,6 +106,8 @@ class SidebarWidget extends ConsumerWidget {
                             title: project,
                             indicatorColor: TxDxColors.projects,
                             itemFilterValue: project,
+                            badgeCount: ref.watch(itemsCount(project)),
+                            badgeColor: badgeColor,
                           )
                         ).toList(),
                       ),
