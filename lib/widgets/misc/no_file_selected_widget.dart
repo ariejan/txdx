@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:txdx/input/file_picker_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/colors.dart';
 
-class NoFileSelectedWidget extends ConsumerWidget {
-  const NoFileSelectedWidget({Key? key}) : super(key: key);
+class NoTxDxDirectoryWidget extends ConsumerWidget {
+  const NoTxDxDirectoryWidget({Key? key}) : super(key: key);
 
-  final theText = '''Thank you for choosing TxDx!
-  To get you started, here are a few things you might want to look at:
+  final theTextOne = '''Thank you for choosing TxDx!
   
+  TxDx stores _your_ data on _your_ device. To get started, please select a 
+  directory for TxDx to store your data.
+  ''';
+
+  final theTextTwo = '''After that you may want to take a look at the following
+  resources to learn more about the principles behind TxDx:
+   
    * [Todo.txt Primer](https://www.txdx.eu/todotxt/)
    * [TxDx Getting Started](https://www.txdx.eu/getting-started/)
    
   We're sure you'll enjoy using TxDx daily. Now, go get things done!
-  
-  First things first: go to Settings and select your todo.txt file to get started.
   ''';
 
   @override
@@ -32,7 +37,7 @@ class NoFileSelectedWidget extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 18),
               child: MarkdownBody(
-                data: theText,
+                data: theTextOne,
                 onTapLink: (text, href, title) {
                   if (href!.isNotEmpty) {
                     launch(href);
@@ -46,19 +51,17 @@ class NoFileSelectedWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/settings');
-                    },
+                    onPressed: () => pickTxDxDirectory(ref),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: const [
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            child: FaIcon(FontAwesomeIcons.gear, size: 16),
+                            child: FaIcon(FontAwesomeIcons.folderOpen, size: 16),
                           ),
                           Text(
-                            'Go to Settings',
+                            'Select TxDx folder',
                             style: TextStyle(
                               fontSize: 16,
                             )
@@ -72,7 +75,18 @@ class NoFileSelectedWidget extends ConsumerWidget {
                   ),
                 ]
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: MarkdownBody(
+                data: theTextTwo,
+                onTapLink: (text, href, title) {
+                  if (href!.isNotEmpty) {
+                    launch(href);
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),

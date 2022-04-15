@@ -1,7 +1,10 @@
 import 'filters.dart';
 
-const settingsFileTodoTxt = 'todotxt_filename';
-const settingsFileArchiveTxt = 'archivetxt_filename';
+const settingsTxDxDirectory = 'txdx_directory';
+const settingsTxDxDirectoryMacosSecureBookmark = 'txdx_directory_macos_secure_bookmark';
+
+const settingsFileTodoTxt = 'txdx_todotxt_filename';
+const settingsFileArchiveTxt = 'txdx_archivetxt_filename';
 const settingsFileAutoReload = 'file_autoreload';
 const settingsThemeUseSystem = 'theme_system_brightness';
 const settingsThemeUseDark = 'theme_use_dark';
@@ -18,8 +21,8 @@ const settingsTodoTxtMacosSecureBookmark = 'todotxt_macos_secure_bookmark';
 const settingsArchiveTxtMacosSecureBookmark = 'archivetxt_macos_secure_bookmark';
 
 const defaultSettings = {
-  settingsFileTodoTxt: null,
-  settingsFileArchiveTxt: null,
+  settingsFileTodoTxt: 'todo.txt',
+  settingsFileArchiveTxt: 'archive.txt',
   settingsFileAutoReload: true,
   settingsThemeUseSystem: true,
   settingsThemeUseDark: false,
