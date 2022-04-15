@@ -28,8 +28,8 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
-    final hasTodoTxt = filename?.isNotEmpty ?? false;
+    final txdxDir = ref.watch(settingsProvider).getString(settingsTxDxDirectory);
+    final hasTodoTxt = txdxDir?.isNotEmpty ?? false;
 
     void _moveToNextItem() {
       final items = ref.read(filteredItems);
@@ -152,7 +152,7 @@ class HomeScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   flex: 2,
-                  child: hasTodoTxt ? const ItemsListView() : const NoFileSelectedWidget(),
+                  child: hasTodoTxt ? const ItemsListView() : const NoTxDxDirectoryWidget(),
                 ),
                 SizedBox(
                   child: AddItemWidget(),
