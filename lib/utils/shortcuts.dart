@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:txdx/input/focus.dart';
+import 'package:txdx/utils/focus.dart';
 
 final cancelEditingKeySet = LogicalKeySet(
   LogicalKeyboardKey.escape,

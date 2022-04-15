@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/widgets/misc/label_widget.dart';
 
 import '../../config/colors.dart';
-import '../../input/browser.dart';
+import '../../utils/browser.dart';
 import '../../providers/items/item_notifier_provider.dart';
 import '../../providers/items/selected_item_provider.dart';
 import '../../txdx/txdx_item.dart';

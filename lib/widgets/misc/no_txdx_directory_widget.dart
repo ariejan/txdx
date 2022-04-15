@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:txdx/input/file_picker_helper.dart';
+import 'package:txdx/utils/file_picker_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/colors.dart';

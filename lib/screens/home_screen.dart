@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/input/shortcuts.dart';
+import 'package:txdx/utils/shortcuts.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
+import 'package:txdx/utils/show_snackbar.dart';
 import 'package:txdx/widgets/items/add_item_widget.dart';
 import 'package:txdx/widgets/items/items_list_view.dart';
 import 'package:txdx/widgets/misc/no_txdx_directory_widget.dart';
@@ -10,7 +11,7 @@ import 'package:txdx/widgets/navigation/sidebar_widget.dart';
 import 'package:txdx/widgets/layout/split_view.dart';
 
 import '../config/settings.dart';
-import '../input/focus.dart';
+import '../utils/focus.dart';
 import '../providers/items/scoped_item_notifier.dart';
 import '../providers/items/selected_item_provider.dart';
 import '../providers/settings/settings_provider.dart';
@@ -109,6 +110,9 @@ class HomeScreen extends ConsumerWidget {
         if (!item.completed) {
           idx = (idx + 1 >= items.length) ? items.length - 2 : idx + 1;
           ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
+          showSnackBar(context, 'Item marked as completed');
+        } else {
+          showSnackBar(context, 'Item marked as pending');
         }
 
         ref.read(itemsNotifierProvider.notifier).toggleComplete(current);
@@ -118,6 +122,7 @@ class HomeScreen extends ConsumerWidget {
         if (current == null) return;
 
         ref.read(itemsNotifierProvider.notifier).moveToToday(current);
+        showSnackBar(context, 'Item marked due today');
       },
       onDelete: () {
         final current = ref.read(selectedItemIdStateProvider);
@@ -130,6 +135,8 @@ class HomeScreen extends ConsumerWidget {
         ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
 
         ref.read(itemsNotifierProvider.notifier).deleteItem(current);
+
+        showSnackBar(context, 'Item deleted');
       },
       onTab: () {
         return;

@@ -112,8 +112,10 @@ class TxDxApp extends ConsumerWidget {
         if (navigator == null) return Container();
         
         return ScrollConfiguration(
-            behavior: NoGlowScrollBehavior(),
-            child: navigator,
+          behavior: NoGlowScrollBehavior(),
+          child: Scaffold(
+            body: navigator,
+          ),
         );
       },
       routes: {

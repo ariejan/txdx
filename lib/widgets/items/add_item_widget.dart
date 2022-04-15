@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/input/focus.dart';
+import 'package:txdx/utils/focus.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
 import 'package:txdx/providers/items/selected_item_provider.dart';
 
