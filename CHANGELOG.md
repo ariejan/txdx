@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+### Added
+- TxDx's uses folder-based storage now. [#82]
+- Automatically setup todox.txt and archive.txt for new users. [#76]
+- Add counters to all filters, contexts and projects. [#84]
+### Fixed
+- Make theme selection more intuitive. [#85]
+
 ## [1.0.12] - 2022-04-12
 ### Fixed
 - Fixed start-up issue when no user preferences are available. [#78]
