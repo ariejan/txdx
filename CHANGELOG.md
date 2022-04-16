@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Add counters to all filters, contexts and projects. [#84]
 ### Fixed
 - Make theme selection more intuitive. [#85]
+- Open the file picker in user documents by default. [#83]
 
 ## [1.0.12] - 2022-04-12
 ### Fixed
