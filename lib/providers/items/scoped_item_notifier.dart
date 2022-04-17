@@ -20,7 +20,7 @@ final itemStateSorter = StateProvider<List<ItemStateSorter>>((ref) {
 final itemStateGrouper = StateProvider<ItemStateSorter>((ref) => ItemStateSorter.priority);
 
 final itemFilter = StateProvider<String?>((ref) {
-  return ref.read(settingsProvider).getString(settingsDefaultFilter);
+  return ref.read(interfaceSettingsProvider).getString(settingsDefaultFilter);
 });
 
 final isSearchingProvider = StateProvider<bool>((_) => false);
@@ -101,7 +101,7 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
   final isSearching = ref.watch(isSearchingProvider);
   final searchText = ref.watch(searchTextProvider);
 
-  final settings = ref.watch(settingsProvider);
+  final settings = ref.watch(interfaceSettingsProvider);
 
   var result = items.toList();
 

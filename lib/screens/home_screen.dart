@@ -29,7 +29,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final txdxDir = ref.watch(settingsProvider).getString(settingsTxDxDirectory);
+    final txdxDir = ref.watch(fileSettingsProvider).getString(settingsTxDxDirectory);
     final hasTodoTxt = txdxDir?.isNotEmpty ?? false;
 
     void _moveToNextItem() {

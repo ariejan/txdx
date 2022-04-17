@@ -10,7 +10,7 @@ import '../../config/settings.dart';
 
 final txdxDirProvider = FutureProvider<String?>((ref) async {
   if (Platform.isMacOS) {
-    final bookmark = ref.watch(settingsProvider).getString(settingsTxDxDirectoryMacosSecureBookmark);
+    final bookmark = ref.watch(fileSettingsProvider).getString(settingsTxDxDirectoryMacosSecureBookmark);
     if (bookmark?.isNotEmpty ?? false) {
       final _secureBookmarks = SecureBookmarks();
       final dir = await _secureBookmarks.resolveBookmark(bookmark!);
@@ -20,12 +20,12 @@ final txdxDirProvider = FutureProvider<String?>((ref) async {
       return null;
     }
   } else {
-    return ref.watch(settingsProvider).getString(settingsTxDxDirectory);
+    return ref.watch(fileSettingsProvider).getString(settingsTxDxDirectory);
   }
 });
 
 final todoFileProvider = FutureProvider<File?>((ref) async {
-  final todoFilename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
+  final todoFilename = ref.watch(fileSettingsProvider).getString(settingsFileTodoTxt);
   final txdxDir = await ref.watch(txdxDirProvider.future);
 
   if (txdxDir == null || todoFilename == null) {
@@ -42,7 +42,7 @@ final todoFileProvider = FutureProvider<File?>((ref) async {
 });
 
 final archiveFileProvider = FutureProvider<File?>((ref) async {
-  final archiveFilename = ref.watch(settingsProvider).getString(settingsFileArchiveTxt);
+  final archiveFilename = ref.watch(fileSettingsProvider).getString(settingsFileArchiveTxt);
   final txdxDir = await ref.watch(txdxDirProvider.future);
 
   if (txdxDir == null || archiveFilename == null) {
