@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [unreleased]
 ### Added
 - Default filter can now also be a context or project. [#86]
+- (macOS) Set filter to use for dock badge count. [#87]
 
 ## [1.0.13] - 2022-04-17
 ### Added
