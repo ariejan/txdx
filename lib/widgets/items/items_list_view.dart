@@ -19,7 +19,7 @@ class ItemsListView extends ConsumerWidget {
 
   String _getTitle(WidgetRef ref) {
     final filter = ref.read(itemFilter);
-    final upcomingDays = ref.read(settingsProvider).getInt(settingsUpcomingDays);
+    final upcomingDays = ref.read(interfaceSettingsProvider).getInt(settingsUpcomingDays);
 
     switch (filter) {
       case null:

@@ -11,17 +11,17 @@ import 'package:txdx/txdx/txdx_item.dart';
 import '../../config/settings.dart';
 
 final itemsNotifierProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) {
-  final settings = ref.watch(settingsProvider);
+  final settings = ref.watch(fileSettingsProvider);
 
   final todoFilename = settings.getString(settingsFileTodoTxt);
   final todoFile = ref.watch(todoFileProvider).maybeWhen(
-      data: (file) => file,
-      orElse: () => null);
+  data: (file) => file,
+  orElse: () => null);
 
   final archiveFilename = settings.getString(settingsFileArchiveTxt);
   final archiveFile = ref.watch(archiveFileProvider).maybeWhen(
-      data: (file) => file,
-      orElse: () => null);
+  data: (file) => file,
+  orElse: () => null);
 
   return ItemNotifier(ref, todoFile, archiveFile, todoFilename, archiveFilename);
 });
@@ -179,7 +179,7 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
 
   void _setState(List<TxDxItem> value) {
     state = value;
-    final sorted = ref.read(settingsProvider).getBool(settingsFileSaveOrdered);
+    final sorted = ref.read(interfaceSettingsProvider).getBool(settingsFileSaveOrdered);
 
     if (todoFile != null) {
       TxDxFile.saveToFile(todoFile!, value, sorted: sorted);

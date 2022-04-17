@@ -11,7 +11,7 @@ class TestHelpers {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     List<Override> theOverrides = [
-      settingsProvider.overrideWithValue(Settings('test', pref)),
+      interfaceSettingsProvider.overrideWithValue(Settings('test', pref)),
     ];
 
     if (overrides != null) {

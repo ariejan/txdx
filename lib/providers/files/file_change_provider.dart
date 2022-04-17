@@ -41,7 +41,7 @@ final fileHasChangedProvider = FutureProvider.autoDispose<bool>((ref) async {
 
 final fileWasChanged = StateProvider.autoDispose<bool>((ref) {
   final asyncHasChanged = ref.watch(fileHasChangedProvider);
-  final autoReload = ref.watch(settingsProvider).getBool(settingsFileAutoReload);
+  final autoReload = ref.watch(fileSettingsProvider).getBool(settingsFileAutoReload);
 
   return asyncHasChanged.when(
       data: (hasChanged) {

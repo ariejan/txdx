@@ -26,16 +26,19 @@ Future<void> main() async {
     setWindowFrame(const Rect.fromLTWH(100, 100, 960, 720));
   }
 
-  FlutterAppBadger.removeBadge();
-
   runApp(
     ProviderScope(
       child: Consumer(builder: (context, ref, _) {
-        final settingsFuture = ref.watch(settingsFutureProvider);
-        return settingsFuture.maybeWhen(
-          data: (d) => const TxDxApp(),
-          orElse: () => const TxDxLoadingScreen(),
-        );
+        final file = ref.watch(fileSettingsFutureProvider);
+        final interface = ref.watch(interfaceSettingsFutureProvider);
+
+        if (file is AsyncError || interface is AsyncError) {
+          return const TxDxLoadingScreen();
+        } else if (file is AsyncLoading || interface is AsyncLoading) {
+          return const TxDxLoadingScreen();
+        }
+
+        return const TxDxApp();
       }),
     ),
   );
@@ -87,7 +90,7 @@ class TxDxApp extends ConsumerWidget {
       setWindowTitle(appTitle);
     }
 
-    final themeBrightness = ref.watch(settingsProvider).getString(settingsThemeBrightness);
+    final themeBrightness = ref.watch(interfaceSettingsProvider).getString(settingsThemeBrightness);
     var themeMode = ThemeMode.system;
     switch(themeBrightness) {
       case 'system':

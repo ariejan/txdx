@@ -13,9 +13,9 @@ void pickTxDxDirectory(WidgetRef ref) {
     if (Platform.isMacOS && dirname != null) {
       final _secureBookmarks = SecureBookmarks();
       final bookmark = await _secureBookmarks.bookmark(File(dirname));
-      ref.read(settingsProvider).setString(settingsTxDxDirectoryMacosSecureBookmark, bookmark);
+      ref.read(fileSettingsProvider).setString(settingsTxDxDirectoryMacosSecureBookmark, bookmark);
     }
-    ref.read(settingsProvider).setString(settingsTxDxDirectory, dirname ?? '');
+    ref.read(fileSettingsProvider).setString(settingsTxDxDirectory, dirname ?? '');
   });
 }
 

@@ -6,7 +6,7 @@ import 'scoped_item_notifier.dart';
 
 final itemsCount = StateProvider.family<int, String>((ref, filter) {
   final items = ref.watch(scopedItems);
-  final settings = ref.watch(settingsProvider);
+  final settings = ref.watch(interfaceSettingsProvider);
 
   return filterItems(items, filter, true, settings).length;
 });
