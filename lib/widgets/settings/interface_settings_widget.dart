@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,7 +80,6 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                   ]
               ),
 
-
               TableRow(
                   children: [
                     const Padding(
@@ -127,6 +128,56 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                     )
                   ]
               ),
+
+              if (Platform.isMacOS) TableRow(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Filter for dock badge counter'),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton2(
+                                  value: ref.watch(interfaceSettingsProvider).getString(settingsFilterMacosBadgeCount),
+                                  buttonHeight: 28,
+                                  buttonPadding: const EdgeInsets.all(0),
+                                  buttonWidth: 180,
+                                  itemHeight: 28,
+                                  onChanged: (value) {
+                                    ref.read(interfaceSettingsProvider).setString(settingsFilterMacosBadgeCount, value as String);
+                                  },
+                                  hint: Text(
+                                    'Select Item',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme
+                                          .of(context)
+                                          .hintColor,
+                                    ),
+                                  ),
+                                  items: filterOptions.keys
+                                      .map((key) =>
+                                      DropdownMenuItem<String>(
+                                        value: key,
+                                        child: Text(
+                                          filterOptions[key]!,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      )).toList(),
+                                ),
+                              ),
+                            ]
+                        )
+                    )
+                  ]
+              ),
+
 
               TableRow(
                   children: [
