@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/providers/files/file_notifier_provider.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:watcher/watcher.dart';
@@ -17,11 +18,11 @@ class FileChangeEvent {
 }
 
 final fileWatcherProvider = StreamProvider.autoDispose<FileChangeEvent>((ref) async* {
-  final filename = ref.watch(settingsProvider).getString(settingsFileTodoTxt);
+  final file = await ref.watch(todoFileProvider.future);
 
-  if (filename != null) {
+  if (file != null) {
+    final filename = file.path;
     var watcher = FileWatcher(p.absolute(filename));
-
     await for (final event in watcher.events) {
       yield FileChangeEvent(event, filename);
     }
@@ -32,7 +33,8 @@ final fileHasChangedProvider = FutureProvider.autoDispose<bool>((ref) async {
   final event = await ref.watch(fileWatcherProvider.future);
 
   final items = ref.read(itemsNotifierProvider);
-  final areEqual = await TxDxFile.compareFileToDataEquality(File(event.filename), items);
+  final areEqual = await TxDxFile.compareFileToDataEquality(
+      File(event.filename), items);
 
   return !areEqual;
 });

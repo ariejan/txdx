@@ -1,7 +1,14 @@
-New in 1.0.11
+New in 1.0.13
+
+Important: TxDx is now using directory based access to your `todo.txt` 
+and `archive.txt` files. With version 1.0.13 you may have to re-selecting
+your TxDx directory. See https://www.txdx.eu/support/ for details.
 
 Added
-- Handle `due:fri` and `due:sunday` due date helpers. [#74]
+- TxDx's uses folder-based storage now. [#82]
+- Automatically setup todox.txt and archive.txt for new users. [#76]
+- Add counters to all filters, contexts and projects. [#84]
 Fixed
-- Improve selecting next item on toggle complete / delete. [#26]
-- Misc. bug fixes
+- Make theme selection more intuitive. [#85]
+- Open the file picker in user documents by default. [#83]
+- Fixed start-up issue when no user preferences are available. [#78]

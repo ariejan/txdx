@@ -256,8 +256,8 @@ class SettingsScreen extends ConsumerWidget {
                                                       ]
                                                   ),
                                                   onPressed: () {
-                                                    ref.read(settingsProvider).setString(settingsTxDxDirectoryMacosSecureBookmark, '');
                                                     ref.read(settingsProvider).setString(settingsTxDxDirectory, '');
+                                                    ref.read(settingsProvider).setString(settingsTxDxDirectoryMacosSecureBookmark, '');
                                                   },
                                                 ),
                                                 TextButton(

@@ -14,6 +14,9 @@ class NoTxDxDirectoryWidget extends ConsumerWidget {
   
   TxDx stores _your_ data on _your_ device. To get started, please select a 
   directory for TxDx to store your data.
+  
+  _If you are migrating from a previous version, please read or [FAQ on upgrading
+  to 1.0.13](https://www.txdx.eu/support)_.
   ''';
 
   final theTextTwo = '''After that you may want to take a look at the following

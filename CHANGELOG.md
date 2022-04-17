@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.0.13] - 2022-04-17
 ### Added
 - TxDx's uses folder-based storage now. [#82]
 - Automatically setup todox.txt and archive.txt for new users. [#76]

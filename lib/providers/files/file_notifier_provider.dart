@@ -11,9 +11,9 @@ import '../../config/settings.dart';
 final txdxDirProvider = FutureProvider<String?>((ref) async {
   if (Platform.isMacOS) {
     final bookmark = ref.watch(settingsProvider).getString(settingsTxDxDirectoryMacosSecureBookmark);
-    if (bookmark != null) {
+    if (bookmark?.isNotEmpty ?? false) {
       final _secureBookmarks = SecureBookmarks();
-      final dir = await _secureBookmarks.resolveBookmark(bookmark);
+      final dir = await _secureBookmarks.resolveBookmark(bookmark!);
       await _secureBookmarks.startAccessingSecurityScopedResource(dir);
       return dir.path;
     } else {
