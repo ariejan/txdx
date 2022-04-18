@@ -9,7 +9,6 @@ import 'package:txdx/screens/home_screen.dart';
 import 'package:txdx/screens/settings_screen.dart';
 import 'package:window_size/window_size.dart';
 
-import 'config/filters.dart';
 import 'providers/items/item_count_provider.dart';
 import 'providers/settings/settings_provider.dart';
 import 'config/settings.dart';
@@ -26,16 +25,19 @@ Future<void> main() async {
     setWindowFrame(const Rect.fromLTWH(100, 100, 960, 720));
   }
 
-  FlutterAppBadger.removeBadge();
-
   runApp(
     ProviderScope(
       child: Consumer(builder: (context, ref, _) {
-        final settingsFuture = ref.watch(settingsFutureProvider);
-        return settingsFuture.maybeWhen(
-          data: (d) => const TxDxApp(),
-          orElse: () => const TxDxLoadingScreen(),
-        );
+        final file = ref.watch(fileSettingsFutureProvider);
+        final interface = ref.watch(interfaceSettingsFutureProvider);
+
+        if (file is AsyncError || interface is AsyncError) {
+          return const TxDxLoadingScreen();
+        } else if (file is AsyncLoading || interface is AsyncLoading) {
+          return const TxDxLoadingScreen();
+        }
+
+        return const TxDxApp();
       }),
     ),
   );
@@ -73,8 +75,8 @@ class TxDxApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     if (Platform.isMacOS) {
-      ref.listen(itemsCount(filterToday), (_, int? next) {
-        (next == null || next == 0)
+      ref.listen(badgeCount, (_, int next) {
+        (next == 0)
             ? FlutterAppBadger.removeBadge()
             : FlutterAppBadger.updateBadgeCount(next);
       });
@@ -87,7 +89,7 @@ class TxDxApp extends ConsumerWidget {
       setWindowTitle(appTitle);
     }
 
-    final themeBrightness = ref.watch(settingsProvider).getString(settingsThemeBrightness);
+    final themeBrightness = ref.watch(interfaceSettingsProvider).getString(settingsThemeBrightness);
     var themeMode = ThemeMode.system;
     switch(themeBrightness) {
       case 'system':

@@ -12,6 +12,7 @@ const settingsThemeBrightness = 'theme_brightness';
 const settingsUpcomingDays = 'filter_next_up_days';
 const settingsTodayInUpcoming = 'filter_today_in_upcoming';
 const settingsDefaultFilter = 'filter_default_selection';
+const settingsFilterMacosBadgeCount = 'filter_macos_badge_count';
 
 const settingsAutoAddFilter = 'item_auto_add_filter';
 
@@ -30,6 +31,7 @@ const defaultSettings = {
   settingsTodayInUpcoming: true,
   settingsDefaultFilter: filterAll,
   settingsFileSaveOrdered: true,
+  settingsFilterMacosBadgeCount: filterToday,
 };
 
 const nextUpDaysMin = 0;

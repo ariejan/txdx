@@ -34,7 +34,7 @@ class AddItemWidget extends ConsumerWidget {
   }
 
   void _focusWithDefaults(WidgetRef ref) {
-    final autoAddFilter = ref.read(settingsProvider).getBool(settingsAutoAddFilter);
+    final autoAddFilter = ref.read(interfaceSettingsProvider).getBool(settingsAutoAddFilter);
     if (!autoAddFilter) return;
 
     final filter = ref.read(itemFilter);
