@@ -9,6 +9,7 @@ import '../../config/filters.dart';
 import '../../providers/items/item_notifier_provider.dart';
 import '../../providers/settings/settings_provider.dart';
 import '../../config/settings.dart';
+import 'items_list_view.dart';
 
 class AddItemWidget extends ConsumerWidget {
   AddItemWidget({Key? key}) : super(key: key);
@@ -17,6 +18,16 @@ class AddItemWidget extends ConsumerWidget {
     final newItemId = ref.read(itemsNotifierProvider.notifier).createItem(value);
     textController.text = '';
     ref.read(selectedItemIdStateProvider.state).state = newItemId;
+
+    final items = ref.read(filteredItems);
+    final idx = items.indexWhere((item) => item.id == newItemId);
+
+    ItemsListView.controller.scrollTo(
+      index: idx,
+      duration: const Duration(microseconds: 250),
+      alignment: 0.33,
+    );
+
     addNewFocusNode.requestFocus();
     _focusWithDefaults(ref);
   }
