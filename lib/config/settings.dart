@@ -1,3 +1,5 @@
+import 'package:txdx/providers/items/scoped_item_notifier.dart';
+
 import 'filters.dart';
 
 const settingsTxDxDirectory = 'txdx_directory';
@@ -12,6 +14,7 @@ const settingsThemeBrightness = 'theme_brightness';
 const settingsUpcomingDays = 'filter_next_up_days';
 const settingsTodayInUpcoming = 'filter_today_in_upcoming';
 const settingsDefaultFilter = 'filter_default_selection';
+const settingsDefaultSorting = 'items_default_sorting';
 const settingsFilterMacosBadgeCount = 'filter_macos_badge_count';
 
 const settingsAutoAddFilter = 'item_auto_add_filter';
@@ -32,6 +35,7 @@ const defaultSettings = {
   settingsDefaultFilter: filterAll,
   settingsFileSaveOrdered: true,
   settingsFilterMacosBadgeCount: filterToday,
+  settingsDefaultSorting: ItemStateSorter.priority,
 };
 
 const nextUpDaysMin = 0;
@@ -49,4 +53,9 @@ const settingsDefaultFilterItems = {
   filterUpcoming: 'Upcoming',
   filterSomeday: 'Someday',
   filterOverdue: 'Overdue',
+};
+
+const settingsSortOrders = {
+  ItemStateSorter.priority: 'Priority',
+  ItemStateSorter.dueOn: 'Due date',
 };

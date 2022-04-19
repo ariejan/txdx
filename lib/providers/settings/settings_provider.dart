@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:txdx/providers/settings/shared_preferences_provider.dart';
 import 'package:txdx/config/settings.dart';
 
+import '../items/scoped_item_notifier.dart';
+
 final namespaceProvider = Provider<String>((ref) {
   return kReleaseMode ? 'release' : 'debug';
 });
@@ -59,6 +61,23 @@ class Settings extends ChangeNotifier {
   String? getString(String key) {
     final theKey = _key(key);
     return sharedPreferences.getString(theKey) ?? defaultSettings[key] as String?;
+  }
+
+  void setItemStateSorter(String key, ItemStateSorter value) {
+    setStringSilently(key, value.toString());
+    notifyListeners();
+  }
+
+  ItemStateSorter? getItemStateSorter(String key) {
+    final theKey = _key(key);
+
+    final preferenceSort = sharedPreferences.getString(theKey);
+
+    if (preferenceSort == null) {
+      return defaultSettings[key] as ItemStateSorter;
+    } else {
+      return ItemStateSorter.values.firstWhere((e) => e.toString() == preferenceSort);
+    }
   }
 
   void setBool(String key, bool value) {

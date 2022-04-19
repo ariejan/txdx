@@ -119,29 +119,18 @@ class SidebarWidget extends ConsumerWidget {
             ),
           ),
           SizedBox(
-            child: ListView(
-                shrinkWrap: true,
-                controller: ScrollController(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (archiveAvailable) MenuItemWidget(
-                    title: 'Archive completed',
-                    color: Theme.of(context).disabledColor,
-                    icon: FaIcon(
-                      FontAwesomeIcons.boxArchive,
-                      size: 16,
-                      color: Theme.of(context).disabledColor,
-                    ),
-                    onTap: () => ref.read(itemsNotifierProvider.notifier).archiveCompleted(),
+                  if (archiveAvailable) TextButton.icon(
+                    label: const Text('Archive completed'),
+                    icon: const FaIcon(FontAwesomeIcons.boxArchive, size: 16),
+                    onPressed: () => ref.read(itemsNotifierProvider.notifier).archiveCompleted(),
                   ),
-                  MenuItemWidget(
-                    onTap: () => Navigator.pushNamed(context, '/settings'),
-                    color: Theme.of(context).disabledColor,
-                    title: 'Settings',
-                    icon: FaIcon(
-                      FontAwesomeIcons.gear,
-                      size: 16,
-                      color: Theme.of(context).disabledColor,
-                    ),
+                  TextButton.icon(
+                    onPressed: () => Navigator.pushNamed(context, '/settings'),
+                    label: const Text('Settings'),
+                    icon: const FaIcon(FontAwesomeIcons.gear, size: 16),
                   ),
                 ]
             ),

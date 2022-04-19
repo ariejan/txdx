@@ -13,8 +13,21 @@ enum ItemStateSorter {
   description,
 }
 
+final itemSortingPreferenceProvider = StateProvider<ItemStateSorter>((ref) {
+  return ref.watch(interfaceSettingsProvider).getItemStateSorter(settingsDefaultSorting)!;
+});
+
 final itemStateSorter = StateProvider<List<ItemStateSorter>>((ref) {
-  return [ItemStateSorter.completion, ItemStateSorter.priority, ItemStateSorter.dueOn, ItemStateSorter.description];
+  final sortingPreference = ref.watch(itemSortingPreferenceProvider);
+
+  switch(sortingPreference) {
+    case ItemStateSorter.priority:
+      return [ItemStateSorter.completion, ItemStateSorter.priority, ItemStateSorter.dueOn, ItemStateSorter.description];
+    case ItemStateSorter.dueOn:
+      return [ItemStateSorter.completion, ItemStateSorter.dueOn, ItemStateSorter.priority, ItemStateSorter.description];
+    default:
+      return [ItemStateSorter.completion, ItemStateSorter.priority, ItemStateSorter.dueOn, ItemStateSorter.description];
+  }
 });
 
 final itemStateGrouper = StateProvider<ItemStateSorter>((ref) => ItemStateSorter.priority);

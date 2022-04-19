@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
 import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:txdx/config/settings.dart';
 import 'package:txdx/widgets/misc/search_widget.dart';
 
+import '../../config/colors.dart';
 import '../../config/filters.dart';
 import '../../providers/files/file_change_provider.dart';
 import '../misc/file_changed_widget.dart';
@@ -52,6 +54,38 @@ class ItemsListView extends ConsumerWidget {
               MenuHeaderWidget(
                 _getTitle(ref),
                 margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                actions: [
+                  PopupMenuButton(
+                    padding: EdgeInsets.zero,
+                    icon: FaIcon(FontAwesomeIcons.sliders, size: 14, color: Theme.of(context).disabledColor),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? TxDxColors.darkBadge2 : TxDxColors.lightBadge,
+                    tooltip: "Select item sorting",
+                    onSelected: (ItemStateSorter selectedItemStateSorter) {
+                      ref.read(itemSortingPreferenceProvider.state).state = selectedItemStateSorter;
+                    },
+                    itemBuilder: (context) {
+                      return [
+                        CheckedPopupMenuItem<ItemStateSorter>(
+                          padding: EdgeInsets.zero,
+                          value: ItemStateSorter.priority,
+                          checked: ref.watch(itemSortingPreferenceProvider) == ItemStateSorter.priority,
+                          child: const ListTile(
+                            title: Text('Sort by priority', style: TextStyle(fontSize: 14)),
+                          )
+                        ),
+                        CheckedPopupMenuItem<ItemStateSorter>(
+                          padding: EdgeInsets.zero,
+                          value: ItemStateSorter.dueOn,
+                          checked: ref.watch(itemSortingPreferenceProvider) == ItemStateSorter.dueOn,
+                          child: const ListTile(
+                            title: Text('Sort by due date', style: TextStyle(fontSize: 14)),
+                          )
+                        ),
+                      ];
+                    }
+                  ),
+                ],
               ),
               if (hasFileChanges) const FileChangedWidget(),
               if (isSearching) SearchWidget(),

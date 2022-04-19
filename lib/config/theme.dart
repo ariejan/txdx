@@ -19,6 +19,13 @@ abstract class TxDxTheme {
       colorScheme: _lightTheme.colorScheme.copyWith(
         background: TxDxColors.lightBackground,
       ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: _lightTheme.disabledColor,
+          backgroundColor: Colors.transparent,
+          animationDuration: Duration.zero,
+        ),
+      ),
     );
   }
 
@@ -32,6 +39,13 @@ abstract class TxDxTheme {
       scaffoldBackgroundColor: TxDxColors.darkBackground,
       colorScheme: _darkTheme.colorScheme.copyWith(
         background: TxDxColors.darkBackground,
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: _darkTheme.disabledColor,
+          backgroundColor: Colors.transparent,
+          animationDuration: Duration.zero,
+        ),
       ),
     );
   }

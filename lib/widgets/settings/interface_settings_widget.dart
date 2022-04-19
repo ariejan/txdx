@@ -4,6 +4,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:txdx/providers/items/scoped_item_notifier.dart';
 
 import '../../config/settings.dart';
 import '../../providers/items/filter_provider.dart';
@@ -227,6 +228,55 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                 onPressed: () {
                                   _updateSettingsNextUpDays(1, ref);
                                 },
+                              ),
+                            ]
+                        )
+                    )
+                  ]
+              ),
+
+              TableRow(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Default item sorting'),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton2(
+                                  value: ref.watch(interfaceSettingsProvider).getItemStateSorter(settingsDefaultSorting),
+                                  buttonHeight: 28,
+                                  buttonPadding: const EdgeInsets.all(0),
+                                  buttonWidth: 180,
+                                  itemHeight: 28,
+                                  onChanged: (value) {
+                                    ref.read(interfaceSettingsProvider).setItemStateSorter(settingsDefaultSorting, value as ItemStateSorter);
+                                  },
+                                  hint: Text(
+                                    'Select Item',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme
+                                          .of(context)
+                                          .hintColor,
+                                    ),
+                                  ),
+                                  items: settingsSortOrders.keys
+                                      .map((key) =>
+                                      DropdownMenuItem<ItemStateSorter>(
+                                        value: key,
+                                        child: Text(
+                                          settingsSortOrders[key]!,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      )).toList(),
+                                ),
                               ),
                             ]
                         )

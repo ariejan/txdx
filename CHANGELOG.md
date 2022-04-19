@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Default filter can now also be a context or project. [#86]
 - (macOS) Set filter to use for dock badge count. [#87]
+- Add setting and in-view option to select item sorting. [#90]
 ### Fixed
 - Search does not match case for easier finding. [#91]
 - Cannot select light theme from settings. [#97]

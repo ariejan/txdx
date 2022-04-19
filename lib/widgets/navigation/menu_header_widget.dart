@@ -5,12 +5,15 @@ class MenuHeaderWidget extends StatelessWidget {
       this.title, {
         this.fontSize,
         this.margin,
-        Key? key
+        this.actions = const [],
+        Key? key,
       }) : super(key: key);
 
   final String title;
   final double? fontSize;
   final EdgeInsetsGeometry? margin;
+
+  final List<Widget> actions;
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +22,23 @@ class MenuHeaderWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: fontSize ?? 20,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: fontSize ?? 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (actions.isNotEmpty)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: actions
+                )
+            ],
           ),
           const Divider(),
         ]
