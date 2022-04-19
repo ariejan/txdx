@@ -76,23 +76,6 @@ class SidebarWidget extends ConsumerWidget {
                         badgeCount: ref.watch(itemsCount(filterOverdue)),
                         badgeColor: badgeColor,
                       ),
-                      if (contexts.isNotEmpty) const MenuHeaderWidget(
-                        'Contexts',
-                        fontSize: 11,
-                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      ),
-
-                      Column(
-                        children: contexts.map((context) =>
-                            MenuItemWidget(
-                              title: context,
-                              indicatorColor: TxDxColors.contexts,
-                              itemFilterValue: context,
-                              badgeCount: ref.watch(itemsCount(context)),
-                              badgeColor: badgeColor,
-                            )
-                        ).toList(),
-                      ),
 
                       if (projects.isNotEmpty) const MenuHeaderWidget(
                         'Projects',
@@ -109,6 +92,24 @@ class SidebarWidget extends ConsumerWidget {
                             badgeCount: ref.watch(itemsCount(project)),
                             badgeColor: badgeColor,
                           )
+                        ).toList(),
+                      ),
+
+                      if (contexts.isNotEmpty) const MenuHeaderWidget(
+                        'Contexts',
+                        fontSize: 11,
+                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      ),
+
+                      Column(
+                        children: contexts.map((context) =>
+                            MenuItemWidget(
+                              title: context,
+                              indicatorColor: TxDxColors.contexts,
+                              itemFilterValue: context,
+                              badgeCount: ref.watch(itemsCount(context)),
+                              badgeColor: badgeColor,
+                            )
                         ).toList(),
                       ),
                     ]

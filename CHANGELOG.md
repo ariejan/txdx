@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - (macOS) Set filter to use for dock badge count. [#87]
 ### Fixed
 - Search does not match case for easier finding. [#91]
+### Changed
+- Swap order of projects and contexts in the sidebar. [#92]
 
 ## [1.0.13] - 2022-04-17
 ### Added
