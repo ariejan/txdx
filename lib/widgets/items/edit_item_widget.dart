@@ -52,6 +52,7 @@ class EditItemWidget extends ConsumerWidget {
                       size: 16,
                     ),
                     color: Theme.of(context).errorColor,
+                    splashRadius: 1,
                     onPressed: () {
                       ref.read(editingItemIdStateProvider.state).state = null;
                       ref.read(itemsNotifierProvider.notifier).deleteItem(item.id);

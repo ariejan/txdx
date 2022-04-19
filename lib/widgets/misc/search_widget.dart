@@ -37,6 +37,7 @@ class SearchWidget extends ConsumerWidget {
           ),
           IconButton(
             icon: const FaIcon(FontAwesomeIcons.xmark),
+            splashRadius: 1,
             onPressed: () {
               ref.read(isSearchingProvider.state).state = false;
               ref.read(searchTextProvider.state).state = '';
