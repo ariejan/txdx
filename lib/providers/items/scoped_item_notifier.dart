@@ -108,7 +108,9 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
   result = filterItems(result, filter, false, settings);
 
   if (isSearching && searchText != null && searchText.isNotEmpty) {
-    result = result.where((item) => item.description.contains(searchText)).toList();
+    result = result.where((item) {
+      return item.description.toLowerCase().contains(searchText.toLowerCase());
+    }).toList();
   }
 
   return result;
