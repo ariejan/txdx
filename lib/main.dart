@@ -98,7 +98,7 @@ class TxDxApp extends ConsumerWidget {
       case 'dark':
         themeMode = ThemeMode.dark;
         break;
-      case 'ligth':
+      case 'light':
         themeMode = ThemeMode.light;
         break;
     }
