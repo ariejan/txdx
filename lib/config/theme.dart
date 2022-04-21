@@ -19,6 +19,11 @@ abstract class TxDxTheme {
       colorScheme: _lightTheme.colorScheme.copyWith(
         background: TxDxColors.lightBackground,
       ),
+      popupMenuTheme: PopupMenuThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           primary: _lightTheme.disabledColor,
