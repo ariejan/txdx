@@ -57,48 +57,26 @@ class MenuItemWidget extends ConsumerWidget {
         break;
     }
 
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
+    return Container(
+      color: highlighted() ? bgColor : null,
+      child: ListTile(
         onTap: _onTap,
-        child: Container(
-          color: highlighted() ? bgColor : Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(6, 3, 6, 3),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: icon ?? Container(
-                    width: 16,
-                    height: 16,
-                    color: indicatorColor ?? Colors.blue,
-                  )
-                  ,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: color,
-                      ),
-                    ),
-                  ),
-                ),
-                if (badgeCount != null && badgeCount! > 0)
-                  PillWidget(
-                    "$badgeCount",
-                    fontSize: 12,
-                    backgroundColor: badgeColor ?? TxDxColors.prioDefault,
-                ),
-              ]
-            ),
+
+        leading: icon ?? Icon(Icons.circle, size: 16),
+        title: Text(
+          title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: color,
           ),
         ),
+        trailing: (badgeCount != null && badgeCount! > 0)
+        ? PillWidget(
+            "$badgeCount",
+            fontSize: 11,
+            backgroundColor: badgeColor ?? TxDxColors.prioDefault,
+        ) : null,
       ),
     );
   }

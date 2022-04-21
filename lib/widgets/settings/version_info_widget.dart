@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../providers/settings/platform_info_provider.dart';
 import '../../providers/settings/settings_provider.dart';
-import '../../utils/browser.dart';
 import '../navigation/menu_header_widget.dart';
 
 class VersionInfoWidget extends ConsumerWidget {
@@ -15,20 +15,34 @@ class VersionInfoWidget extends ConsumerWidget {
     final namespace = ref.watch(namespaceProvider);
     final appVersion = ref.watch(appVersionProvider);
 
+    final versionInfo = '''TxDx $appVersion ($namespace)
+    
+Copyright © 2022 Ariejan de Vroom
+    
+[https://www.txdx.eu/support](https://www.txdx.eu/support)
+  ''';
+
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const MenuHeaderWidget(
           'About',
           margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
         ),
 
-        Text('TxDx $appVersion ($namespace)', style: const TextStyle(fontWeight: FontWeight.bold)),
-        const Text('Copyright © 2022 Ariejan de Vroom'),
-        Linkify(
-          text: "https://www.txdx.eu",
-          onOpen: (LinkableElement link) {
-            launchInBrowser(link.url);
-          },
+        Padding(
+          padding: EdgeInsets.all(8),
+          child: SizedBox(
+            width: double.infinity,
+            child: MarkdownBody(
+              data: versionInfo,
+              onTapLink: (text, href, title) {
+                if (href!.isNotEmpty) {
+                  launch(href);
+                }
+              },
+            ),
+          ),
         ),
       ]
     );

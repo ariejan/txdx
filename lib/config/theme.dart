@@ -10,10 +10,17 @@ abstract class TxDxTheme {
 
   static ThemeData light() {
     return _lightTheme.copyWith(
+      hoverColor: _lightTheme.highlightColor.withOpacity(0.1),
       canvasColor: TxDxColors.lightBackground,
       appBarTheme: _darkTheme.appBarTheme.copyWith(
         backgroundColor: _lightTheme.primaryColorDark,
         shadowColor: Colors.transparent,
+      ),
+      listTileTheme: const ListTileThemeData(
+        dense: true,
+        visualDensity: VisualDensity.compact,
+        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+        horizontalTitleGap: 0,
       ),
       scaffoldBackgroundColor: TxDxColors.lightBackground,
       colorScheme: _lightTheme.colorScheme.copyWith(
@@ -36,10 +43,17 @@ abstract class TxDxTheme {
 
   static ThemeData dark() {
     return _darkTheme.copyWith(
+      hoverColor: _lightTheme.highlightColor.withOpacity(0.1),
       canvasColor: TxDxColors.darkBackground,
       appBarTheme: _darkTheme.appBarTheme.copyWith(
         backgroundColor: _lightTheme.primaryColorDark,
         shadowColor: Colors.transparent,
+      ),
+      listTileTheme: const ListTileThemeData(
+        dense: true,
+        visualDensity: VisualDensity.compact,
+        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+        horizontalTitleGap: 0,
       ),
       scaffoldBackgroundColor: TxDxColors.darkBackground,
       colorScheme: _darkTheme.colorScheme.copyWith(

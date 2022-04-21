@@ -46,10 +46,10 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               DropdownButtonHideUnderline(
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getString(settingsThemeBrightness),
-                                  buttonHeight: 28,
-                                  buttonPadding: const EdgeInsets.all(0),
+                                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                                   buttonWidth: 180,
                                   itemHeight: 28,
+                                  buttonHeight: 28,
                                   onChanged: (value) {
                                     ref.read(interfaceSettingsProvider).setString(settingsThemeBrightness, value as String);
                                   },
@@ -95,10 +95,10 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               DropdownButtonHideUnderline(
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getString(settingsDefaultFilter),
-                                  buttonHeight: 28,
-                                  buttonPadding: const EdgeInsets.all(0),
+                                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                                   buttonWidth: 180,
                                   itemHeight: 28,
+                                  buttonHeight: 28,
                                   onChanged: (value) {
                                     ref.read(interfaceSettingsProvider).setString(settingsDefaultFilter, value as String);
                                   },
@@ -144,10 +144,10 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               DropdownButtonHideUnderline(
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getString(settingsFilterMacosBadgeCount),
-                                  buttonHeight: 28,
-                                  buttonPadding: const EdgeInsets.all(0),
+                                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                                   buttonWidth: 180,
                                   itemHeight: 28,
+                                  buttonHeight: 28,
                                   onChanged: (value) {
                                     ref.read(interfaceSettingsProvider).setString(settingsFilterMacosBadgeCount, value as String);
                                   },
@@ -216,6 +216,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               IconButton(
+                                splashRadius: 10,
                                 icon: const FaIcon(FontAwesomeIcons.minus, size: 10),
                                 onPressed: () {
                                   _updateSettingsNextUpDays(-1, ref);
@@ -224,6 +225,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               Text(ref.watch(interfaceSettingsProvider).getInt(settingsUpcomingDays).toString(),
                               ),
                               IconButton(
+                                splashRadius: 10,
                                 icon: const FaIcon(FontAwesomeIcons.plus, size: 10),
                                 onPressed: () {
                                   _updateSettingsNextUpDays(1, ref);
@@ -249,10 +251,10 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               DropdownButtonHideUnderline(
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getItemStateSorter(settingsDefaultSorting),
-                                  buttonHeight: 28,
-                                  buttonPadding: const EdgeInsets.all(0),
+                                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                                   buttonWidth: 180,
                                   itemHeight: 28,
+                                  buttonHeight: 28,
                                   onChanged: (value) {
                                     ref.read(interfaceSettingsProvider).setItemStateSorter(settingsDefaultSorting, value as ItemStateSorter);
                                   },

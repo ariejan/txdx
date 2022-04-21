@@ -86,8 +86,7 @@ class _ContextMenuState extends State<ContextMenu> {
             borderRadius: BorderRadius.circular(8),
             child: Material(
               color: Theme.of(context).brightness == Brightness.dark
-                  ? TxDxColors.darkContextBackgroundColor
-                  : TxDxColors.lightContextBackgroundColor,
+                  ? TxDxColors.darkBadge2 : TxDxColors.lightBadge,
               child: ListView(
                 primary: false,
                 shrinkWrap: true,

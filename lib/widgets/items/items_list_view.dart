@@ -57,6 +57,7 @@ class ItemsListView extends ConsumerWidget {
                 actions: [
                   PopupMenuButton(
                     padding: EdgeInsets.zero,
+                    splashRadius: 14,
                     icon: FaIcon(FontAwesomeIcons.sliders, size: 14, color: Theme.of(context).disabledColor),
                     color: Theme.of(context).brightness == Brightness.dark
                         ? TxDxColors.darkBadge2 : TxDxColors.lightBadge,

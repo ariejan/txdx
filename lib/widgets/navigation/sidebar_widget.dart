@@ -24,11 +24,11 @@ class SidebarWidget extends ConsumerWidget {
     final archiveAvailable = ref.watch(archivingAvailableProvider);
 
     final badgeColor = Theme.of(context).brightness == Brightness.dark
-        ? TxDxColors.darkBadge
+        ? TxDxColors.darkBadge2
         : TxDxColors.lightBadge2;
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           Expanded(
@@ -37,6 +37,7 @@ class SidebarWidget extends ConsumerWidget {
               controller: ScrollController(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Column(
                     children: [
@@ -119,18 +120,29 @@ class SidebarWidget extends ConsumerWidget {
             ),
           ),
           SizedBox(
+            width: double.infinity,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (archiveAvailable) TextButton.icon(
-                    label: const Text('Archive completed'),
-                    icon: const FaIcon(FontAwesomeIcons.boxArchive, size: 16),
-                    onPressed: () => ref.read(itemsNotifierProvider.notifier).archiveCompleted(),
+                  if (archiveAvailable) MenuItemWidget(
+                    title: 'Archive completed',
+                    icon: FaIcon(
+                      FontAwesomeIcons.boxArchive,
+                      size: 16,
+                      color: Theme.of(context).disabledColor,
+                    ),
+                    onTap: () => ref.read(itemsNotifierProvider.notifier).archiveCompleted(),
+                    color: Theme.of(context).disabledColor,
                   ),
-                  TextButton.icon(
-                    onPressed: () => Navigator.pushNamed(context, '/settings'),
-                    label: const Text('Settings'),
-                    icon: const FaIcon(FontAwesomeIcons.gear, size: 16),
+                  MenuItemWidget(
+                    onTap: () => Navigator.pushNamed(context, '/settings'),
+                    title: 'Settings',
+                    icon: FaIcon(
+                      FontAwesomeIcons.gear,
+                      size: 16,
+                      color: Theme.of(context).disabledColor,
+                    ),
+                    color: Theme.of(context).disabledColor,
                   ),
                 ]
             ),

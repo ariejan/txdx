@@ -48,7 +48,8 @@ class FileSettingsWidget extends ConsumerWidget {
                         TextButton(
                           child: Row(children: const [
                             FaIcon(FontAwesomeIcons.xmark, size: 12),
-                            Text(' Clear'),
+                            SizedBox(width: 12),
+                            Text('Clear'),
                           ]),
                           onPressed: () {
                             ref
@@ -59,7 +60,12 @@ class FileSettingsWidget extends ConsumerWidget {
                           },
                         ),
                       TextButton(
-                        child: const Text('📂 Select directory'),
+                        style: TextButton.styleFrom(primary: Theme.of(context).primaryColor),
+                        child: Row(children: const [
+                          FaIcon(FontAwesomeIcons.folderOpen, size: 12),
+                          SizedBox(width: 12),
+                          Text('Select folder'),
+                          ]),
                         onPressed: () => pickTxDxDirectory(ref),
                       ),
                     ],
