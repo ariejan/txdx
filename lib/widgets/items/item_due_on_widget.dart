@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:lit_relative_date_time/lit_relative_date_time.dart';
+import 'package:txdx/providers/items/now_provider.dart';
 
 import '../../config/colors.dart';
-import '../misc/animated_relative_date_builder.dart';
 
-class ItemDueOnWidget extends StatelessWidget {
+class ItemDueOnWidget extends ConsumerWidget {
 
   final DateTime dueOn;
 
@@ -37,8 +39,7 @@ class ItemDueOnWidget extends StatelessWidget {
     );
   }
 
-  Widget _renderDueOn(Color color) {
-    final now = DateTime.now();
+  Widget _renderDueOn(BuildContext context, DateTime now, Color color) {
     final today = DateTime(now.year, now.month, now.day);
     final tomorrow = DateTime(now.year, now.month, now.day + 1);
     final yesterday = DateTime(now.year, now.month, now.day - 1);
@@ -50,17 +51,20 @@ class ItemDueOnWidget extends StatelessWidget {
     } else if (dueOn == yesterday) {
       return _justText('yesterday', color);
     } else {
-      return AnimatedRelativeDateBuilder(
-        date: dueOn,
-        builder: (relDateTime, formatted) {
-          return _justText(formatted, color );
-        },
+      final _formatter = RelativeDateFormat(
+        Localizations.localeOf(context)
       );
+      final _relDateTime = RelativeDateTime(
+        dateTime: today,
+        other: dueOn,
+      );
+      return _justText(_formatter.format(_relDateTime), color);
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final datetime = ref.watch(timeProvider);
     final fgColor = _getBackgroundColor(context, dueOn);
 
     return Container(
@@ -69,7 +73,7 @@ class ItemDueOnWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
       ),
-      child: _renderDueOn(fgColor)
+      child: _renderDueOn(context, datetime, fgColor)
     );
   }
 }
