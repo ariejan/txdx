@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/widgets/misc/pill_widget.dart';
 
 import '../../providers/items/scoped_item_notifier.dart';
@@ -8,7 +9,7 @@ import '../../config/colors.dart';
 class MenuItemWidget extends ConsumerWidget {
   const MenuItemWidget({
     Key? key,
-    this.icon,
+    this.iconData,
     this.indicatorColor,
     required this.title,
     this.itemFilterValue,
@@ -19,7 +20,7 @@ class MenuItemWidget extends ConsumerWidget {
     this.badgeColor,
   }) : super(key: key);
 
-  final Widget? icon;
+  final IconData? iconData;
   final Color? indicatorColor;
   final Color? color;
   final String title;
@@ -61,22 +62,29 @@ class MenuItemWidget extends ConsumerWidget {
       color: highlighted() ? bgColor : null,
       child: ListTile(
         onTap: _onTap,
-
-        leading: icon ?? Icon(Icons.circle, size: 16),
-        title: Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: color,
+        leading: Icon(
+          iconData ??  Icons.circle,
+          color: indicatorColor ?? color,
+          size: 20
+        ),
+        title: SizedBox(
+          height: 16,
+          child: Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              color: color,
+            ),
           ),
         ),
         trailing: (badgeCount != null && badgeCount! > 0)
-        ? PillWidget(
-            "$badgeCount",
-            fontSize: 11,
-            backgroundColor: badgeColor ?? TxDxColors.prioDefault,
-        ) : null,
+          ? PillWidget(
+              "$badgeCount",
+              fontSize: 11,
+              backgroundColor: badgeColor ?? TxDxColors.prioDefault,
+          ) : null,
       ),
     );
   }

@@ -16,6 +16,7 @@ dependencies:
   flutter_riverpod: ^1.0.3
   jiffy: ^5.0.0
   font_awesome_flutter: ^10.1.0
+  line_icons: ^2.0.0
   file_picker: ^4.3.2
   uuid: ^3.0.4
   window_size:

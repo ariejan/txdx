@@ -19,8 +19,8 @@ abstract class TxDxTheme {
       listTileTheme: const ListTileThemeData(
         dense: true,
         visualDensity: VisualDensity.compact,
-        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-        horizontalTitleGap: 0,
+        contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+        horizontalTitleGap: -12,
       ),
       scaffoldBackgroundColor: TxDxColors.lightBackground,
       colorScheme: _lightTheme.colorScheme.copyWith(
@@ -52,8 +52,8 @@ abstract class TxDxTheme {
       listTileTheme: const ListTileThemeData(
         dense: true,
         visualDensity: VisualDensity.compact,
-        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-        horizontalTitleGap: 0,
+        contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+        horizontalTitleGap: -8,
       ),
       scaffoldBackgroundColor: TxDxColors.darkBackground,
       colorScheme: _darkTheme.colorScheme.copyWith(

@@ -87,7 +87,7 @@ class ShowItemWidget extends ConsumerWidget {
             ),
           ),
           ContextMenuItem(
-            leading: const FaIcon(FontAwesomeIcons.check, size: 16),
+            leading: const Icon(Icons.check, size: 16),
             title: item.completed ? 'Mark as pending' : 'Mark as completed',
             onTap: () {
               Navigator.of(context).pop();
@@ -96,7 +96,7 @@ class ShowItemWidget extends ConsumerWidget {
           ),
           const Divider(),
           ContextMenuItem(
-            leading: const FaIcon(FontAwesomeIcons.calendarDay, size: 16),
+            leading: const Icon(Icons.today_sharp, size: 16),
             title: 'Move to today',
             onTap: () {
               Navigator.of(context).pop();
@@ -104,7 +104,7 @@ class ShowItemWidget extends ConsumerWidget {
             },
           ),
           ContextMenuItem(
-            leading: const FaIcon(FontAwesomeIcons.truckFast, size: 16),
+            leading: const Icon(Icons.update_sharp, size: 16),
             title: 'Postpone 7 days',
             onTap: () {
               Navigator.of(context).pop();
@@ -113,7 +113,7 @@ class ShowItemWidget extends ConsumerWidget {
           ),
           const Divider(),
           ContextMenuItem(
-            leading: const FaIcon(FontAwesomeIcons.trashCan, size: 16),
+            leading: const Icon(Icons.delete_forever_sharp, size: 16),
             title: 'Delete',
             onTap: () {
               Navigator.of(context).pop();

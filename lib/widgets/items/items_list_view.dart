@@ -58,7 +58,7 @@ class ItemsListView extends ConsumerWidget {
                   PopupMenuButton(
                     padding: EdgeInsets.zero,
                     splashRadius: 14,
-                    icon: FaIcon(FontAwesomeIcons.sliders, size: 14, color: Theme.of(context).disabledColor),
+                    icon: Icon(Icons.tune_sharp, size: 20, color: Theme.of(context).disabledColor),
                     color: Theme.of(context).brightness == Brightness.dark
                         ? TxDxColors.darkBadge2 : TxDxColors.lightBadge,
                     tooltip: "Select item sorting",

@@ -47,7 +47,7 @@ class FileSettingsWidget extends ConsumerWidget {
                           false)
                         TextButton(
                           child: Row(children: const [
-                            FaIcon(FontAwesomeIcons.xmark, size: 12),
+                            Icon(Icons.clear),
                             SizedBox(width: 12),
                             Text('Clear'),
                           ]),
@@ -62,7 +62,7 @@ class FileSettingsWidget extends ConsumerWidget {
                       TextButton(
                         style: TextButton.styleFrom(primary: Theme.of(context).primaryColor),
                         child: Row(children: const [
-                          FaIcon(FontAwesomeIcons.folderOpen, size: 12),
+                          Icon(Icons.folder_sharp),
                           SizedBox(width: 12),
                           Text('Select folder'),
                           ]),

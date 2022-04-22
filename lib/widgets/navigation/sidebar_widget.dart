@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:txdx/providers/items/contexts_provider.dart';
 import 'package:txdx/providers/items/item_count_provider.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
@@ -39,82 +40,81 @@ class SidebarWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Column(
-                    children: [
-                      const MenuHeaderWidget('TxDx'),
-                      MenuItemWidget(
-                        icon: const FaIcon(FontAwesomeIcons.tableCells, size: 16),
-                        title: 'All',
-                        itemFilterValue: filterAll,
-                        badgeCount: ref.watch(itemsCount(filterAll)),
-                        badgeColor: badgeColor,
-                      ),
-                      MenuItemWidget(
-                        icon: const FaIcon(FontAwesomeIcons.calendarDay, size: 16),
-                        title: 'Today',
-                        itemFilterValue: filterToday,
-                        badgeCount: ref.watch(itemsCount(filterToday)),
-                        badgeColor: badgeColor,
-                      ),
-                      MenuItemWidget(
-                        icon: const FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
-                        title: 'Upcoming',
-                        itemFilterValue: filterUpcoming,
-                        badgeCount: ref.watch(itemsCount(filterUpcoming)),
-                        badgeColor: badgeColor,
-                      ),
-                      MenuItemWidget(
-                        icon: const FaIcon(FontAwesomeIcons.calendarDays, size: 16),
-                        title: 'Someday',
-                        itemFilterValue: filterSomeday,
-                        badgeCount: ref.watch(itemsCount(filterSomeday)),
-                        badgeColor: badgeColor,
-                      ),
-                      MenuItemWidget(
-                        icon: const FaIcon(FontAwesomeIcons.calendarXmark, size: 16),
-                        title: 'Overdue',
-                        itemFilterValue: filterOverdue,
-                        badgeCount: ref.watch(itemsCount(filterOverdue)),
-                        badgeColor: badgeColor,
-                      ),
-
-                      if (projects.isNotEmpty) const MenuHeaderWidget(
-                        'Projects',
-                        fontSize: 11,
-                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      ),
-
-                      Column(
-                        children: projects.map((project) =>
-                          MenuItemWidget(
-                            title: project,
-                            indicatorColor: TxDxColors.projects,
-                            itemFilterValue: project,
-                            badgeCount: ref.watch(itemsCount(project)),
-                            badgeColor: badgeColor,
-                          )
-                        ).toList(),
-                      ),
-
-                      if (contexts.isNotEmpty) const MenuHeaderWidget(
-                        'Contexts',
-                        fontSize: 11,
-                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      ),
-
-                      Column(
-                        children: contexts.map((context) =>
-                            MenuItemWidget(
-                              title: context,
-                              indicatorColor: TxDxColors.contexts,
-                              itemFilterValue: context,
-                              badgeCount: ref.watch(itemsCount(context)),
-                              badgeColor: badgeColor,
-                            )
-                        ).toList(),
-                      ),
-                    ]
+                  const MenuHeaderWidget('TxDx'),
+                  MenuItemWidget(
+                    iconData: Icons.checklist_sharp,
+                    title: 'All',
+                    itemFilterValue: filterAll,
+                    badgeCount: ref.watch(itemsCount(filterAll)),
+                    badgeColor: badgeColor,
                   ),
+                  MenuItemWidget(
+                    iconData: Icons.today_sharp,
+                    title: 'Today',
+                    itemFilterValue: filterToday,
+                    badgeCount: ref.watch(itemsCount(filterToday)),
+                    badgeColor: badgeColor,
+                  ),
+                  MenuItemWidget(
+                    iconData: Icons.date_range_sharp,
+                    title: 'Upcoming',
+                    itemFilterValue: filterUpcoming,
+                    badgeCount: ref.watch(itemsCount(filterUpcoming)),
+                    badgeColor: badgeColor,
+                  ),
+                  MenuItemWidget(
+                    iconData: Icons.update_sharp,
+                    title: 'Someday',
+                    itemFilterValue: filterSomeday,
+                    badgeCount: ref.watch(itemsCount(filterSomeday)),
+                    badgeColor: badgeColor,
+                  ),
+                  MenuItemWidget(
+                    iconData: Icons.event_busy_sharp,
+                    title: 'Overdue',
+                    itemFilterValue: filterOverdue,
+                    badgeCount: ref.watch(itemsCount(filterOverdue)),
+                    badgeColor: badgeColor,
+                  ),
+
+                  if (projects.isNotEmpty) const MenuHeaderWidget(
+                    'Projects',
+                    fontSize: 11,
+                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  ),
+
+                  Column(
+                    children: projects.map((project) =>
+                      MenuItemWidget(
+                        title: project,
+                        iconData: Icons.label_sharp,
+                        indicatorColor: TxDxColors.projects,
+                        itemFilterValue: project,
+                        badgeCount: ref.watch(itemsCount(project)),
+                        badgeColor: badgeColor,
+                      )
+                    ).toList(),
+                  ),
+
+                  if (contexts.isNotEmpty) const MenuHeaderWidget(
+                    'Contexts',
+                    fontSize: 11,
+                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  ),
+
+                  Column(
+                    children: contexts.map((context) =>
+                        MenuItemWidget(
+                          title: context,
+                          iconData: Icons.label_sharp,
+                          indicatorColor: TxDxColors.contexts,
+                          itemFilterValue: context,
+                          badgeCount: ref.watch(itemsCount(context)),
+                          badgeColor: badgeColor,
+                        )
+                    ).toList(),
+                  ),
+
                 ]
               ),
             ),
@@ -126,22 +126,14 @@ class SidebarWidget extends ConsumerWidget {
                 children: [
                   if (archiveAvailable) MenuItemWidget(
                     title: 'Archive completed',
-                    icon: FaIcon(
-                      FontAwesomeIcons.boxArchive,
-                      size: 16,
-                      color: Theme.of(context).disabledColor,
-                    ),
+                    iconData: Icons.archive_outlined,
                     onTap: () => ref.read(itemsNotifierProvider.notifier).archiveCompleted(),
                     color: Theme.of(context).disabledColor,
                   ),
                   MenuItemWidget(
                     onTap: () => Navigator.pushNamed(context, '/settings'),
                     title: 'Settings',
-                    icon: FaIcon(
-                      FontAwesomeIcons.gear,
-                      size: 16,
-                      color: Theme.of(context).disabledColor,
-                    ),
+                    iconData: Icons.tune_sharp,
                     color: Theme.of(context).disabledColor,
                   ),
                 ]

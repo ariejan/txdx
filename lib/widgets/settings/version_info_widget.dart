@@ -31,7 +31,7 @@ Copyright © 2022 Ariejan de Vroom
         ),
 
         Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: SizedBox(
             width: double.infinity,
             child: MarkdownBody(

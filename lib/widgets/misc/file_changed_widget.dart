@@ -13,9 +13,9 @@ class FileChangedWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialBanner(
       content: const Text('Your todo.txt file has changed on disk.'),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       backgroundColor: TxDxColors.banner,
-      leading: const FaIcon(FontAwesomeIcons.circleExclamation),
+      leading: const Icon(Icons.announcement_sharp),
       actions: [
         TextButton(
           child: const Text('RELOAD'),

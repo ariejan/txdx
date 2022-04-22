@@ -47,7 +47,6 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getString(settingsThemeBrightness),
                                   buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                                  buttonWidth: 180,
                                   itemHeight: 28,
                                   buttonHeight: 28,
                                   onChanged: (value) {
@@ -66,10 +65,15 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                       .map((key) =>
                                       DropdownMenuItem<String>(
                                         value: key,
-                                        child: Text(
-                                          settingsThemeBrightnessOptions[key]!,
-                                          style: const TextStyle(
-                                            fontSize: 14,
+                                        child: SizedBox(
+                                          width: 140,
+                                          child: Text(
+                                            settingsThemeBrightnessOptions[key]!,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
                                       )).toList(),
@@ -96,7 +100,6 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getString(settingsDefaultFilter),
                                   buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                                  buttonWidth: 180,
                                   itemHeight: 28,
                                   buttonHeight: 28,
                                   onChanged: (value) {
@@ -115,10 +118,15 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                       .map((key) =>
                                       DropdownMenuItem<String>(
                                         value: key,
-                                        child: Text(
-                                          filterOptions[key]!,
-                                          style: const TextStyle(
-                                            fontSize: 14,
+                                        child: SizedBox(
+                                          width: 140,
+                                          child: Text(
+                                            filterOptions[key]!,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
                                       )).toList(),
@@ -145,7 +153,6 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getString(settingsFilterMacosBadgeCount),
                                   buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                                  buttonWidth: 180,
                                   itemHeight: 28,
                                   buttonHeight: 28,
                                   onChanged: (value) {
@@ -153,6 +160,8 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                   },
                                   hint: Text(
                                     'Select Item',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Theme
@@ -164,10 +173,15 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                       .map((key) =>
                                       DropdownMenuItem<String>(
                                         value: key,
-                                        child: Text(
-                                          filterOptions[key]!,
-                                          style: const TextStyle(
-                                            fontSize: 14,
+                                        child: SizedBox(
+                                          width: 140,
+                                          child: Text(
+                                            filterOptions[key]!,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
                                       )).toList(),
@@ -217,7 +231,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                             children: [
                               IconButton(
                                 splashRadius: 10,
-                                icon: const FaIcon(FontAwesomeIcons.minus, size: 10),
+                                icon: const Icon(Icons.remove_sharp, size: 12),
                                 onPressed: () {
                                   _updateSettingsNextUpDays(-1, ref);
                                 },
@@ -226,7 +240,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               ),
                               IconButton(
                                 splashRadius: 10,
-                                icon: const FaIcon(FontAwesomeIcons.plus, size: 10),
+                                icon: const Icon(Icons.add_sharp, size: 12),
                                 onPressed: () {
                                   _updateSettingsNextUpDays(1, ref);
                                 },

@@ -6,14 +6,14 @@ import '../../txdx/txdx_item.dart';
 
 class PriorityButton extends StatelessWidget {
 
-  final IconData iconData;
+  final String label;
   final String? priority;
   final TxDxItem item;
   final GestureTapCallback onTap;
 
   const PriorityButton({
     Key? key,
-    required this.iconData,
+    required this.label,
     this.priority,
     required this.item,
     required this.onTap

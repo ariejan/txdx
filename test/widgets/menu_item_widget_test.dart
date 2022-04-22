@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/widgets/navigation/menu_item_widget.dart';
@@ -10,7 +11,7 @@ void main() {
   testWidgets('shows menu item title', (tester) async {
     await tester.pumpWidget(await TestHelpers.wrapWidget(
       const MenuItemWidget(
-          icon: FaIcon(FontAwesomeIcons.check),
+          iconData: Icons.check,
           title: 'Menu Item Text',
       ),
     ));
@@ -22,7 +23,7 @@ void main() {
   testWidgets('shows menu icon', (tester) async {
     await tester.pumpWidget(await TestHelpers.wrapWidget(
         const MenuItemWidget(
-          icon: FaIcon(FontAwesomeIcons.check),
+          iconData: Icons.check,
           title: 'Menu Item Text',
         )
     ));
@@ -36,7 +37,7 @@ void main() {
 
     await tester.pumpWidget(await TestHelpers.wrapWidget(
         MenuItemWidget(
-          icon: const FaIcon(FontAwesomeIcons.check),
+          iconData: Icons.check,
           title: 'Menu Item Text',
           onTap: () => checkTap = true,
         )

@@ -47,9 +47,9 @@ class EditItemWidget extends ConsumerWidget {
                     ),
                   ),
                   IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.trash,
-                      size: 16,
+                    icon: const Icon(
+                      Icons.delete_forever_sharp,
+                      size: 20,
                     ),
                     color: Theme.of(context).errorColor,
                     splashRadius: 1,

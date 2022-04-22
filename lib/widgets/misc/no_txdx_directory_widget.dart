@@ -61,7 +61,7 @@ class NoTxDxDirectoryWidget extends ConsumerWidget {
                         children: const [
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            child: FaIcon(FontAwesomeIcons.folderOpen, size: 16),
+                            child: Icon(Icons.folder_sharp, size: 16),
                           ),
                           Text(
                             'Select TxDx folder',
