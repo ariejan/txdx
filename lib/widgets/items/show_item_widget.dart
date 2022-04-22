@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/widgets/misc/label_widget.dart';
 
 import '../../config/colors.dart';
@@ -41,7 +40,7 @@ class ShowItemWidget extends ConsumerWidget {
                   PriorityButton(
                       item: item,
                       priority: 'A',
-                      iconData: FontAwesomeIcons.a,
+                      label: 'A',
                       onTap: () {
                         Navigator.of(context).pop();
                         ref.read(itemsNotifierProvider.notifier).setPriority(item.id, 'A');
@@ -50,7 +49,7 @@ class ShowItemWidget extends ConsumerWidget {
                   PriorityButton(
                       item: item,
                       priority: 'B',
-                      iconData: FontAwesomeIcons.b,
+                      label: 'B',
                       onTap: () {
                         Navigator.of(context).pop();
                         ref.read(itemsNotifierProvider.notifier).setPriority(item.id, 'B');
@@ -59,7 +58,7 @@ class ShowItemWidget extends ConsumerWidget {
                   PriorityButton(
                       item: item,
                       priority: 'C',
-                      iconData: FontAwesomeIcons.c,
+                      label: 'C',
                       onTap: () {
                         Navigator.of(context).pop();
                         ref.read(itemsNotifierProvider.notifier).setPriority(item.id, 'C');
@@ -68,7 +67,7 @@ class ShowItemWidget extends ConsumerWidget {
                   PriorityButton(
                       item: item,
                       priority: 'D',
-                      iconData: FontAwesomeIcons.d,
+                      label: 'D',
                       onTap: () {
                         Navigator.of(context).pop();
                         ref.read(itemsNotifierProvider.notifier).setPriority(item.id, 'D');
@@ -77,7 +76,7 @@ class ShowItemWidget extends ConsumerWidget {
                   PriorityButton(
                       item: item,
                       priority: null,
-                      iconData: FontAwesomeIcons.asterisk,
+                      label: 'X',
                       onTap: () {
                         Navigator.of(context).pop();
                         ref.read(itemsNotifierProvider.notifier).setPriority(item.id, null);

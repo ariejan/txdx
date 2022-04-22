@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../config/colors.dart';
 import '../../txdx/txdx_item.dart';
@@ -31,14 +30,24 @@ class PriorityButton extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         color: selectedPriority ? highlightColor : Colors.transparent,
       ),
-      child: IconButton(
-          icon: FaIcon(
-              iconData,
-              color: TxDxColors.forPriority(priority),
-              size: 16),
-          splashRadius: 1,
-          hoverColor: highlightColor,
-          onPressed: onTap,
+      child: TextButton(
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                (Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) {
+                return Theme.of(context).disabledColor;
+              }
+              return null; // Defer to the widget's default.
+            },
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: TxDxColors.forPriority(priority),
+          ),
+        ),
+        onPressed: onTap,
       ),
     );
   }

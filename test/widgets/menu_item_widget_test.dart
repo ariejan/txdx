@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/widgets/navigation/menu_item_widget.dart';
 
 import 'test_helpers.dart';
@@ -28,7 +27,7 @@ void main() {
         )
     ));
 
-    final iconWidget = find.byType(FaIcon);
+    final iconWidget = find.byType(Icon);
     expect(iconWidget, findsOneWidget);
   });
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
 import 'package:txdx/providers/settings/settings_provider.dart';
@@ -72,7 +71,7 @@ class ItemsListView extends ConsumerWidget {
                           value: ItemStateSorter.priority,
                           checked: ref.watch(itemSortingPreferenceProvider) == ItemStateSorter.priority,
                           child: const ListTile(
-                            title: Text('Sort by priority', style: TextStyle(fontSize: 14)),
+                            title: Text('Sort by priority', style: TextStyle(fontSize: 12)),
                           )
                         ),
                         CheckedPopupMenuItem<ItemStateSorter>(
@@ -80,7 +79,7 @@ class ItemsListView extends ConsumerWidget {
                           value: ItemStateSorter.dueOn,
                           checked: ref.watch(itemSortingPreferenceProvider) == ItemStateSorter.dueOn,
                           child: const ListTile(
-                            title: Text('Sort by due date', style: TextStyle(fontSize: 14)),
+                            title: Text('Sort by due date', style: TextStyle(fontSize: 12)),
                           )
                         ),
                       ];
