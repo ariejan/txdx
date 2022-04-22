@@ -1,5 +1,5 @@
 default:
-  image: cirrusci/flutter:stable
+  image: cirrusci/flutter:beta
   cache:
     key:
       files:
@@ -56,7 +56,7 @@ build_win_zip:
   tags:
     - win10
   before_script:
-    - flutter channel stable
+    - flutter channel beta
     - flutter upgrade
     - flutter precache
   script:
@@ -113,7 +113,7 @@ build_macos_dmg:
     - gem install bundler
     - bundle install
     - cd $CI_PROJECT_DIR
-    - flutter channel stable
+    - flutter channel beta
     - flutter upgrade
     - flutter precache
     - flutter clean
@@ -141,7 +141,7 @@ build_macos_app_store:
     - gem install bundler
     - bundle install
     - cd $CI_PROJECT_DIR
-    - flutter channel stable
+    - flutter channel beta
     - flutter upgrade
     - flutter precache
     - flutter clean
