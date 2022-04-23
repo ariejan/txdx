@@ -85,8 +85,7 @@ class _ContextMenuState extends State<ContextMenu> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Material(
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? TxDxColors.darkBadge2 : TxDxColors.lightBadge,
+              color: Theme.of(context).bottomAppBarColor,
               child: ListView(
                 primary: false,
                 shrinkWrap: true,
@@ -101,8 +100,7 @@ class _ContextMenuState extends State<ContextMenu> {
                       });
                     },
                   ),
-                )
-                    .toList(),
+                ).toList(),
               ),
             ),
           ),

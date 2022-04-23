@@ -46,19 +46,8 @@ class MenuItemWidget extends ConsumerWidget {
       return ref.watch(itemFilter.state).state == itemFilterValue;
     }
 
-    var bgColor = Colors.transparent;
-
-    switch(Theme.of(context).brightness) {
-      case Brightness.dark:
-        bgColor = TxDxColors.darkSelection;
-        break;
-      case Brightness.light:
-        bgColor = TxDxColors.lightSelection;
-        break;
-    }
-
     return Container(
-      color: highlighted() ? bgColor : null,
+      color: highlighted() ? Theme.of(context).highlightColor : null,
       child: ListTile(
         onTap: _onTap,
         leading: Icon(
@@ -67,13 +56,13 @@ class MenuItemWidget extends ConsumerWidget {
           size: 20
         ),
         title: SizedBox(
-          height: 16,
+          height: 18,
           child: Text(
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 14,
               color: color,
             ),
           ),

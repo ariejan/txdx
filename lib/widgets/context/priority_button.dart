@@ -21,21 +21,18 @@ class PriorityButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedPriority = item.priority == priority;
-    final highlightColor = Theme.of(context).brightness == Brightness.dark
-        ? TxDxColors.darkContextHoverColor
-        : TxDxColors.lightContextHoverColor;
 
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(8)),
-        color: selectedPriority ? highlightColor : Colors.transparent,
+        color: selectedPriority ? Theme.of(context).highlightColor : null,
       ),
       child: TextButton(
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
               if (states.contains(MaterialState.hovered)) {
-                return Theme.of(context).disabledColor;
+                return Theme.of(context).hoverColor;
               }
               return null; // Defer to the widget's default.
             },

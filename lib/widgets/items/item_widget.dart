@@ -39,16 +39,20 @@ class ItemWidget extends ConsumerWidget {
         MaterialState.focused,
       };
       if (states.any(interactiveStates.contains)) {
-        return TxDxColors.checkboxHover;
+        return Theme.of(context).brightness == Brightness.light
+          ? TxDxColors.lightCheckboxHover
+          : TxDxColors.darkCheckboxHover;
       }
-      return TxDxColors.checkbox;
+      return Theme.of(context).brightness == Brightness.light
+          ? TxDxColors.lightCheckbox
+          : TxDxColors.darkCheckbox;
     }
 
     var statusColor = _getRowColor(isSelected, isEditing);
     var bgColor = Colors.transparent;
 
     if (isSelected) {
-      bgColor = Theme.of(context).hoverColor;
+      bgColor = Theme.of(context).highlightColor;
     }
 
     return Padding(
@@ -60,26 +64,29 @@ class ItemWidget extends ConsumerWidget {
             left: BorderSide(width: 5, color: statusColor),
           ),
         ),
-        child: Row(
-          crossAxisAlignment: isEditing ? CrossAxisAlignment.center : CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-              child: Checkbox(
-                  shape: const CircleBorder(),
-                  fillColor: MaterialStateProperty.resolveWith(getColor),
-                  tristate: false,
-                  splashRadius: 0,
-                  value: item.completed,
-                  onChanged: (bool? value) {
-                    ref.read(editingItemIdStateProvider.state).state = null;
-                    ref.read(itemsNotifierProvider.notifier).toggleComplete(item.id);
-                  }),
-            ),
-            Expanded(
-              child: isEditing ? EditItemWidget(item) : ShowItemWidget(item),
-            )
-          ]
+        child: InkWell(
+          onTap: (){},
+          child: Row(
+            crossAxisAlignment: isEditing ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                child: Checkbox(
+                    shape: const CircleBorder(),
+                    fillColor: MaterialStateProperty.resolveWith(getColor),
+                    tristate: false,
+                    splashRadius: 0,
+                    value: item.completed,
+                    onChanged: (bool? value) {
+                      ref.read(editingItemIdStateProvider.state).state = null;
+                      ref.read(itemsNotifierProvider.notifier).toggleComplete(item.id);
+                    }),
+              ),
+              Expanded(
+                child: isEditing ? EditItemWidget(item) : ShowItemWidget(item),
+              )
+            ]
+          ),
         ),
       ),
     );
