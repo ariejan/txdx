@@ -69,9 +69,10 @@ class MenuItemWidget extends ConsumerWidget {
         ),
         trailing: (badgeCount != null && badgeCount! > 0)
           ? PillWidget(
-              "$badgeCount",
-              fontSize: 11,
-              backgroundColor: badgeColor ?? TxDxColors.prioDefault,
+            "$badgeCount",
+            fontSize: 11,
+            backgroundColor: badgeColor ?? TxDxColors.prioDefault,
+            color: Theme.of(context).textTheme.bodyText1?.color,
           ) : null,
       ),
     );

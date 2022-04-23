@@ -31,9 +31,7 @@ abstract class TxDxColors {
   static final Color darkCheckbox = NordColors.$3.withOpacity(0.4);
   static final Color darkCheckboxHover = NordColors.$3.withOpacity(0.8);
 
-  static final Color dueOnToday = NordColors.aurora.green;
-  static final Color dueOnOverdue = NordColors.aurora.red;
-  static final Color dueOn = NordColors.frost.darker;
+  static final Color dueOnToday = NordColors.aurora.red;
 
   static final Color linkText = NordColors.frost.darkest;
 

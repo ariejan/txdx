@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:txdx/config/colors.dart';
 
 class ContextMenuItem extends StatelessWidget
 {

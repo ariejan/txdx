@@ -22,9 +22,7 @@ class SidebarWidget extends ConsumerWidget {
 
     final archiveAvailable = ref.watch(archivingAvailableProvider);
 
-    final badgeColor = Theme.of(context).brightness == Brightness.dark
-        ? TxDxColors.darkBadge2
-        : TxDxColors.lightBadge2;
+    final badgeColor = Theme.of(context).highlightColor;
 
     return Container(
       padding: const EdgeInsets.all(8),
