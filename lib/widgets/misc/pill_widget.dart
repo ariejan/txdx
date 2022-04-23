@@ -39,21 +39,20 @@ class PillWidget extends ConsumerWidget {
     final bgColor = backgroundColor ?? Colors.transparent;
     final fgColor = color ?? _getColor(bgColor);
 
-    return GestureDetector(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-        margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: bgColor,
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: fontSize ?? 12,
-            color: fgColor,
-          )
-        ),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: bgColor,
+      ),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: fontSize ?? 12,
+          color: fgColor,
+        )
       ),
     );
   }

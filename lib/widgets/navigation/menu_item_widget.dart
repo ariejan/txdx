@@ -47,34 +47,70 @@ class MenuItemWidget extends ConsumerWidget {
     }
 
     return Container(
-      color: highlighted() ? Theme.of(context).highlightColor : null,
-      child: ListTile(
-        onTap: _onTap,
-        leading: Icon(
-          iconData ??  Icons.circle,
-          color: indicatorColor ?? color,
-          size: 20
-        ),
-        title: SizedBox(
-          height: 18,
-          child: Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 14,
-              color: color,
-            ),
+      decoration: BoxDecoration(
+        color: highlighted() ? Theme.of(context).highlightColor : Theme.of(context).canvasColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        child: GestureDetector(
+          onTap: _onTap,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildIcon(context),
+              const SizedBox(width: 6),
+              buildTitle(),
+              buildBadge(context),
+            ]
           ),
         ),
-        trailing: (badgeCount != null && badgeCount! > 0)
-          ? PillWidget(
+      ),
+    );
+  }
+
+  Widget buildTitle() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 1),
+        child: SizedBox(
+            height: 18,
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 14,
+                color: color,
+              ),
+            ),
+          ),
+      ),
+    );
+  }
+
+  Widget buildIcon(BuildContext context) {
+    return Icon(
+      iconData ??  Icons.circle,
+      color: (indicatorColor ?? color) ?? Theme.of(context).hintColor,
+      size: 20
+    );
+  }
+
+  Widget buildBadge(BuildContext context) {
+    return SizedBox(
+      width: 40,
+      child: (badgeCount == null || badgeCount! <= 0)
+        ? Container()
+        : SizedBox(
+          child: PillWidget(
             "$badgeCount",
             fontSize: 11,
             backgroundColor: badgeColor ?? TxDxColors.prioDefault,
             color: Theme.of(context).textTheme.bodyText1?.color,
-          ) : null,
-      ),
+          ),
+        ),
     );
   }
 }
