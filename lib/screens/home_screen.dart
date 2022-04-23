@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/utils/shortcuts.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/utils/show_snackbar.dart';
-import 'package:txdx/widgets/items/add_item_widget.dart';
 import 'package:txdx/widgets/items/items_list_view.dart';
 import 'package:txdx/widgets/misc/no_txdx_directory_widget.dart';
 import 'package:txdx/widgets/navigation/sidebar_widget.dart';
@@ -161,9 +160,9 @@ class HomeScreen extends ConsumerWidget {
                   flex: 2,
                   child: hasTodoTxt ? const ItemsListView() : const NoTxDxDirectoryWidget(),
                 ),
-                SizedBox(
-                  child: AddItemWidget(),
-                ),
+                // SizedBox(
+                //   child: AddItemWidget(),
+                // ),
               ],
             ),
           )

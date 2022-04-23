@@ -39,6 +39,12 @@ abstract class TxDxTheme {
           animationDuration: Duration.zero,
         ),
       ),
+      inputDecorationTheme: const InputDecorationTheme(
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.zero,
+        isDense: true,
+        filled: false,
+      ),
     );
   }
 
@@ -72,6 +78,12 @@ abstract class TxDxTheme {
           backgroundColor: Colors.transparent,
           animationDuration: Duration.zero,
         ),
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.zero,
+        isDense: true,
+        filled: false,
       ),
     );
   }

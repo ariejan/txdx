@@ -214,4 +214,15 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
       items.replaceRange(itemIdx, itemIdx + 1, [theItem.setPriority(priority)]);
       _setState(items);
     }
-  }}
+  }
+
+  Future<void> setDueOn(String id, DateTime? dueOn) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.setDueOn(dueOn)]);
+      _setState(items);
+    }
+  }
+}

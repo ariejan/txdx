@@ -187,4 +187,14 @@ class TxDxItem {
       priority: Optional.fromNullable(priority),
     );
   }
+
+  TxDxItem setDueOn(DateTime? dueOn) {
+    if (dueOn == null) {
+      return this;
+    } else {
+      var newTags = Map<String, String>.from(tags);
+      newTags['due'] = Jiffy(dueOn).format('yyyy-MM-dd');
+      return copyWith(tags: newTags);
+    }
+  }
 }
