@@ -168,10 +168,14 @@ class ShowItemWidget extends ConsumerWidget {
                 child: Row(
                     children: [
                       for (var context in item.contexts) ...[
-                        LabelWidget(context, color: TxDxColors.contexts),
+                        LabelWidget(
+                          context,
+                          color: TxDxColors.contexts,
+                          iconData: Icons.label_sharp,
+                        ),
                       ],
                       for (var project in item.projects) ...[
-                        LabelWidget(project, color: TxDxColors.projects),
+                        LabelWidget(project, color: TxDxColors.projects, iconData: Icons.label_sharp),
                       ],
                       for (var key in item.tagsWithoutDue.keys) ...[
                         LabelWidget('$key:${item.tags[key]}', color: TxDxColors.tags),

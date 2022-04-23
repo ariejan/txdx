@@ -46,6 +46,7 @@ abstract class TxDxTheme {
     return _darkTheme.copyWith(
       hoverColor: _darkTheme.highlightColor.withOpacity(0.4),
       highlightColor: _darkTheme.highlightColor.withOpacity(0.6),
+
       canvasColor: TxDxColors.darkBackground,
       appBarTheme: _darkTheme.appBarTheme.copyWith(
         backgroundColor: _lightTheme.primaryColorDark,

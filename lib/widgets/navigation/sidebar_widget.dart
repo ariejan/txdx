@@ -36,7 +36,6 @@ class SidebarWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const MenuHeaderWidget('TxDx'),
                   MenuItemWidget(
                     iconData: Icons.checklist_sharp,
                     title: 'All',
