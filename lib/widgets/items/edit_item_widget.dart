@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:txdx/actions/end_edit_action.dart';
+import 'package:txdx/config/shortcuts.dart';
+import 'package:txdx/providers/items/selected_item_provider.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 import '../../config/colors.dart';
-import '../../providers/items/selected_item_provider.dart';
 
 class EditItemWidget extends ConsumerWidget {
 
@@ -17,15 +19,25 @@ class EditItemWidget extends ConsumerWidget {
   final _notesFocusNode = FocusNode();
   final _notesController = TextEditingController();
 
+  final _dueDateController = TextEditingController();
+
+
   EditItemWidget(this.item, {Key? key}) : super(key: key);
+
+  void _setDueOn(DateTime? dueOn) {
+    if (dueOn != null) {
+      _dueDateController.text = Jiffy(item.dueOn).format('yyyy-MM-dd');
+    } else {
+      _dueDateController.text = '';
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(itemProvider(item.id));
-
     _descriptionFocusNode.requestFocus();
-
     _descriptionController.text = item.description;
+
+    _setDueOn(item.dueOn);
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -43,173 +55,146 @@ class EditItemWidget extends ConsumerWidget {
           : TxDxColors.darkCheckbox;
     }
 
-    return Focus(
-      autofocus: true,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.2)),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).hintColor.withOpacity(0.2),
-                  spreadRadius: 1,
-                  blurRadius: 2,
-                  offset: const Offset(0, 0.5),
-                )
-              ]
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                    child: Transform.scale(
-                      scale: 0.76,
-                      child: Checkbox(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                          fillColor: MaterialStateProperty.resolveWith(getColor),
-                          tristate: false,
-                          splashRadius: 0,
-                          value: item.completed,
-                          onChanged: (bool? value) {
-
-                          }),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 2),
-                                  child: Focus(
-                                    onKey: (FocusNode node, RawKeyEvent event) {
-                                      if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-
-                                        return KeyEventResult.handled;
-                                      }
-                                      return KeyEventResult.ignored;
-                                    },
-                                    child: TextField(
-                                      focusNode: _descriptionFocusNode,
-                                      controller: _descriptionController,
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(vertical: 11),
-                                      ),
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-                          child: Row(
+    return Shortcuts(
+      shortcuts: {
+        escapeShortcut: EndEditIntent(),
+      },
+      child: Actions(
+        actions: {
+          EndEditIntent: EndEditAction(ref, _descriptionController),
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.2)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).hintColor.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 2,
+                    offset: const Offset(0, 0.5),
+                  )
+                ]
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TheCheckBox(item: item, fillColor: MaterialStateProperty.resolveWith(getColor)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 2),
-                                    child: Focus(
-                                      onFocusChange: (focussed) {
-                                        if (focussed) {
-                                          _notesFocusNode.requestFocus();
-                                        }
+                                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 2),
+                                    child: Shortcuts(
+                                      shortcuts: {
+                                        enterShortcut: EndEditIntent(),
                                       },
-                                      onKey: (FocusNode node, RawKeyEvent event) {
-                                        return KeyEventResult.ignored;
-                                      },
-                                      child: TextFormField(
-                                        keyboardType: TextInputType.multiline,
-                                        focusNode: _notesFocusNode,
-                                        controller: _notesController,
-                                        minLines: 1,
-                                        maxLines: 8,
-                                        decoration: const InputDecoration(
-                                          hintText: "Notes...",
-                                          contentPadding: EdgeInsets.symmetric(vertical: 11),
-                                          filled: true,
-                                        ),
-                                        // focusNode: _focusNode,
-                                        // controller: _textController,
-                                        style: const TextStyle(
-                                          fontSize: 14,
+                                      child: Actions(
+                                        actions: {
+                                          EndEditIntent: EndEditAction(ref, _descriptionController),
+                                        },
+                                        child: TextField(
+                                          controller: _descriptionController,
+                                          decoration: const InputDecoration(
+                                            contentPadding: EdgeInsets.symmetric(vertical: 11),
+                                          ),
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ]
+
+                              ],
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextButton(
-                                  style: ButtonStyle(
-                                    splashFactory: NoSplash.splashFactory,
-                                    overlayColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                                      return Colors.transparent;
-                                    }),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 6, 0, 2),
+                                      child: NotesField(notesFocusNode: _notesFocusNode, notesController: _notesController),
+                                    ),
                                   ),
-                                  onPressed: () async {
-                                    showDatePicker(
-                                      context: context,
-                                      initialDate: item.dueOn ?? DateTime.now(),
-                                      firstDate: DateTime(1970, 1, 1),
-                                      lastDate: DateTime(2099, 12, 31),
-                                      initialEntryMode: DatePickerEntryMode.calendarOnly,
-                                      helpText: 'Due on',
-                                    ).then((pickedDate) {
-                                      if (pickedDate != null) {
-
-                                      }
-                                    });
-                                  },
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.flag_sharp, size: 12),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                          item.hasDueOn
-                                            ? Jiffy(item.dueOn).format('yyyy-MM-dd')
-                                            : 'No due date set'
-                                      ),
-                                      if (item.hasDueOn) IconButton(
-                                        splashRadius: 1,
-                                        icon: const Icon(Icons.close_sharp, size: 12),
-                                        onPressed: () {
-
-                                        },
-                                      )
-                                    ],
-                                  )
-                              ),
-                            ],
+                                ]
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                ]
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Visibility(
+                                  visible: false,
+                                  child: TextField(
+                                    controller: _dueDateController,
+                                  ),
+                                ),
+                                TextButton(
+                                    style: ButtonStyle(
+                                      splashFactory: NoSplash.splashFactory,
+                                      overlayColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                                        return Colors.transparent;
+                                      }),
+                                    ),
+                                    onPressed: () async {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: item.dueOn ?? DateTime.now(),
+                                        firstDate: DateTime(1970, 1, 1),
+                                        lastDate: DateTime(2099, 12, 31),
+                                        initialEntryMode: DatePickerEntryMode.calendarOnly,
+                                        helpText: 'Due on',
+                                      ).then((pickedDate) {
+                                        if (pickedDate != null) {
+                                          _setDueOn(pickedDate);
+                                        }
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.flag_sharp, size: 12),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                            item.hasDueOn
+                                              ? Jiffy(item.dueOn).format('yyyy-MM-dd')
+                                              : 'No due date set'
+                                        ),
+                                        if (item.hasDueOn) IconButton(
+                                          splashRadius: 1,
+                                          icon: const Icon(Icons.close_sharp, size: 12),
+                                          onPressed: () {
+
+                                          },
+                                        )
+                                      ],
+                                    )
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ]
+              ),
             ),
           ),
         ),
@@ -217,4 +202,67 @@ class EditItemWidget extends ConsumerWidget {
     );
   }
 
+}
+
+class NotesField extends StatelessWidget {
+  const NotesField({
+    Key? key,
+    required FocusNode notesFocusNode,
+    required TextEditingController notesController,
+  }) : _notesFocusNode = notesFocusNode, _notesController = notesController, super(key: key);
+
+  final FocusNode _notesFocusNode;
+  final TextEditingController _notesController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      keyboardType: TextInputType.multiline,
+      focusNode: _notesFocusNode,
+      controller: _notesController,
+      minLines: 1,
+      maxLines: 8,
+      decoration: const InputDecoration(
+        hintText: "Notes...",
+        contentPadding: EdgeInsets.symmetric(vertical: 11),
+        filled: true,
+      ),
+      // focusNode: _focusNode,
+      // controller: _textController,
+      style: const TextStyle(
+        fontSize: 14,
+      ),
+    );
+  }
+}
+
+
+class TheCheckBox extends StatelessWidget {
+  const TheCheckBox({
+    Key? key,
+    required this.item,
+    this.fillColor,
+  }) : super(key: key);
+
+  final TxDxItem item;
+  final MaterialStateProperty<Color?>? fillColor;
+
+  @override
+  Widget build(BuildContext context, ) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+      child: Transform.scale(
+        scale: 0.76,
+        child: Checkbox(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            fillColor: fillColor,
+            tristate: false,
+            splashRadius: 0,
+            value: item.completed,
+            onChanged: (bool? value) {
+              // TODO
+            }),
+      ),
+    );
+  }
 }

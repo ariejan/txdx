@@ -36,7 +36,7 @@ class AddItemAction extends Action<AddIntent> with ItemListManager {
     final index = items.indexWhere((item) => item.id == newItemId);
     jumpToIndex(index);
 
-    ref.read(editingItemIdStateProvider.state).state = newItemId;
+    ref.read(editingItemIdStateProvider.state).state = newItem.id;
 
     return null;
   }

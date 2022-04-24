@@ -56,7 +56,8 @@ class CancelActionIntent extends Intent {}
 class SelectPreviousItemIntent extends Intent {}
 class SelectNextItemIntent extends Intent {}
 class SearchIntent extends Intent {}
-class EditIntent extends Intent {}
+class StartEditIntent extends Intent {}
+class EndEditIntent extends Intent {}
 class AddIntent extends Intent {}
 class ChangePriorityUpIntent extends Intent {}
 class ChangePriorityDownIntent extends Intent {}
