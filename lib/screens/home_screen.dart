@@ -56,26 +56,29 @@ class HomeScreen extends ConsumerWidget {
           DeleteIntent: DeleteItemAction(ref),
         },
         child: Material(
-          child: SplitView(
-            sidebarWidth: 220,
-            editorWidth: 0,
-            showEditor: false,
-            sidebar: const SidebarWidget(),
-            editor: Container(),
-            content: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: hasTodoTxt ? const ItemsListView() : const NoTxDxDirectoryWidget(),
-                  ),
-                  // SizedBox(
-                  //   child: AddItemWidget(),
-                  // ),
-                ],
-              ),
-            )
+          child: Focus(
+            autofocus: true,
+            child: SplitView(
+              sidebarWidth: 220,
+              editorWidth: 0,
+              showEditor: false,
+              sidebar: const SidebarWidget(),
+              editor: Container(),
+              content: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: hasTodoTxt ? const ItemsListView() : const NoTxDxDirectoryWidget(),
+                    ),
+                    // SizedBox(
+                    //   child: AddItemWidget(),
+                    // ),
+                  ],
+                ),
+              )
+            ),
           ),
         ),
       ),
