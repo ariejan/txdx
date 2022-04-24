@@ -11,6 +11,7 @@ enum ItemStateSorter {
   completion,
   dueOn,
   description,
+  isNew,
 }
 
 final itemSortingPreferenceProvider = StateProvider<ItemStateSorter>((ref) {
@@ -22,11 +23,11 @@ final itemStateSorter = StateProvider<List<ItemStateSorter>>((ref) {
 
   switch(sortingPreference) {
     case ItemStateSorter.priority:
-      return [ItemStateSorter.completion, ItemStateSorter.priority, ItemStateSorter.dueOn, ItemStateSorter.description];
+      return [ItemStateSorter.isNew, ItemStateSorter.completion, ItemStateSorter.priority, ItemStateSorter.dueOn, ItemStateSorter.description];
     case ItemStateSorter.dueOn:
-      return [ItemStateSorter.completion, ItemStateSorter.dueOn, ItemStateSorter.priority, ItemStateSorter.description];
+      return [ItemStateSorter.isNew, ItemStateSorter.completion, ItemStateSorter.dueOn, ItemStateSorter.priority, ItemStateSorter.description];
     default:
-      return [ItemStateSorter.completion, ItemStateSorter.priority, ItemStateSorter.dueOn, ItemStateSorter.description];
+      return [ItemStateSorter.isNew, ItemStateSorter.completion, ItemStateSorter.priority, ItemStateSorter.dueOn, ItemStateSorter.description];
   }
 });
 
@@ -57,6 +58,15 @@ int completedSort(TxDxItem a, TxDxItem b) {
     return 1;
   } else if (b.completed && !a.completed) {
     return -1;
+  }
+  return 0;
+}
+
+int isNewSort(TxDxItem a, TxDxItem b) {
+  if (a.isNew && !b.isNew) {
+    return -1;
+  } else if (b.isNew && !a.isNew) {
+    return 1;
   }
   return 0;
 }
@@ -92,7 +102,11 @@ final scopedItems = Provider<List<TxDxItem>>((ref) {
         case ItemStateSorter.dueOn:
           result = dueOnSort(a, b);
           break;
-      }
+
+        case ItemStateSorter.isNew:
+          result = isNewSort(a, b);
+          break;
+    }
 
       if (result != 0) {
         break;

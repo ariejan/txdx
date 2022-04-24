@@ -19,6 +19,7 @@ class TxDxItem {
   final Iterable<String> contexts;
   final Iterable<String> projects;
   final Map<String, String> tags;
+  final bool isNew;
 
   TxDxItem({
     required this.id,
@@ -27,10 +28,15 @@ class TxDxItem {
     this.priority,
     this.createdOn,
     this.completedOn,
+    this.isNew = false,
     this.contexts = const <String>[],
     this.projects = const <String>[],
     this.tags = const <String, String>{},
   });
+
+  static TxDxItem newFromText(String text) {
+    return fromText(text).copyWith(isNew: true);
+  }
 
   static TxDxItem fromText(String text) {
     return fromTextWithId(_uuid.v4(), text);
@@ -56,6 +62,7 @@ class TxDxItem {
     Optional<String>? priority,
     DateTime? createdOn,
     DateTime? completedOn,
+    bool? isNew,
     Iterable<String>? contexts,
     Iterable<String>? projects,
     Map<String, String>? tags,
@@ -67,6 +74,7 @@ class TxDxItem {
       priority: priority != null ? priority.orNull : this.priority,
       createdOn: createdOn ?? this.createdOn,
       completedOn: completedOn ?? this.completedOn,
+      isNew: isNew ?? this.isNew,
       contexts: contexts ?? this.contexts,
       projects: projects ?? this.projects,
       tags: tags ?? this.tags,
@@ -189,12 +197,16 @@ class TxDxItem {
   }
 
   TxDxItem setDueOn(DateTime? dueOn) {
+    var newTags = Map<String, String>.from(tags);
+
     if (dueOn == null) {
-      return this;
+      if (newTags.keys.contains('due')) {
+        newTags.remove('due');
+      }
     } else {
-      var newTags = Map<String, String>.from(tags);
       newTags['due'] = Jiffy(dueOn).format('yyyy-MM-dd');
-      return copyWith(tags: newTags);
     }
+
+    return copyWith(tags: newTags);
   }
 }

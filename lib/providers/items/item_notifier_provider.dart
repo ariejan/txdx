@@ -101,6 +101,17 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     return null;
   }
 
+  String? addItem(TxDxItem theItem) {
+    final items = getItems();
+    final theItems = [
+      ...items,
+      theItem,
+    ];
+    _setState(theItems);
+
+    return theItem.id;
+  }
+
   void deleteItem(String id) {
     final items = getItems().toList();
     final itemIdx = items.indexWhere((item) => item.id == id);
@@ -225,4 +236,5 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
       _setState(items);
     }
   }
+
 }
