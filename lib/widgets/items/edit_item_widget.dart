@@ -5,13 +5,11 @@ import 'package:jiffy/jiffy.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 import '../../config/colors.dart';
-import '../../providers/items/item_notifier_provider.dart';
 import '../../providers/items/selected_item_provider.dart';
 
 class EditItemWidget extends ConsumerWidget {
 
   final TxDxItem item;
-  late TxDxItem itemAsEdited;
 
   final _descriptionFocusNode = FocusNode();
   final _descriptionController = TextEditingController();
@@ -19,18 +17,7 @@ class EditItemWidget extends ConsumerWidget {
   final _notesFocusNode = FocusNode();
   final _notesController = TextEditingController();
 
-  EditItemWidget(this.item, {Key? key}) : super(key: key) {
-    itemAsEdited = item.copyWith();
-  }
-
-  void _save(WidgetRef ref) {
-    ref.read(itemsNotifierProvider.notifier).updateItem(item.id, itemAsEdited.toString());
-  }
-
-  void _saveAndExit(WidgetRef ref) {
-    _save(ref);
-    ref.read(editingItemIdStateProvider.state).state = null;
-  }
+  EditItemWidget(this.item, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +25,7 @@ class EditItemWidget extends ConsumerWidget {
 
     _descriptionFocusNode.requestFocus();
 
-    _descriptionController.text = itemAsEdited.description;
+    _descriptionController.text = item.description;
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -90,7 +77,7 @@ class EditItemWidget extends ConsumerWidget {
                           splashRadius: 0,
                           value: item.completed,
                           onChanged: (bool? value) {
-                            itemAsEdited = itemAsEdited.toggleComplete();
+
                           }),
                     ),
                   ),
@@ -99,7 +86,7 @@ class EditItemWidget extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -109,8 +96,7 @@ class EditItemWidget extends ConsumerWidget {
                                   child: Focus(
                                     onKey: (FocusNode node, RawKeyEvent event) {
                                       if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-                                        itemAsEdited = itemAsEdited.copyWith(description: _descriptionController.text);
-                                        _saveAndExit(ref);
+
                                         return KeyEventResult.handled;
                                       }
                                       return KeyEventResult.ignored;
@@ -118,10 +104,10 @@ class EditItemWidget extends ConsumerWidget {
                                     child: TextField(
                                       focusNode: _descriptionFocusNode,
                                       controller: _descriptionController,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(vertical: 11),
                                       ),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
                                       ),
                                     ),
@@ -155,14 +141,14 @@ class EditItemWidget extends ConsumerWidget {
                                         controller: _notesController,
                                         minLines: 1,
                                         maxLines: 8,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           hintText: "Notes...",
                                           contentPadding: EdgeInsets.symmetric(vertical: 11),
                                           filled: true,
                                         ),
                                         // focusNode: _focusNode,
                                         // controller: _textController,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 14,
                                         ),
                                       ),
@@ -194,14 +180,13 @@ class EditItemWidget extends ConsumerWidget {
                                       helpText: 'Due on',
                                     ).then((pickedDate) {
                                       if (pickedDate != null) {
-                                        itemAsEdited = itemAsEdited.setDueOn(pickedDate);
-                                        _save(ref);
+
                                       }
                                     });
                                   },
                                   child: Row(
                                     children: [
-                                      Icon(Icons.flag_sharp, size: 12),
+                                      const Icon(Icons.flag_sharp, size: 12),
                                       const SizedBox(width: 4),
                                       Text(
                                           item.hasDueOn
@@ -210,10 +195,9 @@ class EditItemWidget extends ConsumerWidget {
                                       ),
                                       if (item.hasDueOn) IconButton(
                                         splashRadius: 1,
-                                        icon: Icon(Icons.close_sharp, size: 12),
+                                        icon: const Icon(Icons.close_sharp, size: 12),
                                         onPressed: () {
-                                          itemAsEdited = itemAsEdited.setDueOn(null);
-                                          _save(ref);
+
                                         },
                                       )
                                     ],
