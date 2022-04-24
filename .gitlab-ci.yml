@@ -29,7 +29,7 @@ analyze:
 test:
   stage: test
   script:
-    - pub global activate junitreport
+    - flutter pub global activate junitreport
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - flutter pub get
     - flutter test --coverage --machine | tojunit > testreport.xml
