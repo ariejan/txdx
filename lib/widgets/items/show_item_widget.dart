@@ -52,13 +52,19 @@ class ShowItemWidget extends ConsumerWidget {
       child: Container(
         decoration: BoxDecoration(
           color: bgColor,
-          border: Border(
-            left: BorderSide(width: 5, color: statusColor),
-          ),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Icon(
+                  Icons.circle,
+                  size: 9,
+                  color: item.hasSetPriority() ? statusColor : Colors.transparent,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                 child: Transform.scale(

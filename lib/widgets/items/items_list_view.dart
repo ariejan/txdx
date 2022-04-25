@@ -100,12 +100,15 @@ class ItemsListView extends ConsumerWidget {
         if (items.isNotEmpty)
           Expanded(
             flex: 2,
-            child: ScrollConfiguration(
-              behavior: _ScrollBehavior(),
-              child: ScrollablePositionedList.builder(
-                itemCount: items.length,
-                itemScrollController: controller,
-                itemBuilder: (_, i) => ItemWidget(items[i]),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+              child: ScrollConfiguration(
+                behavior: _ScrollBehavior(),
+                child: ScrollablePositionedList.builder(
+                  itemCount: items.length,
+                  itemScrollController: controller,
+                  itemBuilder: (_, i) => ItemWidget(items[i]),
+                ),
               ),
             ),
           ),

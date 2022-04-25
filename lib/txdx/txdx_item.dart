@@ -196,6 +196,10 @@ class TxDxItem {
     );
   }
 
+  bool hasSetPriority() {
+    return priority?.isNotEmpty ?? false;
+  }
+
   TxDxItem setDueOn(DateTime? dueOn) {
     var newTags = Map<String, String>.from(tags);
 

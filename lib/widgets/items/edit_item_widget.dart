@@ -273,7 +273,7 @@ class TheCheckBox extends StatelessWidget {
   @override
   Widget build(BuildContext context, ) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+      padding: const EdgeInsets.fromLTRB(4, 0, 8, 0),
       child: Transform.scale(
         scale: 0.76,
         child: Checkbox(
