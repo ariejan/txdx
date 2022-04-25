@@ -7,6 +7,7 @@ import 'package:txdx/actions/start_edit_action.dart';
 import 'package:txdx/actions/start_search_action.dart';
 import 'package:txdx/actions/toggle_completion_action.dart';
 import 'package:txdx/config/shortcuts.dart';
+import 'package:txdx/utils/focus.dart';
 import 'package:txdx/widgets/items/items_list_view.dart';
 import 'package:txdx/widgets/misc/no_txdx_directory_widget.dart';
 import 'package:txdx/widgets/navigation/sidebar_widget.dart';
@@ -57,6 +58,7 @@ class HomeScreen extends ConsumerWidget {
         },
         child: Material(
           child: Focus(
+            focusNode: appFocusNode,
             autofocus: true,
             child: SplitView(
               sidebarWidth: 220,

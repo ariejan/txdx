@@ -40,7 +40,7 @@ class SearchWidget extends ConsumerWidget {
             onPressed: () {
               ref.read(isSearchingProvider.state).state = false;
               ref.read(searchTextProvider.state).state = '';
-              shortcutsFocusNode.requestFocus();
+              appFocusNode.requestFocus();
             },
           )
         ]

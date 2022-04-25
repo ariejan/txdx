@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quiver/core.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
+import 'package:txdx/utils/focus.dart';
 
 import '../config/shortcuts.dart';
 import '../providers/items/selected_item_provider.dart';
@@ -51,8 +52,10 @@ class EndEditAction extends Action<EndEditIntent> {
     ).setDueOn(dueOnStr.isEmpty ? null : DateTime.tryParse(dueOnStr));
 
     ref.read(itemsNotifierProvider.notifier).updateItem(editedItemId, newItem.toString());
-
     ref.read(editingItemIdStateProvider.state).state = null;
+
+    appFocusNode.requestFocus();
+
     return null;
   }
 }

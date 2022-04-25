@@ -7,6 +7,7 @@ import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/items/projects_provider.dart';
 
 import '../../config/filters.dart';
+import '../../config/icons.dart';
 import '../../providers/files/file_notifier_provider.dart';
 import '../../config/colors.dart';
 import 'menu_header_widget.dart';
@@ -25,7 +26,7 @@ class SidebarWidget extends ConsumerWidget {
     final badgeColor = Theme.of(context).highlightColor;
 
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
       child: Column(
         children: [
           Expanded(
@@ -37,35 +38,35 @@ class SidebarWidget extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   MenuItemWidget(
-                    iconData: Icons.checklist_sharp,
+                    iconData: txdxIconData[filterAll],
                     title: 'All',
                     itemFilterValue: filterAll,
                     badgeCount: ref.watch(itemsCount(filterAll)),
                     badgeColor: badgeColor,
                   ),
                   MenuItemWidget(
-                    iconData: Icons.today_sharp,
+                    iconData: txdxIconData[filterToday],
                     title: 'Today',
                     itemFilterValue: filterToday,
                     badgeCount: ref.watch(itemsCount(filterToday)),
                     badgeColor: badgeColor,
                   ),
                   MenuItemWidget(
-                    iconData: Icons.date_range_sharp,
+                    iconData: txdxIconData[filterUpcoming],
                     title: 'Upcoming',
                     itemFilterValue: filterUpcoming,
                     badgeCount: ref.watch(itemsCount(filterUpcoming)),
                     badgeColor: badgeColor,
                   ),
                   MenuItemWidget(
-                    iconData: Icons.update_sharp,
+                    iconData: txdxIconData[filterSomeday],
                     title: 'Someday',
                     itemFilterValue: filterSomeday,
                     badgeCount: ref.watch(itemsCount(filterSomeday)),
                     badgeColor: badgeColor,
                   ),
                   MenuItemWidget(
-                    iconData: Icons.event_busy_sharp,
+                    iconData: txdxIconData[filterOverdue],
                     title: 'Overdue',
                     itemFilterValue: filterOverdue,
                     badgeCount: ref.watch(itemsCount(filterOverdue)),
@@ -74,8 +75,8 @@ class SidebarWidget extends ConsumerWidget {
 
                   if (projects.isNotEmpty) const MenuHeaderWidget(
                     'Projects',
-                    fontSize: 11,
-                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    fontSize: 14 ,
+                    margin: EdgeInsets.fromLTRB(0, 12, 0, 8),
                   ),
 
                   Column(
@@ -93,8 +94,8 @@ class SidebarWidget extends ConsumerWidget {
 
                   if (contexts.isNotEmpty) const MenuHeaderWidget(
                     'Contexts',
-                    fontSize: 11,
-                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    fontSize: 14,
+                    margin: EdgeInsets.fromLTRB(0, 12, 0, 8),
                   ),
 
                   Column(

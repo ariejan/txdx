@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:txdx/config/icons.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
 import 'package:txdx/providers/settings/settings_provider.dart';
 import 'package:txdx/config/settings.dart';
@@ -39,11 +40,52 @@ class ItemsListView extends ConsumerWidget {
     }
   }
 
+  IconData _getIconData(WidgetRef ref) {
+    final filter = ref.read(itemFilter);
+
+    switch (filter) {
+      case filterAll:
+      case filterToday:
+      case filterUpcoming:
+      case filterSomeday:
+      case filterOverdue:
+        return txdxIconData[filter]!;
+      default:
+        return txdxIconData['project']!;
+    }
+  }
+
+  Color? _getIconColor(WidgetRef ref) {
+    final filter = ref.read(itemFilter);
+
+    if (filter == null) {
+      return null;
+    }
+
+    if (filter.substring(0, 1) == '+') {
+      return TxDxColors.projects;
+    }
+    if (filter.substring(0, 1) == '@') {
+      return TxDxColors.contexts;
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasFileChanges = ref.watch(fileWasChanged);
     final items = ref.watch(filteredItems);
     final isSearching = ref.watch(isSearchingProvider);
+
+    var countString = "No items";
+    switch (items.length) {
+      case 1:
+        countString = "1 item";
+        break;
+      default:
+        countString = "${items.length} items";
+    }
 
     return Column(
       children: [
@@ -52,7 +94,10 @@ class ItemsListView extends ConsumerWidget {
             children: [
               MenuHeaderWidget(
                 _getTitle(ref),
-                margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                subtitle: countString,
+                iconData: _getIconData(ref),
+                iconColor: _getIconColor(ref),
+                margin: const EdgeInsets.fromLTRB(0, 24, 0, 32),
                 actions: [
                   PopupMenuButton(
                     padding: EdgeInsets.zero,
