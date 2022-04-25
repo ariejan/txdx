@@ -52,7 +52,7 @@ abstract class TxDxTheme {
     return _darkTheme.copyWith(
       hoverColor: Colors.transparent,
       highlightColor: NordColors.$9.withOpacity(0.25),
-      hintColor: NordColors.$5.withOpacity(0.42),
+      hintColor: NordColors.$5.withOpacity(0.8),
       canvasColor: TxDxColors.darkBackground,
       appBarTheme: _darkTheme.appBarTheme.copyWith(
         backgroundColor: _lightTheme.primaryColorDark,
