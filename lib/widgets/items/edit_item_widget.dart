@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:txdx/actions/end_edit_action.dart';
@@ -8,40 +7,57 @@ import 'package:txdx/txdx/txdx_item.dart';
 
 import '../../config/colors.dart';
 
-class EditItemWidget extends ConsumerWidget {
+class EditItemWidget extends ConsumerStatefulWidget {
 
   final TxDxItem item;
 
+  const EditItemWidget(this.item, {Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _EditItemWidgetState();
+}
+
+class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
   final _descriptionFocusNode = FocusNode();
   final _descriptionController = TextEditingController();
 
-  final _notesFocusNode = FocusNode();
+  // final _notesFocusNode = FocusNode();
   final _notesController = TextEditingController();
 
   final _dueOnController = TextEditingController();
 
-  EditItemWidget(this.item, {Key? key}) : super(key: key);
+  final dueOnTextDefault = "No due date set";
+  String dueOnText = '';
+
 
   void _setDueOn(DateTime? dueOn) {
     if (dueOn != null) {
-      _dueOnController.text = Jiffy(item.dueOn).format('yyyy-MM-dd');
+      final strDueOn = Jiffy(dueOn).format('yyyy-MM-dd');
+
+      _dueOnController.text = strDueOn;
+      setState(() => dueOnText = strDueOn);
     } else {
       _dueOnController.text = '';
+      setState(() => dueOnText = dueOnTextDefault);
     }
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final item = widget.item;
+
     final endEditAction = EndEditAction(ref, ItemControllers(
       descriptionController: _descriptionController,
       notesController: _notesController,
       dueOnController: _dueOnController,
     ));
 
-
     _descriptionFocusNode.requestFocus();
     _descriptionController.text = item.description;
-    _setDueOn(item.dueOn);
+
+    if (dueOnText.isEmpty) {
+      _setDueOn(item.dueOn);
+    }
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -74,15 +90,20 @@ class EditItemWidget extends ConsumerWidget {
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.2)),
+                  border: Border.all(color: Theme.of(context).brightness == Brightness.light
+                    ? TxDxColors.lightEditBorder
+                    : TxDxColors.darkEditBorder,
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).hintColor.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: const Offset(0, 0.5),
-                    )
-                  ]
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? TxDxColors.lightEditShadow
+                          : TxDxColors.darkEditShadow,
+                      spreadRadius: 0,
+                      blurRadius: 5,
+                      offset: Offset.zero,
+                    ),
+                  ],
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -128,20 +149,20 @@ class EditItemWidget extends ConsumerWidget {
                                 ],
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-                              child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(0, 6, 0, 2),
-                                        child: NotesField(notesFocusNode: _notesFocusNode, notesController: _notesController),
-                                      ),
-                                    ),
-                                  ]
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                            //   child: Row(
+                            //       crossAxisAlignment: CrossAxisAlignment.start,
+                            //       children: [
+                            //         Expanded(
+                            //           child: Padding(
+                            //             padding: const EdgeInsets.fromLTRB(0, 6, 0, 2),
+                            //             child: NotesField(notesFocusNode: _notesFocusNode, notesController: _notesController),
+                            //           ),
+                            //         ),
+                            //       ]
+                            //   ),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: Row(
@@ -149,9 +170,7 @@ class EditItemWidget extends ConsumerWidget {
                                 children: [
                                   Visibility(
                                     visible: false,
-                                    child: TextField(
-                                      controller: _dueOnController,
-                                    ),
+                                    child: TextField(controller: _dueOnController),
                                   ),
                                   TextButton(
                                       style: ButtonStyle(
@@ -175,19 +194,16 @@ class EditItemWidget extends ConsumerWidget {
                                         });
                                       },
                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           const Icon(Icons.flag_sharp, size: 12),
                                           const SizedBox(width: 4),
-                                          Text(
-                                              item.hasDueOn
-                                                ? Jiffy(item.dueOn).format('yyyy-MM-dd')
-                                                : 'No due date set'
-                                          ),
+                                          Text(dueOnText),
                                           if (item.hasDueOn) IconButton(
                                             splashRadius: 1,
                                             icon: const Icon(Icons.close_sharp, size: 12),
                                             onPressed: () {
-
+                                              _setDueOn(null);
                                             },
                                           )
                                         ],

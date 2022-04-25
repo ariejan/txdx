@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:txdx/providers/items/scoped_item_notifier.dart';
 
 import '../config/shortcuts.dart';
 import '../providers/items/selected_item_provider.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
 
@@ -31,8 +30,6 @@ class EndEditAction extends Action<EndEditIntent> {
 
   @override
   Object? invoke(EndEditIntent intent) {
-    print('Ending edit');
-
     final editedItemId = ref.read(editingItemIdStateProvider);
     if (editedItemId == null) {
       return null;

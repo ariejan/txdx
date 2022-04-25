@@ -17,6 +17,12 @@ abstract class TxDxColors {
   static const Color lightBackground = Color(0xffFFFFFF);
   static const Color darkBackground = Color(0xff1E1E1E);
 
+  static final Color lightEditBorder = NordColors.$4.withOpacity(0.7);
+  static const Color lightEditShadow = NordColors.$4;
+
+  static final Color darkEditBorder = NordColors.$1.withOpacity(0.7);
+  static const Color darkEditShadow = NordColors.$1;
+
   static final Color lightSelection = NordColors.$3.withAlpha(50);
   static final Color darkSelection = NordColors.$3.withAlpha(70);
 
