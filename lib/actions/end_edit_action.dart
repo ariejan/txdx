@@ -52,7 +52,8 @@ class EndEditAction extends Action<EndEditIntent> {
       )
       .setDueOn(dueOnStr.isEmpty ? null : DateTime.tryParse(dueOnStr))
       .addContexts(parsedItem.contexts)
-      .addProjects(parsedItem.projects);
+      .addProjects(parsedItem.projects)
+      .addTags(parsedItem.tags);
 
     ref.read(itemsNotifierProvider.notifier).updateItem(editedItemId, newItem.toString());
     ref.read(editingItemIdStateProvider.state).state = null;

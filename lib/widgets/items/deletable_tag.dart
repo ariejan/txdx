@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/config/shortcuts.dart';
 
-import '../../actions/delete_tag_action.dart';
 import '../../txdx/txdx_item.dart';
 
 class DeletableTag extends ConsumerStatefulWidget {

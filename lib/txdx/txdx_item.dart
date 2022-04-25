@@ -237,4 +237,16 @@ class TxDxItem {
     newProjects.addAll(addedProjects);
     return copyWith(projects: newProjects.toSet().toList());
   }
+
+  TxDxItem addTags(Map<String, String> addedTags) {
+    var newTags = Map<String, String>.from(tags);
+    addedTags.forEach((key, value) => newTags[key] = value);
+    return copyWith(tags: newTags);
+  }
+
+  TxDxItem removeTagName(String tagName) {
+    var newTags = Map<String, String>.from(tags);
+    newTags.remove(tagName);
+    return copyWith(tags: newTags);
+  }
 }

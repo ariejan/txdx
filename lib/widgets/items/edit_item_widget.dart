@@ -154,18 +154,25 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                               padding: const EdgeInsets.all(0),
                               child: Row(
                                 children: [
-                                  ...item.contexts.map((context) =>
-                                    DeletableTag(
-                                      item: item,
-                                      tag: context,
-                                      iconColor: TxDxColors.contexts,
-                                    )
-                                  ).toList(),
                                   ...item.projects.map((project) =>
                                       DeletableTag(
                                         item: item,
                                         tag: project,
                                         iconColor: TxDxColors.projects,
+                                      )
+                                  ).toList(),
+                                  ...item.contexts.map((context) =>
+                                      DeletableTag(
+                                        item: item,
+                                        tag: context,
+                                        iconColor: TxDxColors.contexts,
+                                      )
+                                  ).toList(),
+                                  ...item.tagsWithoutDue.keys.map((key) =>
+                                      DeletableTag(
+                                        item: item,
+                                        tag: '$key:${item.tags[key]}',
+                                        iconColor: TxDxColors.tags,
                                       )
                                   ).toList(),
                                 ],

@@ -34,6 +34,7 @@ class LabelWidget extends StatelessWidget {
             text,
             style: TextStyle(
               fontSize: fontSize ?? 12,
+              color: Theme.of(context).hintColor
             ),
           ),
         ],

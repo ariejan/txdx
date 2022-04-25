@@ -257,4 +257,14 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     }
   }
 
+  Future<void> removeTagName(String id, String tagName) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.removeTagName(tagName)]);
+      _setState(items);
+    }
+  }
+
 }
