@@ -17,6 +17,7 @@ import '../actions/add_item_action.dart';
 import '../actions/cancel_search_and_edit_action.dart';
 import '../actions/change_priority_down_action.dart';
 import '../actions/change_priority_up_action.dart';
+import '../actions/move_to_today_action.dart';
 import '../actions/select_next_item_action.dart';
 import '../config/settings.dart';
 import '../providers/settings/settings_provider.dart';
@@ -42,6 +43,7 @@ class HomeScreen extends ConsumerWidget {
         toggleCompletedShortcut: ToggleCompletionIntent(),
         deleteShortcut: DeleteIntent(),
         backspaceShortcut: DeleteIntent(),
+        moveToTodayShortcut: MoveToTodayIntent(),
       },
       child: Actions(
         actions: {
@@ -55,6 +57,7 @@ class HomeScreen extends ConsumerWidget {
           ChangePriorityDownIntent: ChangePriorityDownAction(ref),
           ToggleCompletionIntent: ToggleCompletionAction(ref),
           DeleteIntent: DeleteItemAction(ref),
+          MoveToTodayIntent: MoveToTodayAction(ref),
         },
         child: Material(
           child: Focus(
