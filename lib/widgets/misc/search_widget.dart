@@ -32,12 +32,12 @@ class SearchWidget extends ConsumerWidget {
                 ref.read(searchTextProvider.state).state = value;
               },
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search_sharp),
+                prefixIcon: const Icon(Icons.search_sharp),
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.clear_sharp),
+                  icon: const Icon(Icons.clear_sharp),
                   onPressed: () => textController.clear(),
                 ),
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 isDense: true,
                 hintText: "Use The Search, Luke!"
               ),
