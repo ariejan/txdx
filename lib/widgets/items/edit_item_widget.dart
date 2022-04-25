@@ -224,7 +224,6 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                 ),
                               ],
                             ),
-
                           ],
                         ),
                       ),
