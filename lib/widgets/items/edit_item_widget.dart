@@ -11,9 +11,8 @@ import 'due_on_picker.dart';
 class EditItemWidget extends ConsumerStatefulWidget {
 
   final TxDxItem item;
-  final focusNode = FocusNode();
 
-  EditItemWidget(this.item, {Key? key}) : super(key: key);
+  const EditItemWidget(this.item, {Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _EditItemWidgetState();
@@ -32,7 +31,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
   Widget build(BuildContext context) {
     final item = widget.item;
 
-    final endEditAction = EndEditAction(ref, ItemControllers(
+    final endEditIntent = EndEditIntent(ItemControllers(
       descriptionController: _descriptionController,
       notesController: _notesController,
       dueOnController: _dueOnController,
@@ -62,141 +61,123 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
 
     return Shortcuts(
       shortcuts: {
-        escapeShortcut: EndEditIntent(),
+        enterShortcut: endEditIntent,
+        escapeShortcut: endEditIntent,
       },
-      child: Actions(
-        actions: {
-          EndEditIntent: endEditAction,
-        },
-        child: Focus(
-          focusNode: widget.focusNode,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Theme.of(context).brightness == Brightness.light
-                    ? TxDxColors.lightEditBorder
-                    : TxDxColors.darkEditBorder,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? TxDxColors.lightEditShadow
-                          : TxDxColors.darkEditShadow,
-                      spreadRadius: 0,
-                      blurRadius: 5,
-                      offset: Offset.zero,
-                    ),
-                  ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Theme.of(context).brightness == Brightness.light
+                ? TxDxColors.lightEditBorder
+                : TxDxColors.darkEditBorder,
               ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 8, 6, 16),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TheCheckBox(item: item, fillColor: MaterialStateProperty.resolveWith(getColor)),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 2),
-                                      child: Shortcuts(
-                                        shortcuts: {
-                                          enterShortcut: EndEditIntent(),
-                                        },
-                                        child: Actions(
-                                          actions: {
-                                            EndEditIntent: endEditAction,
-                                          },
-                                          child: TextField(
-                                            focusNode: _descriptionFocusNode,
-                                            controller: _descriptionController,
-                                            decoration: const InputDecoration(
-                                              contentPadding: EdgeInsets.symmetric(vertical: 11),
-                                            ),
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? TxDxColors.lightEditShadow
+                      : TxDxColors.darkEditShadow,
+                  spreadRadius: 0,
+                  blurRadius: 5,
+                  offset: Offset.zero,
+                ),
+              ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 8, 6, 16),
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TheCheckBox(item: item, fillColor: MaterialStateProperty.resolveWith(getColor)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 2),
+                                  child: TextField(
+                                    focusNode: _descriptionFocusNode,
+                                    controller: _descriptionController,
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(vertical: 11),
+                                    ),
+                                    style: const TextStyle(
+                                      fontSize: 14,
                                     ),
                                   ),
-
-                                ],
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(0),
-                              child: (item.projects.isEmpty && item.tagsWithoutDue.isEmpty && item.contexts.isEmpty)
-                                ? Text('You can add metadata to the description directly', style: TextStyle(fontSize: 12, color: Theme.of(context).hintColor))
-                                : Row(
-                                children: [
-                                  ...item.projects.map((project) =>
-                                      DeletableTag(
-                                        item: item,
-                                        tag: project,
-                                        iconColor: TxDxColors.projects,
-                                      )
-                                  ).toList(),
-                                  ...item.contexts.map((context) =>
-                                      DeletableTag(
-                                        item: item,
-                                        tag: context,
-                                        iconColor: TxDxColors.contexts,
-                                      )
-                                  ).toList(),
-                                  ...item.tagsWithoutDue.keys.map((key) =>
-                                      DeletableTag(
-                                        item: item,
-                                        tag: '$key:${item.tags[key]}',
-                                        iconColor: TxDxColors.tags,
-                                      )
-                                  ).toList(),
-                                ],
-                              ),
-                            )
-                            // Padding(
-                            //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-                            //   child: Row(
-                            //       crossAxisAlignment: CrossAxisAlignment.start,
-                            //       children: [
-                            //         Expanded(
-                            //           child: Padding(
-                            //             padding: const EdgeInsets.fromLTRB(0, 6, 0, 2),
-                            //             child: NotesField(notesFocusNode: _notesFocusNode, notesController: _notesController),
-                            //           ),
-                            //         ),
-                            //       ]
-                            //   ),
-                            // ),
 
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                        child: DueOnPicker(item, _dueOnController, widget.focusNode),
-                      ),
-                    ],
-                ),
-              ),
+                        Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: (item.projects.isEmpty && item.tagsWithoutDue.isEmpty && item.contexts.isEmpty)
+                            ? Text('You can add metadata to the description directly', style: TextStyle(fontSize: 12, color: Theme.of(context).hintColor))
+                            : Row(
+                            children: [
+                              ...item.projects.map((project) =>
+                                  DeletableTag(
+                                    item: item,
+                                    tag: project,
+                                    iconColor: TxDxColors.projects,
+                                  )
+                              ).toList(),
+                              ...item.contexts.map((context) =>
+                                  DeletableTag(
+                                    item: item,
+                                    tag: context,
+                                    iconColor: TxDxColors.contexts,
+                                  )
+                              ).toList(),
+                              ...item.tagsWithoutDue.keys.map((key) =>
+                                  DeletableTag(
+                                    item: item,
+                                    tag: '$key:${item.tags[key]}',
+                                    iconColor: TxDxColors.tags,
+                                  )
+                              ).toList(),
+                            ],
+                          ),
+                        )
+                        // Padding(
+                        //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                        //   child: Row(
+                        //       crossAxisAlignment: CrossAxisAlignment.start,
+                        //       children: [
+                        //         Expanded(
+                        //           child: Padding(
+                        //             padding: const EdgeInsets.fromLTRB(0, 6, 0, 2),
+                        //             child: NotesField(notesFocusNode: _notesFocusNode, notesController: _notesController),
+                        //           ),
+                        //         ),
+                        //       ]
+                        //   ),
+                        // ),
+
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    child: DueOnPicker(item, _dueOnController, _descriptionFocusNode),
+                  ),
+                ],
             ),
           ),
         ),
       ),
     );
   }
-
 }
 
 class NotesField extends StatelessWidget {

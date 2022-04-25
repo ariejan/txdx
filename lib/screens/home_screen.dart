@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/actions/delete_item_action.dart';
 import 'package:txdx/actions/delete_tag_action.dart';
+import 'package:txdx/actions/end_edit_action.dart';
 import 'package:txdx/actions/select_previous_item_action.dart';
 import 'package:txdx/actions/start_edit_action.dart';
 import 'package:txdx/actions/start_search_action.dart';
@@ -60,6 +61,7 @@ class HomeScreen extends ConsumerWidget {
           DeleteIntent: DeleteItemAction(ref),
           MoveToTodayIntent: MoveToTodayAction(ref),
           DeleteTagIntent: DeleteTagAction(ref),
+          EndEditIntent: EndEditAction(ref),
         },
         child: Material(
           child: Focus(

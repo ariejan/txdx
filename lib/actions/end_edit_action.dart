@@ -22,14 +22,11 @@ class ItemControllers {
   final TextEditingController dueOnController;
 }
 
-
 class EndEditAction extends Action<EndEditIntent> {
 
   final WidgetRef ref;
 
-  final ItemControllers itemControllers;
-
-  EndEditAction(this.ref, this.itemControllers);
+  EndEditAction(this.ref);
 
   @override
   Object? invoke(EndEditIntent intent) {
@@ -41,8 +38,8 @@ class EndEditAction extends Action<EndEditIntent> {
     final items = ref.read(filteredItems);
     final theItem = items.firstWhere((item) => item.id == editedItemId);
 
-    final dueOnStr = itemControllers.dueOnController.text;
-    final descriptionStr = itemControllers.descriptionController.text;
+    final dueOnStr = intent.itemControllers.dueOnController.text;
+    final descriptionStr = intent.itemControllers.descriptionController.text;
 
     final parsedItem = TxDxItem.fromText(descriptionStr);
 

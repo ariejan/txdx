@@ -17,7 +17,7 @@ class CancelSearchAndEditAction extends Action<CancelActionIntent> {
       ref.read(searchTextProvider.state).state = null;
       ref.read(isSearchingProvider.state).state = false;
     } else {
-      ref.read(editingItemIdStateProvider.state).state = null;
+      ref.read(selectedItemIdStateProvider.state).state = null;
     }
 
     return null;

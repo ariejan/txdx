@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:txdx/actions/end_edit_action.dart';
 
 final arrowDownShortcut = LogicalKeySet(
   LogicalKeyboardKey.arrowDown
@@ -62,13 +63,18 @@ class SelectPreviousItemIntent extends Intent {}
 class SelectNextItemIntent extends Intent {}
 class SearchIntent extends Intent {}
 class StartEditIntent extends Intent {}
-class EndEditIntent extends Intent {}
 class AddIntent extends Intent {}
 class ChangePriorityUpIntent extends Intent {}
 class ChangePriorityDownIntent extends Intent {}
 class ToggleCompletionIntent extends Intent {}
 class DeleteIntent extends Intent {}
 class MoveToTodayIntent extends Intent {}
+
+class EndEditIntent extends Intent {
+  const EndEditIntent(this.itemControllers);
+
+  final ItemControllers itemControllers;
+}
 
 class DeleteTagIntent extends Intent {
   const DeleteTagIntent(this.itemId, this.tag);
