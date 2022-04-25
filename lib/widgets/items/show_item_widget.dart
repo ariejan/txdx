@@ -215,12 +215,6 @@ class ShowItemWidget extends ConsumerWidget {
                                   ),
                                 ),
                               ),
-                              Row(
-                                  children: [
-                                    if (item.dueOn != null)
-                                      ItemDueOnWidget(item.dueOn!),
-                                  ]
-                              )
                             ],
                           ),
                         ),
@@ -249,6 +243,8 @@ class ShowItemWidget extends ConsumerWidget {
                   ),
                 ),
               ),
+              if (item.dueOn != null)
+                ItemDueOnWidget(item.dueOn!),
             ],
         ),
       ),
