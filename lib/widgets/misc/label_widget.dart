@@ -17,27 +17,29 @@ class LabelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 6, 0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (iconData != null) Padding(
-            padding: const EdgeInsets.fromLTRB(0, 2, 4, 0),
-            child: Icon(
-              iconData!,
-              size: 14,
-              color: color,
+    return SizedBox(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 6, 0),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            if (iconData != null) Padding(
+              padding: const EdgeInsets.fromLTRB(0, 2, 4, 0),
+              child: Icon(
+                iconData!,
+                size: 14,
+                color: color,
+              ),
             ),
-          ),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: fontSize ?? 12,
-              color: Theme.of(context).hintColor
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: fontSize ?? 12,
+                color: Theme.of(context).hintColor
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

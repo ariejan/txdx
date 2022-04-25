@@ -184,7 +184,7 @@ class ShowItemWidget extends ConsumerWidget {
                         ),
                       ],
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
@@ -220,20 +220,23 @@ class ShowItemWidget extends ConsumerWidget {
                               ],
                             ),
                           ),
-                          Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-                              child: Row(
-                                  children: [
-                                    for (var project in item.projects) ...[
-                                      LabelWidget(project, color: TxDxColors.projects, iconData: Icons.label_sharp),
-                                    ],
-                                    for (var context in item.contexts) ...[
-                                      LabelWidget(context, color: TxDxColors.contexts, iconData: Icons.label_sharp),
-                                    ],
-                                    for (var key in item.tagsWithoutDue.keys) ...[
-                                      LabelWidget('$key:${item.tags[key]}', color: TxDxColors.tags, iconData: Icons.label_sharp),
-                                    ],
-                                  ]
+                          if (item.projects.isNotEmpty || item.contexts.isNotEmpty || item.tagsWithoutDue.isNotEmpty) Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 2, 0, 4),
+                              child: Wrap(
+                                alignment: WrapAlignment.start,
+                                spacing: 2,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  for (var project in item.projects) ...[
+                                    LabelWidget(project, color: TxDxColors.projects, iconData: Icons.label_sharp),
+                                  ],
+                                  for (var context in item.contexts) ...[
+                                    LabelWidget(context, color: TxDxColors.contexts, iconData: Icons.label_sharp),
+                                  ],
+                                  for (var key in item.tagsWithoutDue.keys) ...[
+                                    LabelWidget('$key:${item.tags[key]}', color: TxDxColors.tags, iconData: Icons.label_sharp),
+                                  ],
+                                ]
                               )
                           )
                         ],

@@ -33,7 +33,7 @@ class _DeletableTagStage extends ConsumerState<DeletableTag> {
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 6, 0),
-        child: Row(
+        child: Wrap(
           children: [
             if (!isHovering) Padding(
               padding: const EdgeInsets.fromLTRB(0, 2, 4, 0),

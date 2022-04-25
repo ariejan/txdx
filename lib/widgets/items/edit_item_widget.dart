@@ -123,7 +123,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                           padding: const EdgeInsets.all(0),
                           child: (item.projects.isEmpty && item.tagsWithoutDue.isEmpty && item.contexts.isEmpty)
                             ? Text('You can add metadata to the description directly', style: TextStyle(fontSize: 12, color: Theme.of(context).hintColor))
-                            : Row(
+                            : Wrap(
                             children: [
                               ...item.projects.map((project) =>
                                   DeletableTag(
