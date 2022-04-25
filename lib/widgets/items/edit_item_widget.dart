@@ -6,6 +6,7 @@ import 'package:txdx/config/shortcuts.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 import '../../config/colors.dart';
+import 'deletable_tag.dart';
 
 class EditItemWidget extends ConsumerStatefulWidget {
 
@@ -149,6 +150,27 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                 ],
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Row(
+                                children: [
+                                  ...item.contexts.map((context) =>
+                                    DeletableTag(
+                                      item: item,
+                                      tag: context,
+                                      iconColor: TxDxColors.contexts,
+                                    )
+                                  ).toList(),
+                                  ...item.projects.map((project) =>
+                                      DeletableTag(
+                                        item: item,
+                                        tag: project,
+                                        iconColor: TxDxColors.projects,
+                                      )
+                                  ).toList(),
+                                ],
+                              ),
+                            )
                             // Padding(
                             //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                             //   child: Row(

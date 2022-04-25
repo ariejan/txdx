@@ -49,7 +49,10 @@ class EndEditAction extends Action<EndEditIntent> {
     final newItem = theItem.copyWith(
       description: parsedItem.description,
       priority: (parsedItem.priority?.isNotEmpty ?? false) ? Optional.of(parsedItem.priority!) : null,
-    ).setDueOn(dueOnStr.isEmpty ? null : DateTime.tryParse(dueOnStr));
+      )
+      .setDueOn(dueOnStr.isEmpty ? null : DateTime.tryParse(dueOnStr))
+      .addContexts(parsedItem.contexts)
+      .addProjects(parsedItem.projects);
 
     ref.read(itemsNotifierProvider.notifier).updateItem(editedItemId, newItem.toString());
     ref.read(editingItemIdStateProvider.state).state = null;

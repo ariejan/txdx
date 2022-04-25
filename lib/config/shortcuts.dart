@@ -69,3 +69,10 @@ class ChangePriorityDownIntent extends Intent {}
 class ToggleCompletionIntent extends Intent {}
 class DeleteIntent extends Intent {}
 class MoveToTodayIntent extends Intent {}
+
+class DeleteTagIntent extends Intent {
+  const DeleteTagIntent(this.itemId, this.tag);
+
+  final String itemId;
+  final String tag;
+}

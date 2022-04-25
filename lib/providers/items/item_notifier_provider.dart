@@ -237,4 +237,24 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     }
   }
 
+  Future<void> removeContext(String id, String context) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.removeContext(context)]);
+      _setState(items);
+    }
+  }
+
+  Future<void> removeProject(String id, String project) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.removeProject(project)]);
+      _setState(items);
+    }
+  }
+
 }

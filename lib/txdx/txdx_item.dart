@@ -213,4 +213,28 @@ class TxDxItem {
 
     return copyWith(tags: newTags);
   }
+
+  TxDxItem removeContext(String context) {
+    var newContexts = List<String>.from(contexts);
+    newContexts.remove(context);
+    return copyWith(contexts: newContexts.toSet().toList());
+  }
+
+  TxDxItem addContexts(Iterable<String> addedContexts) {
+    var newContexts = List<String>.from(contexts);
+    newContexts.addAll(addedContexts);
+    return copyWith(contexts: newContexts.toSet().toList());
+  }
+
+  TxDxItem removeProject(String project) {
+    var newProjects = List<String>.from(projects);
+    newProjects.remove(project);
+    return copyWith(projects: newProjects.toSet().toList());
+  }
+
+  TxDxItem addProjects(Iterable<String> addedProjects) {
+    var newProjects = List<String>.from(projects);
+    newProjects.addAll(addedProjects);
+    return copyWith(projects: newProjects.toSet().toList());
+  }
 }
