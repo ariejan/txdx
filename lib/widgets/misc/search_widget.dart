@@ -23,26 +23,26 @@ class SearchWidget extends ConsumerWidget {
         children: [
           Expanded(
             child: TextField(
+              style: const TextStyle(
+                fontSize: 14,
+              ),
               focusNode: searchFocusNode,
               controller: textController,
               onChanged: (value) {
                 ref.read(searchTextProvider.state).state = value;
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search_sharp),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear_sharp),
+                  onPressed: () => textController.clear(),
+                ),
                 border: OutlineInputBorder(),
                 isDense: true,
+                hintText: "Use The Search, Luke!"
               ),
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.clear_sharp),
-            splashRadius: 1,
-            onPressed: () {
-              ref.read(isSearchingProvider.state).state = false;
-              ref.read(searchTextProvider.state).state = '';
-              appFocusNode.requestFocus();
-            },
-          )
         ]
       ),
     );
