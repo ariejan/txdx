@@ -163,58 +163,71 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                             //       ]
                             //   ),
                             // ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Visibility(
-                                    visible: false,
-                                    child: TextField(controller: _dueOnController),
-                                  ),
-                                  TextButton(
-                                      style: ButtonStyle(
-                                        splashFactory: NoSplash.splashFactory,
-                                        overlayColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                                          return Colors.transparent;
-                                        }),
-                                      ),
-                                      onPressed: () async {
-                                        showDatePicker(
-                                          context: context,
-                                          initialDate: item.dueOn ?? DateTime.now(),
-                                          firstDate: DateTime(1970, 1, 1),
-                                          lastDate: DateTime(2099, 12, 31),
-                                          initialEntryMode: DatePickerEntryMode.calendarOnly,
-                                          helpText: 'Due on',
-                                        ).then((pickedDate) {
-                                          if (pickedDate != null) {
-                                            _setDueOn(pickedDate);
-                                          }
-                                        });
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          const Icon(Icons.flag_sharp, size: 12),
-                                          const SizedBox(width: 4),
-                                          Text(dueOnText),
-                                          if (item.hasDueOn) IconButton(
-                                            splashRadius: 1,
-                                            icon: const Icon(Icons.close_sharp, size: 12),
-                                            onPressed: () {
-                                              _setDueOn(null);
-                                            },
-                                          )
-                                        ],
-                                      )
-                                  ),
-                                ],
-                              ),
-                            ),
+
                           ],
                         ),
-                      )
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Visibility(
+                                  visible: false,
+                                  child: TextField(controller: _dueOnController),
+                                ),
+                                TextButton(
+                                    style: ButtonStyle(
+                                      mouseCursor: MaterialStateProperty.resolveWith<MouseCursor>((Set<MaterialState> states) => MouseCursor.defer),
+                                      splashFactory: NoSplash.splashFactory,
+                                      overlayColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) => Colors.transparent),
+                                    ),
+                                    onPressed: () async {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: item.dueOn ?? DateTime.now(),
+                                        firstDate: DateTime(1970, 1, 1),
+                                        lastDate: DateTime(2099, 12, 31),
+                                        initialEntryMode: DatePickerEntryMode.calendarOnly,
+                                        helpText: 'Due on',
+                                      ).then((pickedDate) {
+                                        if (pickedDate != null) {
+                                          _setDueOn(pickedDate);
+                                        }
+                                      });
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        const Icon(Icons.flag_sharp, size: 12),
+                                        const SizedBox(width: 4),
+                                        Text(dueOnText, style: const TextStyle(fontSize: 12)),
+
+                                      ],
+                                    )
+                                ),
+                                if (item.hasDueOn) GestureDetector(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                                    child: Icon(
+                                      Icons.close_sharp,
+                                      size: 12,
+                                      color: Theme.of(context).disabledColor,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    _setDueOn(null);
+                                  },
+                                ),
+                              ],
+                            ),
+
+                          ],
+                        ),
+                      ),
                     ]
                 ),
               ),
