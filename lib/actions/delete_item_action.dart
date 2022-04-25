@@ -31,6 +31,6 @@ class DeleteItemAction extends Action<DeleteIntent> {
   bool get isActionEnabled {
     final isEditing = ref.watch(isEditingProvider);
     final isSearching = ref.watch(isSearchingProvider);
-    return isEditing && !isSearching;
+    return !isEditing && !isSearching;
   }
 }
