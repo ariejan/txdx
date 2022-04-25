@@ -93,7 +93,7 @@ class MenuItemWidget extends ConsumerWidget {
   Widget buildIcon(BuildContext context) {
     return Icon(
       iconData ??  Icons.circle,
-      color: (indicatorColor ?? color) ?? Theme.of(context).hintColor,
+      color: (indicatorColor ?? color) ?? Theme.of(context).textTheme.bodyText1?.color,
       size: 20
     );
   }

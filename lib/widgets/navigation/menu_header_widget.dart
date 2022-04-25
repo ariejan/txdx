@@ -40,7 +40,7 @@ class MenuHeaderWidget extends StatelessWidget {
                 child: Icon(
                   iconData,
                   size: 28,
-                  color: iconColor ?? Theme.of(context).hintColor,
+                  color: iconColor ?? Theme.of(context).textTheme.bodyText1?.color,
                 ),
               ),
               Column(
