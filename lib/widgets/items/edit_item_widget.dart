@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:txdx/actions/end_edit_action.dart';
 import 'package:txdx/config/shortcuts.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 import '../../config/colors.dart';
 import 'deletable_tag.dart';
+import 'due_on_picker.dart';
 
 class EditItemWidget extends ConsumerStatefulWidget {
 
   final TxDxItem item;
+  final focusNode = FocusNode();
 
-  const EditItemWidget(this.item, {Key? key}) : super(key: key);
+  EditItemWidget(this.item, {Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _EditItemWidgetState();
@@ -27,22 +28,6 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
 
   final _dueOnController = TextEditingController();
 
-  final dueOnTextDefault = "No due date set";
-  String dueOnText = '';
-
-
-  void _setDueOn(DateTime? dueOn) {
-    if (dueOn != null) {
-      final strDueOn = Jiffy(dueOn).format('yyyy-MM-dd');
-
-      _dueOnController.text = strDueOn;
-      setState(() => dueOnText = strDueOn);
-    } else {
-      _dueOnController.text = '';
-      setState(() => dueOnText = dueOnTextDefault);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
@@ -54,11 +39,10 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
     ));
 
     _descriptionFocusNode.requestFocus();
-    _descriptionController.text = item.description;
-
-    if (dueOnText.isEmpty) {
-      _setDueOn(item.dueOn);
-    }
+    _descriptionController.value = TextEditingValue(
+      text: item.description,
+      selection: TextSelection.collapsed(offset: item.description.length),
+    );
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -85,6 +69,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
           EndEditIntent: endEditAction,
         },
         child: Focus(
+          focusNode: widget.focusNode,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
             child: Container(
@@ -107,7 +92,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                   ],
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.fromLTRB(12, 8, 6, 16),
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -152,7 +137,9 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(0),
-                              child: Row(
+                              child: (item.projects.isEmpty && item.tagsWithoutDue.isEmpty && item.contexts.isEmpty)
+                                ? Text('You can add metadata to the description directly', style: TextStyle(fontSize: 12, color: Theme.of(context).hintColor))
+                                : Row(
                                 children: [
                                   ...item.projects.map((project) =>
                                       DeletableTag(
@@ -197,66 +184,10 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Visibility(
-                                  visible: false,
-                                  child: TextField(controller: _dueOnController),
-                                ),
-                                TextButton(
-                                    style: ButtonStyle(
-                                      mouseCursor: MaterialStateProperty.resolveWith<MouseCursor>((Set<MaterialState> states) => MouseCursor.defer),
-                                      splashFactory: NoSplash.splashFactory,
-                                      overlayColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) => Colors.transparent),
-                                    ),
-                                    onPressed: () async {
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: item.dueOn ?? DateTime.now(),
-                                        firstDate: DateTime(1970, 1, 1),
-                                        lastDate: DateTime(2099, 12, 31),
-                                        initialEntryMode: DatePickerEntryMode.calendarOnly,
-                                        helpText: 'Due on',
-                                      ).then((pickedDate) {
-                                        if (pickedDate != null) {
-                                          _setDueOn(pickedDate);
-                                        }
-                                      });
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        const Icon(Icons.flag_sharp, size: 12),
-                                        const SizedBox(width: 4),
-                                        Text(dueOnText, style: const TextStyle(fontSize: 12)),
-
-                                      ],
-                                    )
-                                ),
-                                if (item.hasDueOn) GestureDetector(
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                                    child: Icon(
-                                      Icons.close_sharp,
-                                      size: 12,
-                                      color: Theme.of(context).disabledColor,
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    _setDueOn(null);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                        child: DueOnPicker(item, _dueOnController, widget.focusNode),
                       ),
-                    ]
+                    ],
                 ),
               ),
             ),
