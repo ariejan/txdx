@@ -87,6 +87,7 @@ class ShowItemWidget extends ConsumerWidget {
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onDoubleTap: () {
+                      ref.read(selectedItemIdStateProvider.state).state = item.id;
                       ref.read(editingItemIdStateProvider.state).state = item.id;
                     },
                     onTap: () {
