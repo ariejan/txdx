@@ -104,13 +104,17 @@ class ItemsListView extends ConsumerWidget {
                 margin: const EdgeInsets.fromLTRB(0, 24, 0, 32),
                 actions: [
                   if (archiveAvailable) IconButton(
+                    mouseCursor: MouseCursor.defer,
                     icon: Icon(Icons.archive_outlined, size: 20, color: Theme.of(context).disabledColor),
+                    tooltip: "Archive completed items to archive.txt",
                     onPressed: () {
                       Actions.invoke(context, ArchiveItemsIntent());
                     },
                   ),
                   IconButton(
+                    mouseCursor: MouseCursor.defer,
                     icon: Icon(Icons.add, size: 20, color: Theme.of(context).disabledColor),
+                    tooltip: 'Create a new item',
                     onPressed: () {
                       Actions.invoke(context, AddIntent());
                     },
@@ -121,7 +125,7 @@ class ItemsListView extends ConsumerWidget {
                     icon: Icon(Icons.sort_sharp, size: 20, color: Theme.of(context).disabledColor),
                     color: Theme.of(context).brightness == Brightness.dark
                         ? TxDxColors.darkBadge2 : TxDxColors.lightBadge,
-                    tooltip: "Select item sorting",
+                    tooltip: "Change item sorting",
                     onSelected: (ItemStateSorter selectedItemStateSorter) {
                       ref.read(itemSortingPreferenceProvider.state).state = selectedItemStateSorter;
                     },
