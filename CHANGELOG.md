@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.1.0] - 2022-04-26
 ### Changed
 - Complete overhaul of design and user experience
 - Archiving now only archives completed items in the current view

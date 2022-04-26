@@ -1,7 +1,7 @@
-TxDx uses a plain text todo.txt file. Please unpack the attached ZIP file, which contains
-a TxDxTest folder and a todo.txt and archive.txt file. 
+TxDx needs a directory to work with. Simply create a new folder on your Desktop (or somewhere
+else). 
 
  - Start TxDx
- - Click the "Select TxDx folder" button.
- - Navigate to the unzipped `TxDxTest` directory and choose it from the file picker.
- - That's all.
+ - Click the "Select your TxDx folder" button.
+ - Navigate to the directory you created and click 'Choose'
+ - That's all. You can add new items by click the + at the top right or using CMD-N
