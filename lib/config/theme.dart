@@ -45,7 +45,7 @@ abstract class TxDxTheme {
         isDense: true,
         filled: false,
       ),
-      pageTransitionsTheme: PageTransitionsTheme(
+      pageTransitionsTheme: const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
           TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
           TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
@@ -95,7 +95,7 @@ abstract class TxDxTheme {
         isDense: true,
         filled: false,
       ),
-      pageTransitionsTheme: PageTransitionsTheme(
+      pageTransitionsTheme: const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
           TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
           TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
