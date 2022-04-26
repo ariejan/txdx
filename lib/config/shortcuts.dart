@@ -30,12 +30,12 @@ final searchShortcut = LogicalKeySet(
   LogicalKeyboardKey.keyF
 );
 
-final priorityUpShortcut = LogicalKeySet(
+final jumpUpShortcut = LogicalKeySet(
   Platform.isMacOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control,
   LogicalKeyboardKey.arrowUp
 );
 
-final priorityDownShortcut = LogicalKeySet(
+final jumpDownShortcut = LogicalKeySet(
   Platform.isMacOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control,
   LogicalKeyboardKey.arrowDown
 );
@@ -58,6 +58,11 @@ final moveToTodayShortcut = LogicalKeySet(
   LogicalKeyboardKey.keyT,
 );
 
+final clearDueOnShortcut = LogicalKeySet(
+  Platform.isMacOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control,
+  LogicalKeyboardKey.keyK,
+);
+
 class CancelActionIntent extends Intent {}
 class SelectPreviousItemIntent extends Intent {}
 class SelectNextItemIntent extends Intent {}
@@ -69,7 +74,10 @@ class ChangePriorityDownIntent extends Intent {}
 class ToggleCompletionIntent extends Intent {}
 class DeleteIntent extends Intent {}
 class MoveToTodayIntent extends Intent {}
+class ClearDueOnIntent extends Intent {}
 class ArchiveItemsIntent extends Intent {}
+class JumpToTopIntent extends Intent {}
+class JumpToBottomIntent extends Intent {}
 
 class EndEditIntent extends Intent {
   const EndEditIntent(this.itemControllers);

@@ -20,6 +20,9 @@ import '../actions/add_item_action.dart';
 import '../actions/cancel_search_and_edit_action.dart';
 import '../actions/change_priority_down_action.dart';
 import '../actions/change_priority_up_action.dart';
+import '../actions/clear_due_on_action.dart';
+import '../actions/jump_to_bottom_action.dart';
+import '../actions/jump_to_top_action.dart';
 import '../actions/move_to_today_action.dart';
 import '../actions/select_next_item_action.dart';
 import '../config/settings.dart';
@@ -41,12 +44,13 @@ class HomeScreen extends ConsumerWidget {
         searchShortcut: SearchIntent(),
         enterShortcut: StartEditIntent(),
         addShortcut: AddIntent(),
-        priorityUpShortcut: ChangePriorityUpIntent(),
-        priorityDownShortcut: ChangePriorityDownIntent(),
+        jumpUpShortcut: JumpToTopIntent(),
+        jumpDownShortcut: JumpToBottomIntent(),
         toggleCompletedShortcut: ToggleCompletionIntent(),
         deleteShortcut: DeleteIntent(),
         backspaceShortcut: DeleteIntent(),
         moveToTodayShortcut: MoveToTodayIntent(),
+        clearDueOnShortcut: ClearDueOnIntent(),
       },
       child: Actions(
         actions: {
@@ -58,12 +62,15 @@ class HomeScreen extends ConsumerWidget {
           AddIntent: AddItemAction(ref),
           ChangePriorityUpIntent: ChangePriorityUpAction(ref),
           ChangePriorityDownIntent: ChangePriorityDownAction(ref),
+          JumpToTopIntent: JumpToTopAction(ref),
+          JumpToBottomIntent: JumpToBottomAction(ref),
           ToggleCompletionIntent: ToggleCompletionAction(ref),
           DeleteIntent: DeleteItemAction(ref),
           MoveToTodayIntent: MoveToTodayAction(ref),
           DeleteTagIntent: DeleteTagAction(ref),
           EndEditIntent: EndEditAction(ref),
           ArchiveItemsIntent: ArchiveItemsAction(ref),
+          ClearDueOnIntent: ClearDueOnAction(ref),
         },
         child: Material(
           child: Focus(
