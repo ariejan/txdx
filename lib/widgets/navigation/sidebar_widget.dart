@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/items/contexts_provider.dart';
 import 'package:txdx/providers/items/item_count_provider.dart';
-import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/items/projects_provider.dart';
 
 import '../../config/filters.dart';
 import '../../config/icons.dart';
-import '../../providers/files/file_notifier_provider.dart';
 import '../../config/colors.dart';
 import 'menu_header_widget.dart';
 import 'menu_item_widget.dart';
@@ -21,16 +19,14 @@ class SidebarWidget extends ConsumerWidget {
     final contexts = ref.watch(contextsProvider);
     final projects = ref.watch(projectsProvider);
 
-    final archiveAvailable = ref.watch(archivingAvailableProvider);
-
     final badgeColor = Theme.of(context).highlightColor;
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 2,
+    return Column(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8, 12, 8, 0),
             child: SingleChildScrollView(
               controller: ScrollController(),
               child: Column(
@@ -115,28 +111,33 @@ class SidebarWidget extends ConsumerWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  if (archiveAvailable) MenuItemWidget(
-                    title: 'Archive completed',
-                    iconData: Icons.archive_outlined,
-                    onTap: () => ref.read(itemsNotifierProvider.notifier).archiveCompleted(),
-                    color: Theme.of(context).disabledColor,
-                  ),
-                  MenuItemWidget(
-                    onTap: () => Navigator.pushNamed(context, '/settings'),
-                    title: 'Settings',
-                    iconData: Icons.tune_sharp,
-                    color: Theme.of(context).disabledColor,
-                  ),
-                ]
-            ),
+        ),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.light
+                ? TxDxColors.lightBackground
+                : TxDxColors.darkEditShadow,
+            border: Border(
+              top: BorderSide(color: Theme.of(context).brightness == Brightness.light
+                  ? TxDxColors.lightEditBorder
+                  : TxDxColors.darkEditBorder,),
+            )
           ),
-        ],
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                MenuItemWidget(
+                  onTap: () => Navigator.pushNamed(context, '/settings'),
+                  title: 'Settings',
+                  iconData: Icons.tune_sharp,
+                  color: Theme.of(context).disabledColor,
+                ),
+              ]
+          ),
+        ),
+      ],
     );
   }
 }

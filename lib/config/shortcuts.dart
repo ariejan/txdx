@@ -69,6 +69,7 @@ class ChangePriorityDownIntent extends Intent {}
 class ToggleCompletionIntent extends Intent {}
 class DeleteIntent extends Intent {}
 class MoveToTodayIntent extends Intent {}
+class ArchiveItemsIntent extends Intent {}
 
 class EndEditIntent extends Intent {
   const EndEditIntent(this.itemControllers);

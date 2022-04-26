@@ -267,4 +267,15 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     }
   }
 
+  Future<void> archiveItems(List<String> ids) async {
+    final items = getItems().toList();
+    final completedItems = items.where((item) => ids.contains(item.id)).toList();
+
+    if (archiveFile != null) {
+      TxDxFile.appendToFile(archiveFile!, completedItems);
+      items.removeWhere((item) => ids.contains(item.id));
+      _setState(items);
+    }
+  }
+
 }

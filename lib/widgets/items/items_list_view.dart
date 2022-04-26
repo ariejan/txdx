@@ -9,7 +9,9 @@ import 'package:txdx/widgets/misc/search_widget.dart';
 
 import '../../config/colors.dart';
 import '../../config/filters.dart';
+import '../../config/shortcuts.dart';
 import '../../providers/files/file_change_provider.dart';
+import '../../providers/files/file_notifier_provider.dart';
 import '../misc/file_changed_widget.dart';
 import 'item_widget.dart';
 import '../navigation/menu_header_widget.dart';
@@ -78,6 +80,8 @@ class ItemsListView extends ConsumerWidget {
     final items = ref.watch(filteredItems);
     final isSearching = ref.watch(isSearchingProvider);
 
+    final archiveAvailable = ref.watch(archivingAvailableProvider);
+
     var countString = "No items";
     switch (items.length) {
       case 1:
@@ -99,6 +103,18 @@ class ItemsListView extends ConsumerWidget {
                 iconColor: _getIconColor(ref),
                 margin: const EdgeInsets.fromLTRB(0, 24, 0, 32),
                 actions: [
+                  if (archiveAvailable) IconButton(
+                    icon: Icon(Icons.archive_outlined, size: 20, color: Theme.of(context).disabledColor),
+                    onPressed: () {
+                      Actions.invoke(context, ArchiveItemsIntent());
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.add, size: 20, color: Theme.of(context).disabledColor),
+                    onPressed: () {
+                      Actions.invoke(context, AddIntent());
+                    },
+                  ),
                   PopupMenuButton(
                     padding: EdgeInsets.zero,
                     splashRadius: 14,

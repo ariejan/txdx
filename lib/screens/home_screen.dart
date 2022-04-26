@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/actions/archive_items_action.dart';
 import 'package:txdx/actions/delete_item_action.dart';
 import 'package:txdx/actions/delete_tag_action.dart';
 import 'package:txdx/actions/end_edit_action.dart';
@@ -62,6 +63,7 @@ class HomeScreen extends ConsumerWidget {
           MoveToTodayIntent: MoveToTodayAction(ref),
           DeleteTagIntent: DeleteTagAction(ref),
           EndEditIntent: EndEditAction(ref),
+          ArchiveItemsIntent: ArchiveItemsAction(ref),
         },
         child: Material(
           child: Focus(
