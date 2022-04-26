@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Added visual due data picker (typing due:date is still possible)
 - Improved visual style of contexts and projects
 - Revamped editing an item.
+- Updated shortcuts for item navigation and manipulation
 
 ## [1.0.14] - 2022-04-19
 ### Added
