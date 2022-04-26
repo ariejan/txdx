@@ -37,6 +37,10 @@ class HomeScreen extends ConsumerWidget {
     final txdxDir = ref.watch(fileSettingsProvider).getString(settingsTxDxDirectory);
     final hasTodoTxt = txdxDir?.isNotEmpty ?? false;
 
+    if (!hasTodoTxt) {
+      return NoTxDxDirectoryWidget();
+    }
+
     return Shortcuts(
       shortcuts: {
         arrowUpShortcut: SelectPreviousItemIntent(),
@@ -95,7 +99,7 @@ class HomeScreen extends ConsumerWidget {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: hasTodoTxt ? const ItemsListView() : const NoTxDxDirectoryWidget(),
+                      child: const ItemsListView(),
                     ),
                     // SizedBox(
                     //   child: AddItemWidget(),
