@@ -14,7 +14,7 @@ class ItemControllers {
   ItemControllers({
     required this.descriptionController,
     required this.notesController,
-    required this.dueOnController
+    required this.dueOnController,
   });
 
   final TextEditingController descriptionController;

@@ -106,7 +106,7 @@ class TxDxItem {
   }
 
   TxDxItem _markCompleted() {
-    return TxDxItem(
+    var newItem = TxDxItem(
       id: id,
       completed: true,
       description: description,
@@ -117,6 +117,12 @@ class TxDxItem {
       projects: projects,
       tags: tags,
     );
+
+    if (priority != null) {
+      newItem = newItem.addTags({'pri': priority!});
+    }
+
+    return newItem;
   }
 
   TxDxItem _markNotCompleted() {
@@ -163,7 +169,6 @@ class TxDxItem {
     if (tags.containsKey('due')) {
       return DateTime.tryParse(tags['due']!);
     }
-
     return null;
   }
 
@@ -172,7 +177,6 @@ class TxDxItem {
     if (other is TxDxItem) {
       return toString() == other.toString();
     }
-
     return false;
   }
 

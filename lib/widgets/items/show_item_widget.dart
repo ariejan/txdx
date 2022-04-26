@@ -47,6 +47,8 @@ class ShowItemWidget extends ConsumerWidget {
       bgColor = Theme.of(context).highlightColor;
     }
 
+    final isShowingMetadata = (item.projects.isNotEmpty || item.contexts.isNotEmpty || item.tagsWithoutDue.isNotEmpty);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
       child: Container(
@@ -188,7 +190,7 @@ class ShowItemWidget extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                            padding: EdgeInsets.fromLTRB(0, isShowingMetadata ? 2 : 0, 0, 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -221,7 +223,7 @@ class ShowItemWidget extends ConsumerWidget {
                               ],
                             ),
                           ),
-                          if (item.projects.isNotEmpty || item.contexts.isNotEmpty || item.tagsWithoutDue.isNotEmpty) Padding(
+                          if (!item.completed && isShowingMetadata) Padding(
                               padding: const EdgeInsets.fromLTRB(0, 2, 0, 4),
                               child: Wrap(
                                 alignment: WrapAlignment.start,
@@ -245,7 +247,7 @@ class ShowItemWidget extends ConsumerWidget {
                     ),
                   ),
                 ),
-                if (item.dueOn != null)
+                if (!item.completed && item.dueOn != null)
                   ItemDueOnWidget(item.dueOn!),
               ],
           ),

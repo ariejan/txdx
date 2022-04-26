@@ -5,6 +5,7 @@ import 'package:txdx/config/shortcuts.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
 import '../../config/colors.dart';
+import '../../providers/items/item_notifier_provider.dart';
 import 'deletable_tag.dart';
 import 'due_on_picker.dart';
 
@@ -90,7 +91,22 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TheCheckBox(item: item, fillColor: MaterialStateProperty.resolveWith(getColor)),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 0, 8, 0),
+                    child: Transform.scale(
+                      scale: 0.76,
+                      child: Checkbox(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                          fillColor: MaterialStateProperty.resolveWith(getColor),
+                          tristate: false,
+                          splashRadius: 0,
+                          value: item.completed,
+                          onChanged: (bool? value) {
+                            Actions.invoke(context, endEditIntent);
+                            ref.read(itemsNotifierProvider.notifier).toggleComplete(item.id);
+                          }),
+                    ),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,6 +155,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                     iconColor: TxDxColors.contexts,
                                   )
                               ).toList(),
+                              if (!item.completed)
                               ...item.tagsWithoutDue.keys.map((key) =>
                                   DeletableTag(
                                     item: item,
@@ -146,6 +163,14 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                     iconColor: TxDxColors.tags,
                                   )
                               ).toList(),
+                              if (item.completed)
+                                ...item.tags.keys.map((key) =>
+                                    DeletableTag(
+                                      item: item,
+                                      tag: '$key:${item.tags[key]}',
+                                      iconColor: TxDxColors.tags,
+                                    )
+                                ).toList(),
                             ],
                           ),
                         )
@@ -167,7 +192,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                       ],
                     ),
                   ),
-                  Padding(
+                  if (!item.completed) Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: DueOnPicker(item, _dueOnController, _descriptionFocusNode),
                   ),
@@ -207,37 +232,6 @@ class NotesField extends StatelessWidget {
       // controller: _textController,
       style: const TextStyle(
         fontSize: 14,
-      ),
-    );
-  }
-}
-
-
-class TheCheckBox extends StatelessWidget {
-  const TheCheckBox({
-    Key? key,
-    required this.item,
-    this.fillColor,
-  }) : super(key: key);
-
-  final TxDxItem item;
-  final MaterialStateProperty<Color?>? fillColor;
-
-  @override
-  Widget build(BuildContext context, ) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(4, 0, 8, 0),
-      child: Transform.scale(
-        scale: 0.76,
-        child: Checkbox(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            fillColor: fillColor,
-            tristate: false,
-            splashRadius: 0,
-            value: item.completed,
-            onChanged: (bool? value) {
-              // TODO
-            }),
       ),
     );
   }
