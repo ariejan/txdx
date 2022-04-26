@@ -199,17 +199,20 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                       ],
                     ),
                   ),
-                  if (!item.completed) Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                        child: DueOnPicker(item, _dueOnController, _descriptionFocusNode),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: PriorityPicker(item, _priorityContoller, _descriptionFocusNode),
-                      ),
-                    ],
+                  if (!item.completed) Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                          child: DueOnPicker(item, _dueOnController, _descriptionFocusNode),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: PriorityPicker(item, _priorityContoller, _descriptionFocusNode),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
             ),
