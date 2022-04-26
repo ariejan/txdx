@@ -118,11 +118,12 @@ class SidebarWidget extends ConsumerWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).brightness == Brightness.light
                 ? TxDxColors.lightBackground
-                : TxDxColors.darkEditShadow,
+                : TxDxColors.darkBackground,
             border: Border(
               top: BorderSide(color: Theme.of(context).brightness == Brightness.light
                   ? TxDxColors.lightEditBorder
-                  : TxDxColors.darkEditBorder,),
+                  : TxDxColors.darkEditBorder,
+              ),
             )
           ),
           child: Column(
