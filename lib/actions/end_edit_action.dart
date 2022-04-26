@@ -15,11 +15,13 @@ class ItemControllers {
     required this.descriptionController,
     required this.notesController,
     required this.dueOnController,
+    required this.priorityController,
   });
 
   final TextEditingController descriptionController;
   final TextEditingController notesController;
   final TextEditingController dueOnController;
+  final TextEditingController priorityController;
 }
 
 class EndEditAction extends Action<EndEditIntent> {
@@ -40,6 +42,8 @@ class EndEditAction extends Action<EndEditIntent> {
 
     final dueOnStr = intent.itemControllers.dueOnController.text;
     final descriptionStr = intent.itemControllers.descriptionController.text;
+    final priorityStr = intent.itemControllers.priorityController.text;
+    final priority = priorityStr.isNotEmpty ? priorityStr : null;
 
     // Do not save new empty description items
     if (theItem.isNew && descriptionStr.isEmpty) {
@@ -55,6 +59,7 @@ class EndEditAction extends Action<EndEditIntent> {
       priority: (parsedItem.priority?.isNotEmpty ?? false) ? Optional.of(parsedItem.priority!) : null,
       )
       .setDueOn(dueOnStr.isEmpty ? null : DateTime.tryParse(dueOnStr))
+      .setPriority(priority)
       .addContexts(parsedItem.contexts)
       .addProjects(parsedItem.projects)
       .addTags(parsedItem.tags);

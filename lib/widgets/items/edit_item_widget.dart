@@ -8,6 +8,7 @@ import '../../config/colors.dart';
 import '../../providers/items/item_notifier_provider.dart';
 import 'deletable_tag.dart';
 import 'due_on_picker.dart';
+import 'priority_picker.dart';
 
 class EditItemWidget extends ConsumerStatefulWidget {
 
@@ -27,6 +28,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
   final _notesController = TextEditingController();
 
   final _dueOnController = TextEditingController();
+  final _priorityContoller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
       descriptionController: _descriptionController,
       notesController: _notesController,
       dueOnController: _dueOnController,
+      priorityController: _priorityContoller,
     ));
 
     _descriptionFocusNode.requestFocus();
@@ -196,9 +199,17 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                       ],
                     ),
                   ),
-                  if (!item.completed) Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    child: DueOnPicker(item, _dueOnController, _descriptionFocusNode),
+                  if (!item.completed) Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                        child: DueOnPicker(item, _dueOnController, _descriptionFocusNode),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: PriorityPicker(item, _priorityContoller, _descriptionFocusNode),
+                      ),
+                    ],
                   ),
                 ],
             ),

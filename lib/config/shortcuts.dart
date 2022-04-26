@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:txdx/actions/end_edit_action.dart';
-import 'package:txdx/actions/set_priority_action.dart';
 
 final arrowDownShortcut = LogicalKeySet(
   LogicalKeyboardKey.arrowDown
