@@ -26,7 +26,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
       children: [
         const MenuHeaderWidget(
           'Interface settings',
-          margin: EdgeInsets.fromLTRB(0, 12, 0, 12),
+          margin: EdgeInsets.fromLTRB(8, 12, 9, 12),
         ),
         Table(
             children: [

@@ -15,7 +15,7 @@ class FileSettingsWidget extends ConsumerWidget {
       children: [
         const MenuHeaderWidget(
           'File settings',
-          margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+          margin: EdgeInsets.fromLTRB(8, 12, 9, 12),
         ),
         Table(children: [
           TableRow(children: [

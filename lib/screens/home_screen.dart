@@ -38,7 +38,7 @@ class HomeScreen extends ConsumerWidget {
     final hasTodoTxt = txdxDir?.isNotEmpty ?? false;
 
     if (!hasTodoTxt) {
-      return NoTxDxDirectoryWidget();
+      return const NoTxDxDirectoryWidget();
     }
 
     return Shortcuts(
@@ -89,21 +89,15 @@ class HomeScreen extends ConsumerWidget {
             autofocus: true,
             child: SplitView(
               sidebarWidth: 220,
-              editorWidth: 0,
-              showEditor: false,
               sidebar: const SidebarWidget(),
-              editor: Container(),
               content: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                 child: Column(
-                  children: [
+                  children: const [
                     Expanded(
                       flex: 2,
-                      child: const ItemsListView(),
+                      child: ItemsListView(),
                     ),
-                    // SizedBox(
-                    //   child: AddItemWidget(),
-                    // ),
                   ],
                 ),
               )

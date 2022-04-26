@@ -27,7 +27,7 @@ Copyright © 2022 Ariejan de Vroom
       children: [
         const MenuHeaderWidget(
           'About',
-          margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+          margin: EdgeInsets.fromLTRB(8, 12, 9, 12),
         ),
 
         Padding(
