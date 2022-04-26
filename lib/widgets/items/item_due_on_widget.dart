@@ -12,60 +12,72 @@ class ItemDueOnWidget extends ConsumerWidget {
 
   const ItemDueOnWidget(this.dueOn, {Key? key}) : super(key: key);
 
-  Color _getBackgroundColor(BuildContext context, DateTime dueOn) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-
-    if (dueOn == today) {
+  Color? _getBackgroundColor(BuildContext context, DateTime now, DateTime dueOn) {
+    if (dueOn.isBefore(now) || dueOn == now) {
       return TxDxColors.dueOnToday;
-    } else if (dueOn.isBefore(today)) {
-      return TxDxColors.dueOnOverdue;
     } else {
-      return TxDxColors.dueOn;
+      return Theme.of(context).disabledColor;
     }
   }
 
-  Widget _justText(String text, Color color) {
+  Widget _justText(BuildContext context, String text, Color? color) {
     return Tooltip(
       message: DateFormat.yMMMd().format(dueOn),
       preferBelow: false,
       child: Text(
           text,
           style: TextStyle(
-            fontSize: 12,
             color: color,
+            fontSize: 12,
           )
       ),
     );
   }
 
-  Widget _renderDueOn(BuildContext context, DateTime now, Color color) {
-    final today = DateTime(now.year, now.month, now.day);
-    final tomorrow = DateTime(now.year, now.month, now.day + 1);
-    final yesterday = DateTime(now.year, now.month, now.day - 1);
+  int _daysAhead(DateTime now, DateTime dueOn) {
+    final difference = dueOn.difference(now);
+    return difference.inDays;
+  }
 
-    if (dueOn == today) {
-      return _justText('today', color);
-    } else if (dueOn == tomorrow) {
-      return _justText('tomorrow', color);
-    } else if (dueOn == yesterday) {
-      return _justText('yesterday', color);
-    } else {
-      final _formatter = RelativeDateFormat(
-        Localizations.localeOf(context)
-      );
-      final _relDateTime = RelativeDateTime(
-        dateTime: today,
-        other: dueOn,
-      );
-      return _justText(_formatter.format(_relDateTime), color);
+  Widget _renderDueOn(BuildContext context, DateTime now, Color? color) {
+    final daysAhead = _daysAhead(now, dueOn);
+
+    switch (daysAhead) {
+      case -1:
+        return _justText(context, 'Yesterday', color);
+      case 0:
+        return _justText(context, 'Today', color);
+      case 1:
+        return _justText(context, 'Tomorrow', color);
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+        final formatter = DateFormat(DateFormat.WEEKDAY);
+        return _justText(context, formatter.format(dueOn), color);
+      default:
+        if (daysAhead > 0) {
+          final _formatter = RelativeDateFormat(
+              Localizations.localeOf(context)
+          );
+          final _relDateTime = RelativeDateTime(
+            dateTime: now,
+            other: dueOn,
+          );
+          return _justText(context, _formatter.format(_relDateTime), color);
+        } else {
+          return _justText(context, "Overdue", color);
+        }
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final datetime = ref.watch(timeProvider);
-    final fgColor = _getBackgroundColor(context, dueOn);
+    final theTime = ref.watch(timeProvider);
+    final now = DateTime(theTime.year, theTime.month, theTime.day);
+
+    final fgColor = _getBackgroundColor(context, now, dueOn);
 
     return Container(
       padding: const EdgeInsets.fromLTRB(2, 3, 2, 3),
@@ -73,7 +85,13 @@ class ItemDueOnWidget extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
       ),
-      child: _renderDueOn(context, datetime, fgColor)
+      child: Row(
+        children: [
+          Icon(Icons.flag_sharp, size: 12, color: fgColor),
+          const SizedBox(width: 4),
+          _renderDueOn(context, now, fgColor),
+        ],
+      )
     );
   }
 }

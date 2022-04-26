@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../utils/focus.dart';
 import '../../providers/items/scoped_item_notifier.dart';
@@ -24,26 +23,26 @@ class SearchWidget extends ConsumerWidget {
         children: [
           Expanded(
             child: TextField(
+              style: const TextStyle(
+                fontSize: 14,
+              ),
               focusNode: searchFocusNode,
               controller: textController,
               onChanged: (value) {
                 ref.read(searchTextProvider.state).state = value;
               },
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search_sharp),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear_sharp),
+                  onPressed: () => textController.clear(),
+                ),
+                border: const OutlineInputBorder(),
                 isDense: true,
+                hintText: "Use The Search, Luke!"
               ),
             ),
           ),
-          IconButton(
-            icon: const FaIcon(FontAwesomeIcons.xmark),
-            splashRadius: 1,
-            onPressed: () {
-              ref.read(isSearchingProvider.state).state = false;
-              ref.read(searchTextProvider.state).state = '';
-              shortcutsFocusNode.requestFocus();
-            },
-          )
         ]
       ),
     );

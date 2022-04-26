@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
 
-final shortcutsFocusNode = FocusNode();
-final addNewFocusNode = FocusNode();
+final appFocusNode = FocusNode();
 final searchFocusNode = FocusNode();

@@ -1,8 +1,6 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 
-import '../../config/colors.dart';
-
 const double _kMinTileHeight = 24;
 
 /// The actual [ContextMenu] to be displayed
@@ -85,9 +83,7 @@ class _ContextMenuState extends State<ContextMenu> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Material(
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? TxDxColors.darkContextBackgroundColor
-                  : TxDxColors.lightContextBackgroundColor,
+              color: Theme.of(context).bottomAppBarColor,
               child: ListView(
                 primary: false,
                 shrinkWrap: true,
@@ -102,8 +98,7 @@ class _ContextMenuState extends State<ContextMenu> {
                       });
                     },
                   ),
-                )
-                    .toList(),
+                ).toList(),
               ),
             ),
           ),

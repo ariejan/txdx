@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:txdx/config/colors.dart';
 
 class ContextMenuItem extends StatelessWidget
 {
@@ -16,9 +15,7 @@ class ContextMenuItem extends StatelessWidget
       onTap: onTap,
       dense: true,
       leading: leading,
-      hoverColor: Theme.of(context).brightness == Brightness.dark
-          ? TxDxColors.darkContextHoverColor
-          : TxDxColors.lightContextHoverColor,
+      hoverColor: Theme.of(context).hoverColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),

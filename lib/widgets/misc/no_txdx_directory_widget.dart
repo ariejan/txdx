@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/utils/file_picker_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -61,7 +60,7 @@ class NoTxDxDirectoryWidget extends ConsumerWidget {
                         children: const [
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            child: FaIcon(FontAwesomeIcons.folderOpen, size: 16),
+                            child: Icon(Icons.folder_sharp, size: 16),
                           ),
                           Text(
                             'Select TxDx folder',

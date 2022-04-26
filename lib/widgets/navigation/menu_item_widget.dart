@@ -8,7 +8,7 @@ import '../../config/colors.dart';
 class MenuItemWidget extends ConsumerWidget {
   const MenuItemWidget({
     Key? key,
-    this.icon,
+    this.iconData,
     this.indicatorColor,
     required this.title,
     this.itemFilterValue,
@@ -19,7 +19,7 @@ class MenuItemWidget extends ConsumerWidget {
     this.badgeColor,
   }) : super(key: key);
 
-  final Widget? icon;
+  final IconData? iconData;
   final Color? indicatorColor;
   final Color? color;
   final String title;
@@ -46,60 +46,71 @@ class MenuItemWidget extends ConsumerWidget {
       return ref.watch(itemFilter.state).state == itemFilterValue;
     }
 
-    var bgColor = Colors.transparent;
+    return Container(
+      decoration: BoxDecoration(
+        color: highlighted() ? Theme.of(context).highlightColor : Theme.of(context).canvasColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
 
-    switch(Theme.of(context).brightness) {
-      case Brightness.dark:
-        bgColor = TxDxColors.darkSelection;
-        break;
-      case Brightness.light:
-        bgColor = TxDxColors.lightSelection;
-        break;
-    }
-
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: _onTap,
-        child: Container(
-          color: highlighted() ? bgColor : Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(6, 3, 6, 3),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: icon ?? Container(
-                    width: 16,
-                    height: 16,
-                    color: indicatorColor ?? Colors.blue,
-                  )
-                  ,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: color,
-                      ),
-                    ),
-                  ),
-                ),
-                if (badgeCount != null && badgeCount! > 0)
-                  PillWidget(
-                    "$badgeCount",
-                    fontSize: 12,
-                    backgroundColor: badgeColor ?? TxDxColors.prioDefault,
-                ),
-              ]
-            ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        child: GestureDetector(
+          onTap: _onTap,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildIcon(context),
+              const SizedBox(width: 6),
+              buildTitle(),
+              buildBadge(context),
+            ]
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildTitle() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 1),
+        child: SizedBox(
+            height: 18,
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 14,
+                color: color,
+              ),
+            ),
+          ),
+      ),
+    );
+  }
+
+  Widget buildIcon(BuildContext context) {
+    return Icon(
+      iconData ??  Icons.circle,
+      color: (indicatorColor ?? color) ?? Theme.of(context).textTheme.bodyText1?.color,
+      size: 20
+    );
+  }
+
+  Widget buildBadge(BuildContext context) {
+    return SizedBox(
+      width: 40,
+      child: (badgeCount == null || badgeCount! <= 0)
+        ? Container()
+        : SizedBox(
+          child: PillWidget(
+            "$badgeCount",
+            fontSize: 11,
+            backgroundColor: badgeColor ?? TxDxColors.prioDefault,
+            color: Theme.of(context).textTheme.bodyText1?.color,
+          ),
+        ),
     );
   }
 }

@@ -101,6 +101,17 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     return null;
   }
 
+  String? addItem(TxDxItem theItem) {
+    final items = getItems();
+    final theItems = [
+      ...items,
+      theItem,
+    ];
+    _setState(theItems);
+
+    return theItem.id;
+  }
+
   void deleteItem(String id) {
     final items = getItems().toList();
     final itemIdx = items.indexWhere((item) => item.id == id);
@@ -214,4 +225,57 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
       items.replaceRange(itemIdx, itemIdx + 1, [theItem.setPriority(priority)]);
       _setState(items);
     }
-  }}
+  }
+
+  Future<void> setDueOn(String id, DateTime? dueOn) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.setDueOn(dueOn)]);
+      _setState(items);
+    }
+  }
+
+  Future<void> removeContext(String id, String context) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.removeContext(context)]);
+      _setState(items);
+    }
+  }
+
+  Future<void> removeProject(String id, String project) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.removeProject(project)]);
+      _setState(items);
+    }
+  }
+
+  Future<void> removeTagName(String id, String tagName) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx);
+      items.replaceRange(itemIdx, itemIdx + 1, [theItem.removeTagName(tagName)]);
+      _setState(items);
+    }
+  }
+
+  Future<void> archiveItems(List<String> ids) async {
+    final items = getItems().toList();
+    final completedItems = items.where((item) => ids.contains(item.id)).toList();
+
+    if (archiveFile != null) {
+      TxDxFile.appendToFile(archiveFile!, completedItems);
+      items.removeWhere((item) => ids.contains(item.id));
+      _setState(items);
+    }
+  }
+
+}

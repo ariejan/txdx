@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../config/settings.dart';
 import '../../providers/settings/settings_provider.dart';
@@ -47,8 +46,9 @@ class FileSettingsWidget extends ConsumerWidget {
                           false)
                         TextButton(
                           child: Row(children: const [
-                            FaIcon(FontAwesomeIcons.xmark, size: 12),
-                            Text(' Clear'),
+                            Icon(Icons.clear),
+                            SizedBox(width: 12),
+                            Text('Clear'),
                           ]),
                           onPressed: () {
                             ref
@@ -59,7 +59,12 @@ class FileSettingsWidget extends ConsumerWidget {
                           },
                         ),
                       TextButton(
-                        child: const Text('📂 Select directory'),
+                        style: TextButton.styleFrom(primary: Theme.of(context).primaryColor),
+                        child: Row(children: const [
+                          Icon(Icons.folder_sharp),
+                          SizedBox(width: 12),
+                          Text('Select folder'),
+                          ]),
                         onPressed: () => pickTxDxDirectory(ref),
                       ),
                     ],

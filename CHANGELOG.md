@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+### Changed
+- Complete overhaul of design and user experience
+- Archiving now only archives completed items in the current view
+- Added visual due data picker (typing due:date is still possible)
+- Improved visual style of contexts and projects
+- Revamped editing an item.
+
 ## [1.0.14] - 2022-04-19
 ### Added
 - Default filter can now also be a context or project. [#86]

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
 
 import '../../config/settings.dart';
@@ -46,10 +45,9 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               DropdownButtonHideUnderline(
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getString(settingsThemeBrightness),
-                                  buttonHeight: 28,
-                                  buttonPadding: const EdgeInsets.all(0),
-                                  buttonWidth: 180,
+                                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                                   itemHeight: 28,
+                                  buttonHeight: 28,
                                   onChanged: (value) {
                                     ref.read(interfaceSettingsProvider).setString(settingsThemeBrightness, value as String);
                                   },
@@ -66,10 +64,15 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                       .map((key) =>
                                       DropdownMenuItem<String>(
                                         value: key,
-                                        child: Text(
-                                          settingsThemeBrightnessOptions[key]!,
-                                          style: const TextStyle(
-                                            fontSize: 14,
+                                        child: SizedBox(
+                                          width: 140,
+                                          child: Text(
+                                            settingsThemeBrightnessOptions[key]!,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
                                       )).toList(),
@@ -95,10 +98,9 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               DropdownButtonHideUnderline(
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getString(settingsDefaultFilter),
-                                  buttonHeight: 28,
-                                  buttonPadding: const EdgeInsets.all(0),
-                                  buttonWidth: 180,
+                                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                                   itemHeight: 28,
+                                  buttonHeight: 28,
                                   onChanged: (value) {
                                     ref.read(interfaceSettingsProvider).setString(settingsDefaultFilter, value as String);
                                   },
@@ -115,10 +117,15 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                       .map((key) =>
                                       DropdownMenuItem<String>(
                                         value: key,
-                                        child: Text(
-                                          filterOptions[key]!,
-                                          style: const TextStyle(
-                                            fontSize: 14,
+                                        child: SizedBox(
+                                          width: 140,
+                                          child: Text(
+                                            filterOptions[key]!,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
                                       )).toList(),
@@ -144,15 +151,16 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               DropdownButtonHideUnderline(
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getString(settingsFilterMacosBadgeCount),
-                                  buttonHeight: 28,
-                                  buttonPadding: const EdgeInsets.all(0),
-                                  buttonWidth: 180,
+                                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                                   itemHeight: 28,
+                                  buttonHeight: 28,
                                   onChanged: (value) {
                                     ref.read(interfaceSettingsProvider).setString(settingsFilterMacosBadgeCount, value as String);
                                   },
                                   hint: Text(
                                     'Select Item',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Theme
@@ -164,10 +172,15 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                       .map((key) =>
                                       DropdownMenuItem<String>(
                                         value: key,
-                                        child: Text(
-                                          filterOptions[key]!,
-                                          style: const TextStyle(
-                                            fontSize: 14,
+                                        child: SizedBox(
+                                          width: 140,
+                                          child: Text(
+                                            filterOptions[key]!,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
                                       )).toList(),
@@ -216,7 +229,8 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               IconButton(
-                                icon: const FaIcon(FontAwesomeIcons.minus, size: 10),
+                                splashRadius: 10,
+                                icon: const Icon(Icons.remove_sharp, size: 12),
                                 onPressed: () {
                                   _updateSettingsNextUpDays(-1, ref);
                                 },
@@ -224,7 +238,8 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               Text(ref.watch(interfaceSettingsProvider).getInt(settingsUpcomingDays).toString(),
                               ),
                               IconButton(
-                                icon: const FaIcon(FontAwesomeIcons.plus, size: 10),
+                                splashRadius: 10,
+                                icon: const Icon(Icons.add_sharp, size: 12),
                                 onPressed: () {
                                   _updateSettingsNextUpDays(1, ref);
                                 },
@@ -249,10 +264,10 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                               DropdownButtonHideUnderline(
                                 child: DropdownButton2(
                                   value: ref.watch(interfaceSettingsProvider).getItemStateSorter(settingsDefaultSorting),
-                                  buttonHeight: 28,
-                                  buttonPadding: const EdgeInsets.all(0),
+                                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                                   buttonWidth: 180,
                                   itemHeight: 28,
+                                  buttonHeight: 28,
                                   onChanged: (value) {
                                     ref.read(interfaceSettingsProvider).setItemStateSorter(settingsDefaultSorting, value as ItemStateSorter);
                                   },

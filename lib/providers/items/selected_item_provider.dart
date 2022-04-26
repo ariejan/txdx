@@ -7,6 +7,8 @@ final editingItemIdStateProvider = StateProvider<String?>((ref) {
   return null;
 });
 
+final isEditingProvider = Provider<bool>((ref) => ref.watch(editingItemIdStateProvider) != null);
+
 final selectedItemIdStateProvider = StateProvider<String?>((ref) {
   return null;
 });

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/config/colors.dart';
 
@@ -13,9 +12,9 @@ class FileChangedWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialBanner(
       content: const Text('Your todo.txt file has changed on disk.'),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       backgroundColor: TxDxColors.banner,
-      leading: const FaIcon(FontAwesomeIcons.circleExclamation),
+      leading: const Icon(Icons.announcement_sharp),
       actions: [
         TextButton(
           child: const Text('RELOAD'),

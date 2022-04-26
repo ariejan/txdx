@@ -19,6 +19,7 @@ class TxDxItem {
   final Iterable<String> contexts;
   final Iterable<String> projects;
   final Map<String, String> tags;
+  final bool isNew;
 
   TxDxItem({
     required this.id,
@@ -27,10 +28,15 @@ class TxDxItem {
     this.priority,
     this.createdOn,
     this.completedOn,
+    this.isNew = false,
     this.contexts = const <String>[],
     this.projects = const <String>[],
     this.tags = const <String, String>{},
   });
+
+  static TxDxItem newFromText(String text) {
+    return fromText(text).copyWith(isNew: true);
+  }
 
   static TxDxItem fromText(String text) {
     return fromTextWithId(_uuid.v4(), text);
@@ -56,6 +62,7 @@ class TxDxItem {
     Optional<String>? priority,
     DateTime? createdOn,
     DateTime? completedOn,
+    bool? isNew,
     Iterable<String>? contexts,
     Iterable<String>? projects,
     Map<String, String>? tags,
@@ -67,6 +74,7 @@ class TxDxItem {
       priority: priority != null ? priority.orNull : this.priority,
       createdOn: createdOn ?? this.createdOn,
       completedOn: completedOn ?? this.completedOn,
+      isNew: isNew ?? this.isNew,
       contexts: contexts ?? this.contexts,
       projects: projects ?? this.projects,
       tags: tags ?? this.tags,
@@ -98,7 +106,7 @@ class TxDxItem {
   }
 
   TxDxItem _markCompleted() {
-    return TxDxItem(
+    var newItem = TxDxItem(
       id: id,
       completed: true,
       description: description,
@@ -109,6 +117,12 @@ class TxDxItem {
       projects: projects,
       tags: tags,
     );
+
+    if (priority != null) {
+      newItem = newItem.addTags({'pri': priority!});
+    }
+
+    return newItem;
   }
 
   TxDxItem _markNotCompleted() {
@@ -155,7 +169,6 @@ class TxDxItem {
     if (tags.containsKey('due')) {
       return DateTime.tryParse(tags['due']!);
     }
-
     return null;
   }
 
@@ -164,7 +177,6 @@ class TxDxItem {
     if (other is TxDxItem) {
       return toString() == other.toString();
     }
-
     return false;
   }
 
@@ -186,5 +198,59 @@ class TxDxItem {
     return copyWith(
       priority: Optional.fromNullable(priority),
     );
+  }
+
+  bool hasSetPriority() {
+    return priority?.isNotEmpty ?? false;
+  }
+
+  TxDxItem setDueOn(DateTime? dueOn) {
+    var newTags = Map<String, String>.from(tags);
+
+    if (dueOn == null) {
+      if (newTags.keys.contains('due')) {
+        newTags.remove('due');
+      }
+    } else {
+      newTags['due'] = Jiffy(dueOn).format('yyyy-MM-dd');
+    }
+
+    return copyWith(tags: newTags);
+  }
+
+  TxDxItem removeContext(String context) {
+    var newContexts = List<String>.from(contexts);
+    newContexts.remove(context);
+    return copyWith(contexts: newContexts.toSet().toList());
+  }
+
+  TxDxItem addContexts(Iterable<String> addedContexts) {
+    var newContexts = List<String>.from(contexts);
+    newContexts.addAll(addedContexts);
+    return copyWith(contexts: newContexts.toSet().toList());
+  }
+
+  TxDxItem removeProject(String project) {
+    var newProjects = List<String>.from(projects);
+    newProjects.remove(project);
+    return copyWith(projects: newProjects.toSet().toList());
+  }
+
+  TxDxItem addProjects(Iterable<String> addedProjects) {
+    var newProjects = List<String>.from(projects);
+    newProjects.addAll(addedProjects);
+    return copyWith(projects: newProjects.toSet().toList());
+  }
+
+  TxDxItem addTags(Map<String, String> addedTags) {
+    var newTags = Map<String, String>.from(tags);
+    addedTags.forEach((key, value) => newTags[key] = value);
+    return copyWith(tags: newTags);
+  }
+
+  TxDxItem removeTagName(String tagName) {
+    var newTags = Map<String, String>.from(tags);
+    newTags.remove(tagName);
+    return copyWith(tags: newTags);
   }
 }
