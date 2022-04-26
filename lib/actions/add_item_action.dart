@@ -19,8 +19,9 @@ class AddItemAction extends Action<AddIntent> with ItemListManager {
   Object? invoke(AddIntent intent) {
     // Set defaults
     final filter = ref.read(itemFilter);
-    var defaultText = 'New item';
-    if (filter != null && filter.isEmpty) {
+    var defaultText = '';
+
+    if (filter != null && filter.isNotEmpty) {
       if (filter == filterToday) {
         defaultText += ' due:today';
       }

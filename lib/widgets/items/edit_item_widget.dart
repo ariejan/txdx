@@ -39,10 +39,14 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
     ));
 
     _descriptionFocusNode.requestFocus();
-    _descriptionController.value = TextEditingValue(
-      text: item.description,
-      selection: TextSelection.collapsed(offset: item.description.length),
-    );
+    if (item.description.isNotEmpty) {
+      _descriptionController.value = TextEditingValue(
+        text: item.description,
+        selection: TextSelection.collapsed(offset: item.description.length),
+      );
+    } else {
+      _descriptionController.text = item.description;
+    }
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{

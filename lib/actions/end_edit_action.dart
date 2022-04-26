@@ -41,6 +41,13 @@ class EndEditAction extends Action<EndEditIntent> {
     final dueOnStr = intent.itemControllers.dueOnController.text;
     final descriptionStr = intent.itemControllers.descriptionController.text;
 
+    // Do not save new empty description items
+    if (theItem.isNew && descriptionStr.isEmpty) {
+      ref.read(itemsNotifierProvider.notifier).deleteItem(theItem.id);
+      ref.read(editingItemIdStateProvider.state).state = null;
+      return null;
+    }
+
     final parsedItem = TxDxItem.fromText(descriptionStr);
 
     final newItem = theItem.copyWith(
