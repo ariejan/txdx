@@ -6,6 +6,7 @@ import 'package:txdx/actions/delete_item_action.dart';
 import 'package:txdx/actions/delete_tag_action.dart';
 import 'package:txdx/actions/end_edit_action.dart';
 import 'package:txdx/actions/select_previous_item_action.dart';
+import 'package:txdx/actions/set_priority_action.dart';
 import 'package:txdx/actions/start_edit_action.dart';
 import 'package:txdx/actions/start_search_action.dart';
 import 'package:txdx/actions/toggle_completion_action.dart';
@@ -51,6 +52,11 @@ class HomeScreen extends ConsumerWidget {
         backspaceShortcut: DeleteIntent(),
         moveToTodayShortcut: MoveToTodayIntent(),
         clearDueOnShortcut: ClearDueOnIntent(),
+        setPriorityAShortcut: const SetPriorityIntent('A'),
+        setPriorityBShortcut: const SetPriorityIntent('B'),
+        setPriorityCShortcut: const SetPriorityIntent('C'),
+        setPriorityDShortcut: const SetPriorityIntent('D'),
+        setPriorityXShortcut: const SetPriorityIntent(null),
       },
       child: Actions(
         actions: {
@@ -71,6 +77,7 @@ class HomeScreen extends ConsumerWidget {
           EndEditIntent: EndEditAction(ref),
           ArchiveItemsIntent: ArchiveItemsAction(ref),
           ClearDueOnIntent: ClearDueOnAction(ref),
+          SetPriorityIntent: SetPriorityAction(ref),
         },
         child: Material(
           child: Focus(
