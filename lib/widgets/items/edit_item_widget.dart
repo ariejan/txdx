@@ -28,7 +28,45 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
   final _notesController = TextEditingController();
 
   final _dueOnController = TextEditingController();
-  final _priorityContoller = TextEditingController();
+  final _priorityController = TextEditingController();
+  final _tagsController = TextEditingController();
+
+  final _deletedTags = <String>[];
+  String? _editedDescription;
+
+  void _setTagsControllerTextFromItem(TxDxItem item) {
+    final tags = <String>[];
+
+    tags.addAll(item.projects);
+    tags.addAll(item.contexts);
+    item.tagsWithoutDue.forEach((k,v) => tags.add('$k:$v}'));
+
+    tags.removeWhere((e) => _deletedTags.contains(e));
+
+    _tagsController.text = tags.join(" ");
+  }
+
+  void _removeTagFromTagsControllerText(String tag) {
+    var tags = _tagsController.text.split(" ");
+    tags.remove(tag);
+    _tagsController.text = tags.join(" ");
+
+    setState(() => _deletedTags.add(tag));
+    _descriptionFocusNode.requestFocus();
+  }
+
+  void _restoreTagToTagsControllerText(String tag) {
+    var tags = _tagsController.text.split(" ");
+    tags.add(tag);
+    _tagsController.text = tags.join(" ");
+
+    setState(() => _deletedTags.remove(tag));
+    _descriptionFocusNode.requestFocus();
+  }
+
+  void _setDescription(String value) {
+    _editedDescription = value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +76,20 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
       descriptionController: _descriptionController,
       notesController: _notesController,
       dueOnController: _dueOnController,
-      priorityController: _priorityContoller,
+      priorityController: _priorityController,
+      tagsController: _tagsController,
     ));
 
     _descriptionFocusNode.requestFocus();
-    if (item.description.isNotEmpty) {
-      _descriptionController.value = TextEditingValue(
-        text: item.description,
-        selection: TextSelection.collapsed(offset: item.description.length),
-      );
-    } else {
-      _descriptionController.text = item.description;
-    }
+
+    _editedDescription ??= item.description;
+
+    _descriptionController.value = TextEditingValue(
+      text: _editedDescription!,
+      selection: TextSelection.collapsed(offset: _editedDescription!.length),
+    );
+
+    _setTagsControllerTextFromItem(item);
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -129,6 +169,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                   child: TextField(
                                     focusNode: _descriptionFocusNode,
                                     controller: _descriptionController,
+                                    onChanged: (value) => _setDescription(value),
                                     decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(vertical: 11),
                                     ),
@@ -138,7 +179,6 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -153,6 +193,9 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                     item: item,
                                     tag: project,
                                     iconColor: TxDxColors.projects,
+                                    onDelete: (value) => _removeTagFromTagsControllerText(value),
+                                    onUndelete: (value) => _restoreTagToTagsControllerText(value),
+                                    deletedTags: _deletedTags,
                                   )
                               ).toList(),
                               ...item.contexts.map((context) =>
@@ -160,6 +203,9 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                     item: item,
                                     tag: context,
                                     iconColor: TxDxColors.contexts,
+                                    onDelete: (value) => _removeTagFromTagsControllerText(value),
+                                    onUndelete: (value) => _restoreTagToTagsControllerText(value),
+                                    deletedTags: _deletedTags,
                                   )
                               ).toList(),
                               if (!item.completed)
@@ -168,6 +214,9 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                     item: item,
                                     tag: '$key:${item.tags[key]}',
                                     iconColor: TxDxColors.tags,
+                                    onDelete: (value) => _removeTagFromTagsControllerText(value),
+                                    onUndelete: (value) => _restoreTagToTagsControllerText(value),
+                                    deletedTags: _deletedTags,
                                   )
                               ).toList(),
                               if (item.completed)
@@ -176,6 +225,9 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                                       item: item,
                                       tag: '$key:${item.tags[key]}',
                                       iconColor: TxDxColors.tags,
+                                      onDelete: (value) => _removeTagFromTagsControllerText(value),
+                                      onUndelete: (value) => _restoreTagToTagsControllerText(value),
+                                      deletedTags: _deletedTags,
                                     )
                                 ).toList(),
                             ],
@@ -209,7 +261,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: PriorityPicker(item, _priorityContoller, _descriptionFocusNode),
+                          child: PriorityPicker(item, _priorityController, _descriptionFocusNode),
                         ),
                       ],
                     ),

@@ -16,12 +16,14 @@ class ItemControllers {
     required this.notesController,
     required this.dueOnController,
     required this.priorityController,
+    required this.tagsController,
   });
 
   final TextEditingController descriptionController;
   final TextEditingController notesController;
   final TextEditingController dueOnController;
   final TextEditingController priorityController;
+  final TextEditingController tagsController;
 }
 
 class EndEditAction extends Action<EndEditIntent> {
@@ -45,6 +47,18 @@ class EndEditAction extends Action<EndEditIntent> {
     final priorityStr = intent.itemControllers.priorityController.text;
     final priority = priorityStr.isNotEmpty ? priorityStr : null;
 
+    final tagStr = intent.itemControllers.tagsController.text;
+    final allTags = tagStr.split(" ");
+    allTags.removeWhere((e) => e.trim().isEmpty);
+
+    final projects = allTags.where((e) => e.substring(0, 1) == '+');
+    final contexts = allTags.where((e) => e.substring(0, 1) == '@');
+    final tags = <String, String>{};
+    allTags.where((e) => !projects.contains(e) && !contexts.contains(e)).forEach((e) {
+      final kv = e.split(":");
+      tags[kv[0]] = kv[1];
+    });
+
     // Do not save new empty description items
     if (theItem.isNew && descriptionStr.isEmpty) {
       ref.read(itemsNotifierProvider.notifier).deleteItem(theItem.id);
@@ -55,8 +69,11 @@ class EndEditAction extends Action<EndEditIntent> {
     final parsedItem = TxDxItem.fromText(descriptionStr);
 
     final newItem = theItem.copyWith(
-      description: parsedItem.description,
-      priority: (parsedItem.priority?.isNotEmpty ?? false) ? Optional.of(parsedItem.priority!) : null,
+        description: parsedItem.description,
+        priority: (parsedItem.priority?.isNotEmpty ?? false) ? Optional.of(parsedItem.priority!) : null,
+        projects: projects,
+        contexts: contexts,
+        tags: tags,
       )
       .setDueOn(dueOnStr.isEmpty ? null : DateTime.tryParse(dueOnStr))
       .setPriority(priority)
