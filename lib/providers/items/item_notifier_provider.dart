@@ -199,9 +199,19 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     final completedItems = items.where((item) => item.completed).toList();
 
     if (archiveFile != null) {
-      TxDxFile.appendToFile(archiveFile!, completedItems);
-
+      completedItems.forEach((item) => ref.read(archiveItemsProvider.notifier).addItem(item));
       items.removeWhere((item) => item.completed);
+      _setState(items);
+    }
+  }
+
+  Future<void> unarchive(String id) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx).toggleComplete();
+      ref.read(todoItemsProvider.notifier).addItem(theItem);
+      items.removeAt(itemIdx);
       _setState(items);
     }
   }

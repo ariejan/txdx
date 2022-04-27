@@ -37,7 +37,7 @@ class ArchiveListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(archiveFileWasChanged);
-    final items = ref.watch(archiveItemsProvider);
+    final items = ref.watch(archivedItems);
     final isSearching = ref.watch(isSearchingProvider);
 
     var countString = "No items";
