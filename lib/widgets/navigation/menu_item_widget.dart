@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/utils/focus.dart';
 import 'package:txdx/widgets/misc/pill_widget.dart';
 
 import '../../providers/items/scoped_item_notifier.dart';
@@ -39,6 +40,9 @@ class MenuItemWidget extends ConsumerWidget {
         onTap!.call();
       } else {
         ref.read(itemFilter.state).state = itemFilterValue;
+        ref.read(searchTextProvider.state).state = null;
+        ref.read(isSearchingProvider.state).state = false;
+        appFocusNode.requestFocus();
       }
     }
 
