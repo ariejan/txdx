@@ -76,7 +76,7 @@ class ItemsListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final hasFileChanges = ref.watch(fileWasChanged);
+    final hasFileChanges = ref.watch(todoFileWasChanged);
     final items = ref.watch(filteredItems);
     final isSearching = ref.watch(isSearchingProvider);
 

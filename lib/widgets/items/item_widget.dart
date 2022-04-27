@@ -7,16 +7,24 @@ import 'package:txdx/widgets/items/show_item_widget.dart';
 import '../../txdx/txdx_item.dart';
 
 class ItemWidget extends ConsumerWidget {
-  const ItemWidget(this.item, {Key? key})
-      : super(key: key);
+  const ItemWidget(
+      this.item, {
+        this.archiveView = false,
+        Key? key
+      }) : super(key: key);
 
   final TxDxItem item;
+  final bool archiveView;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final editingItemId = ref.watch(editingItemIdStateProvider);
-    final isEditing = editingItemId != null && editingItemId == item.id;
+    if (!archiveView) {
+      final editingItemId = ref.watch(editingItemIdStateProvider);
+      final isEditing = editingItemId != null && editingItemId == item.id;
 
-    return isEditing ? EditItemWidget(item) : ShowItemWidget(item);
+      return isEditing ? EditItemWidget(item) : ShowItemWidget(item);
+    } else {
+      return ShowItemWidget(item, archiveView: true);
+    }
   }
 }

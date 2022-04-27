@@ -21,7 +21,7 @@ class DeleteItemAction extends Action<DeleteIntent> {
       idx = (idx + 1 >= items.length) ? items.length - 2 : idx + 1;
 
       ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
-      ref.read(itemsNotifierProvider.notifier).deleteItem(current);
+      ref.read(todoItemsProvider.notifier).deleteItem(current);
     }
 
     return null;

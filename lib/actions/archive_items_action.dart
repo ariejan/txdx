@@ -15,7 +15,7 @@ class ArchiveItemsAction extends Action<ArchiveItemsIntent> {
   @override
   Object? invoke(ArchiveItemsIntent intent) {
     final items = ref.read(filteredItems);
-    ref.read(itemsNotifierProvider.notifier).archiveItems(
+    ref.read(todoItemsProvider.notifier).archiveItems(
         items.where((item) => item.completed).map((e) => e.id).toList()
     );
 

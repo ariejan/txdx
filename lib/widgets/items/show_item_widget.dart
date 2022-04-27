@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/widgets/misc/label_widget.dart';
 
 import '../../config/colors.dart';
+import '../../config/shortcuts.dart';
 import '../../utils/browser.dart';
 import '../../providers/items/item_notifier_provider.dart';
 import '../../providers/items/selected_item_provider.dart';
@@ -15,9 +16,14 @@ import '../context/priority_button.dart';
 import 'item_due_on_widget.dart';
 
 class ShowItemWidget extends ConsumerWidget {
-  const ShowItemWidget(this.item, {Key? key}) : super(key: key);
+  const ShowItemWidget(
+      this.item, {
+        this.archiveView = false,
+        Key? key
+      }) : super(key: key);
 
   final TxDxItem item;
+  final bool archiveView;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -81,7 +87,7 @@ class ShowItemWidget extends ConsumerWidget {
                         value: item.completed,
                         onChanged: (bool? value) {
                           ref.read(editingItemIdStateProvider.state).state = null;
-                          ref.read(itemsNotifierProvider.notifier).toggleComplete(item.id);
+                          ref.read(todoItemsProvider.notifier).toggleComplete(item.id);
                         }),
                   ),
                 ),
@@ -109,7 +115,7 @@ class ShowItemWidget extends ConsumerWidget {
                                     label: 'A',
                                     onTap: () {
                                       Navigator.of(context).pop();
-                                      ref.read(itemsNotifierProvider.notifier).setPriority(item.id, 'A');
+                                      ref.read(todoItemsProvider.notifier).setPriority(item.id, 'A');
                                     }
                                 ),
                                 PriorityButton(
@@ -118,7 +124,7 @@ class ShowItemWidget extends ConsumerWidget {
                                     label: 'B',
                                     onTap: () {
                                       Navigator.of(context).pop();
-                                      ref.read(itemsNotifierProvider.notifier).setPriority(item.id, 'B');
+                                      ref.read(todoItemsProvider.notifier).setPriority(item.id, 'B');
                                     }
                                 ),
                                 PriorityButton(
@@ -127,7 +133,7 @@ class ShowItemWidget extends ConsumerWidget {
                                     label: 'C',
                                     onTap: () {
                                       Navigator.of(context).pop();
-                                      ref.read(itemsNotifierProvider.notifier).setPriority(item.id, 'C');
+                                      ref.read(todoItemsProvider.notifier).setPriority(item.id, 'C');
                                     }
                                 ),
                                 PriorityButton(
@@ -136,7 +142,7 @@ class ShowItemWidget extends ConsumerWidget {
                                     label: 'D',
                                     onTap: () {
                                       Navigator.of(context).pop();
-                                      ref.read(itemsNotifierProvider.notifier).setPriority(item.id, 'D');
+                                      ref.read(todoItemsProvider.notifier).setPriority(item.id, 'D');
                                     }
                                 ),
                                 PriorityButton(
@@ -145,7 +151,7 @@ class ShowItemWidget extends ConsumerWidget {
                                     label: 'X',
                                     onTap: () {
                                       Navigator.of(context).pop();
-                                      ref.read(itemsNotifierProvider.notifier).setPriority(item.id, null);
+                                      ref.read(todoItemsProvider.notifier).setPriority(item.id, null);
                                     }
                                 ),
                               ]
@@ -156,7 +162,7 @@ class ShowItemWidget extends ConsumerWidget {
                           title: item.completed ? 'Mark as pending' : 'Mark as completed',
                           onTap: () {
                             Navigator.of(context).pop();
-                            ref.read(itemsNotifierProvider.notifier).toggleComplete(item.id);
+                            ref.read(todoItemsProvider.notifier).toggleComplete(item.id);
                           },
                         ),
                         const Divider(),
@@ -165,7 +171,7 @@ class ShowItemWidget extends ConsumerWidget {
                           title: 'Move to today',
                           onTap: () {
                             Navigator.of(context).pop();
-                            ref.read(itemsNotifierProvider.notifier).moveToToday(item.id);
+                            ref.read(todoItemsProvider.notifier).moveToToday(item.id);
                           },
                         ),
                         ContextMenuItem(
@@ -173,7 +179,7 @@ class ShowItemWidget extends ConsumerWidget {
                           title: 'Postpone 7 days',
                           onTap: () {
                             Navigator.of(context).pop();
-                            ref.read(itemsNotifierProvider.notifier).postpone(item.id, 7);
+                            ref.read(todoItemsProvider.notifier).postpone(item.id, 7);
                           },
                         ),
                         const Divider(),
@@ -182,7 +188,7 @@ class ShowItemWidget extends ConsumerWidget {
                           title: 'Delete',
                           onTap: () {
                             Navigator.of(context).pop();
-                            ref.read(itemsNotifierProvider.notifier).deleteItem(item.id);
+                            ref.read(todoItemsProvider.notifier).deleteItem(item.id);
                           },
                         ),
                       ],
@@ -249,6 +255,12 @@ class ShowItemWidget extends ConsumerWidget {
                 ),
                 if (!item.completed && item.dueOn != null)
                   ItemDueOnWidget(item.dueOn!),
+                if (archiveView) GestureDetector(
+                  onTap: () {
+                    Actions.maybeInvoke(context, UnarchiveItemIntent(item.id));
+                  },
+                  child: Icon(Icons.settings_backup_restore_sharp, size: 12, color: Colors.purple),
+                ),
               ],
           ),
         ),

@@ -15,7 +15,7 @@ class MoveToTodayAction extends Action<MoveToTodayIntent> {
   Object? invoke(MoveToTodayIntent intent) {
     final current = ref.read(selectedItemIdStateProvider);
     if (current != null) {
-      ref.read(itemsNotifierProvider.notifier).moveToToday(current);
+      ref.read(todoItemsProvider.notifier).moveToToday(current);
     }
 
     return null;

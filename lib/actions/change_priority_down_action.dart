@@ -15,7 +15,7 @@ class ChangePriorityDownAction extends Action<ChangePriorityDownIntent> {
   Object? invoke(ChangePriorityDownIntent intent) {
     final current = ref.read(selectedItemIdStateProvider);
     if (current != null) {
-      ref.read(itemsNotifierProvider.notifier).prioDown(current);
+      ref.read(todoItemsProvider.notifier).prioDown(current);
     }
 
     return null;

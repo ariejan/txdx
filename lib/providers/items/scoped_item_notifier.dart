@@ -79,7 +79,7 @@ int prioritySort(TxDxItem a, TxDxItem b) {
 }
 
 final scopedItems = Provider<List<TxDxItem>>((ref) {
-  final items = ref.watch(itemsNotifierProvider);
+  final items = ref.watch(todoItemsProvider);
   final sorters = ref.watch(itemStateSorter);
 
   int sortAll(TxDxItem a, TxDxItem b) {

@@ -15,7 +15,7 @@ class ChangePriorityUpAction extends Action<ChangePriorityUpIntent> {
   Object? invoke(ChangePriorityUpIntent intent) {
     final current = ref.read(selectedItemIdStateProvider);
     if (current != null) {
-      ref.read(itemsNotifierProvider.notifier).prioUp(current);
+      ref.read(todoItemsProvider.notifier).prioUp(current);
     }
 
     return null;

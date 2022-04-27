@@ -19,8 +19,8 @@ class FileChangedWidget extends ConsumerWidget {
         TextButton(
           child: const Text('RELOAD'),
           onPressed: () {
-            ref.read(itemsNotifierProvider.notifier).loadItemsFromDisk();
-            ref.read(fileWasChanged.state).state = false;
+            ref.read(todoItemsProvider.notifier).loadItemsFromDisk();
+            ref.read(todoFileWasChanged.state).state = false;
           }
         ),
       ],

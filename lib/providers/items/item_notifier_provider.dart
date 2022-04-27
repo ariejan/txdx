@@ -10,7 +10,14 @@ import 'package:txdx/txdx/txdx_item.dart';
 
 import '../../config/settings.dart';
 
-final itemsNotifierProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) {
+enum AccessibleFile {
+  TODO,
+  ARCHIVE,
+}
+
+final currentlyAccessibleFileProvider = StateProvider<AccessibleFile>((_) => AccessibleFile.TODO);
+
+final todoItemsProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) {
   final settings = ref.watch(fileSettingsProvider);
 
   final todoFilename = settings.getString(settingsFileTodoTxt);
@@ -24,6 +31,17 @@ final itemsNotifierProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>
   orElse: () => null);
 
   return ItemNotifier(ref, todoFile, archiveFile, todoFilename, archiveFilename);
+});
+
+final archiveItemsProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) {
+  final settings = ref.watch(fileSettingsProvider);
+
+  final archiveFilename = settings.getString(settingsFileArchiveTxt);
+  final todoFile = ref.watch(archiveFileProvider).maybeWhen(
+      data: (file) => file,
+      orElse: () => null);
+
+  return ItemNotifier(ref, todoFile, null, archiveFilename, null);
 });
 
 class ItemNotifier extends StateNotifier<List<TxDxItem>> {
@@ -277,5 +295,4 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
       _setState(items);
     }
   }
-
 }

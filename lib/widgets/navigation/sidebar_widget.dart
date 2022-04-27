@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/items/contexts_provider.dart';
 import 'package:txdx/providers/items/item_count_provider.dart';
+import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/items/projects_provider.dart';
 
 import '../../config/filters.dart';
 import '../../config/icons.dart';
 import '../../config/colors.dart';
+import '../../providers/files/file_notifier_provider.dart';
 import 'menu_header_widget.dart';
 import 'menu_item_widget.dart';
 
@@ -20,6 +22,7 @@ class SidebarWidget extends ConsumerWidget {
     final projects = ref.watch(projectsProvider);
 
     final badgeColor = Theme.of(context).highlightColor;
+    final archiveAvailable = ref.watch(archivingAvailableProvider);
 
     return Column(
       children: [
@@ -67,6 +70,16 @@ class SidebarWidget extends ConsumerWidget {
                     itemFilterValue: filterOverdue,
                     badgeCount: ref.watch(itemsCount(filterOverdue)),
                     badgeColor: badgeColor,
+                  ),
+
+                  if (archiveAvailable) MenuItemWidget(
+                    iconData: Icons.archive_outlined,
+                    title: 'Archive',
+                    highlighted: ref.watch(currentlyAccessibleFileProvider) == AccessibleFile.ARCHIVE,
+                    onTap: () {
+                      print('opening archives');
+                      ref.read(currentlyAccessibleFileProvider.state).state = AccessibleFile.ARCHIVE;
+                    },
                   ),
 
                   if (projects.isNotEmpty) const MenuHeaderWidget(

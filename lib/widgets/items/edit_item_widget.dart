@@ -150,7 +150,7 @@ class _EditItemWidgetState extends ConsumerState<EditItemWidget> {
                           value: item.completed,
                           onChanged: (bool? value) {
                             Actions.invoke(context, endEditIntent);
-                            ref.read(itemsNotifierProvider.notifier).toggleComplete(item.id);
+                            ref.read(todoItemsProvider.notifier).toggleComplete(item.id);
                           }),
                     ),
                   ),

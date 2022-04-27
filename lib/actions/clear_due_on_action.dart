@@ -15,7 +15,7 @@ class ClearDueOnAction extends Action<ClearDueOnIntent> {
   Object? invoke(ClearDueOnIntent intent) {
     final current = ref.read(selectedItemIdStateProvider);
     if (current != null) {
-      ref.read(itemsNotifierProvider.notifier).setDueOn(current, null);
+      ref.read(todoItemsProvider.notifier).setDueOn(current, null);
     }
 
     return null;

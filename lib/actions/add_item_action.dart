@@ -31,7 +31,7 @@ class AddItemAction extends Action<AddIntent> with ItemListManager {
     }
 
     final newItem = TxDxItem.newFromText(defaultText);
-    final newItemId = ref.read(itemsNotifierProvider.notifier).addItem(newItem);
+    final newItemId = ref.read(todoItemsProvider.notifier).addItem(newItem);
 
     final items = ref.read(filteredItems);
     final index = items.indexWhere((item) => item.id == newItemId);
