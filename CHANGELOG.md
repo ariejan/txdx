@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+### Fixed
+- Exit search mode when searching and switching to another view [#110]
+
 ## [1.1.0] - 2022-04-26
 ### Changed
 - Complete overhaul of design and user experience
