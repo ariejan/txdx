@@ -2,7 +2,7 @@
 
 _A Todo app that looks good and gives you all the power of plain text!_
 
-![](https://github.com/ariejan/txdx/raw/master/images/Screenshot-Power-of-Text.jpg)
+![](https://github.com/ariejan/txdx/raw/master/images/TxDx-1.1.0.png)
 
 # Installation
 
