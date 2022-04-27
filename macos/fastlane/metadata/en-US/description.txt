@@ -1,5 +1,6 @@
-TxDx is a desktop Todo app that fully supports the Todo.txt format: 
- 
- * You own your data. In plain text.
+TxDx is a free desktop Todo app that fully supports the Todo.txt format:
+
+ * Beautiful UI for your daily task management needs.
+ * You own your data. In plain text. On your device.
  * Syncs with Dropbox, Syncthing, Nextcloud or whatever you're already using.
  * Offers the power of entering your todo's in plain text, but it looks beautiful.
