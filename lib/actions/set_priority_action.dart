@@ -16,7 +16,7 @@ class SetPriorityAction extends Action<SetPriorityIntent> {
     final current = ref.read(selectedItemIdStateProvider);
 
     if (current != null) {
-      ref.read(itemsNotifierProvider.notifier).setPriority(current, intent.priority);
+      ref.read(todoItemsProvider.notifier).setPriority(current, intent.priority);
     }
 
     return null;

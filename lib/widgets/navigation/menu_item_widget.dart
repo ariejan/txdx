@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/utils/focus.dart';
 import 'package:txdx/widgets/misc/pill_widget.dart';
 
+import '../../providers/items/item_notifier_provider.dart';
 import '../../providers/items/scoped_item_notifier.dart';
 import '../../config/colors.dart';
 
@@ -15,7 +16,7 @@ class MenuItemWidget extends ConsumerWidget {
     this.itemFilterValue,
     this.onTap,
     this.color,
-    this.highlighted = false,
+    this.highlighted,
     this.badgeCount,
     this.badgeColor,
   }) : super(key: key);
@@ -25,7 +26,7 @@ class MenuItemWidget extends ConsumerWidget {
   final Color? color;
   final String title;
   final GestureTapCallback? onTap;
-  final bool highlighted;
+  final bool? highlighted;
 
   final int? badgeCount;
   final Color? badgeColor;
@@ -42,17 +43,19 @@ class MenuItemWidget extends ConsumerWidget {
         ref.read(itemFilter.state).state = itemFilterValue;
         ref.read(searchTextProvider.state).state = null;
         ref.read(isSearchingProvider.state).state = false;
+        ref.read(currentlyAccessibleFileProvider.state).state = AccessibleFile.todo;
         appFocusNode.requestFocus();
       }
     }
 
-    bool highlighted() {
-      return ref.watch(itemFilter.state).state == itemFilterValue;
+    bool isHighlighted() {
+      return highlighted ?? ref.watch(currentlyAccessibleFileProvider) == AccessibleFile.todo
+          && ref.watch(itemFilter.state).state == itemFilterValue;
     }
 
     return Container(
       decoration: BoxDecoration(
-        color: highlighted() ? Theme.of(context).highlightColor : Theme.of(context).canvasColor,
+        color: isHighlighted() ? Theme.of(context).highlightColor : Theme.of(context).canvasColor,
         borderRadius: BorderRadius.circular(8),
       ),
 

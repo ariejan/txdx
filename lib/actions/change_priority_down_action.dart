@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../config/shortcuts.dart';
 import '../providers/items/item_notifier_provider.dart';
 import '../providers/items/selected_item_provider.dart';
+import '../utils/focus.dart';
 
 class ChangePriorityDownAction extends Action<ChangePriorityDownIntent> {
 
@@ -15,9 +16,10 @@ class ChangePriorityDownAction extends Action<ChangePriorityDownIntent> {
   Object? invoke(ChangePriorityDownIntent intent) {
     final current = ref.read(selectedItemIdStateProvider);
     if (current != null) {
-      ref.read(itemsNotifierProvider.notifier).prioDown(current);
+      ref.read(todoItemsProvider.notifier).prioDown(current);
     }
 
+    appFocusNode.requestFocus();
     return null;
   }
 

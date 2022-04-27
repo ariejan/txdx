@@ -127,3 +127,9 @@ class DeleteTagIntent extends Intent {
   final String itemId;
   final String tag;
 }
+
+class UnarchiveItemIntent extends Intent {
+  const UnarchiveItemIntent(this.itemId);
+
+  final String itemId;
+}

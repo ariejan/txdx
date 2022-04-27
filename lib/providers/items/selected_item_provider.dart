@@ -14,7 +14,7 @@ final selectedItemIdStateProvider = StateProvider<String?>((ref) {
 });
 
 final itemProvider = StateProvider.family<TxDxItem?, String>((ref, id) {
-  var items = ref.watch(itemsNotifierProvider);
+  var items = ref.watch(todoItemsProvider);
   final itemIdx = items.indexWhere((item) => item.id == id);
 
   if (itemIdx >= 0) {

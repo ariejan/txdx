@@ -79,7 +79,7 @@ int prioritySort(TxDxItem a, TxDxItem b) {
 }
 
 final scopedItems = Provider<List<TxDxItem>>((ref) {
-  final items = ref.watch(itemsNotifierProvider);
+  final items = ref.watch(todoItemsProvider);
   final sorters = ref.watch(itemStateSorter);
 
   int sortAll(TxDxItem a, TxDxItem b) {
@@ -141,7 +141,21 @@ final filteredItems = Provider<List<TxDxItem>>((ref) {
   }
 
   return result;
+});
 
+final archivedItems = Provider<List<TxDxItem>>((ref) {
+  final items = ref.watch(archiveItemsProvider);
+
+  final isSearching = ref.watch(isSearchingProvider);
+  final searchText = ref.watch(searchTextProvider);
+
+  if (isSearching && searchText != null && searchText.isNotEmpty) {
+    return items.where((item) {
+      return item.description.toLowerCase().contains(searchText.toLowerCase());
+    }).toList();
+  } else {
+    return items;
+  }
 });
 
 List<TxDxItem> filterItems(List<TxDxItem> items, String? filter, bool filterCompleted, Settings settings) {

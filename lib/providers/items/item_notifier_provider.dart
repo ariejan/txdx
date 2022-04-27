@@ -10,7 +10,14 @@ import 'package:txdx/txdx/txdx_item.dart';
 
 import '../../config/settings.dart';
 
-final itemsNotifierProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) {
+enum AccessibleFile {
+  todo,
+  archive,
+}
+
+final currentlyAccessibleFileProvider = StateProvider<AccessibleFile>((_) => AccessibleFile.todo);
+
+final todoItemsProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) {
   final settings = ref.watch(fileSettingsProvider);
 
   final todoFilename = settings.getString(settingsFileTodoTxt);
@@ -24,6 +31,17 @@ final itemsNotifierProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>
   orElse: () => null);
 
   return ItemNotifier(ref, todoFile, archiveFile, todoFilename, archiveFilename);
+});
+
+final archiveItemsProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) {
+  final settings = ref.watch(fileSettingsProvider);
+
+  final archiveFilename = settings.getString(settingsFileArchiveTxt);
+  final todoFile = ref.watch(archiveFileProvider).maybeWhen(
+      data: (file) => file,
+      orElse: () => null);
+
+  return ItemNotifier(ref, todoFile, null, archiveFilename, null);
 });
 
 class ItemNotifier extends StateNotifier<List<TxDxItem>> {
@@ -181,9 +199,21 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     final completedItems = items.where((item) => item.completed).toList();
 
     if (archiveFile != null) {
-      TxDxFile.appendToFile(archiveFile!, completedItems);
-
+      for (var item in completedItems) {
+        ref.read(archiveItemsProvider.notifier).addItem(item);
+      }
       items.removeWhere((item) => item.completed);
+      _setState(items);
+    }
+  }
+
+  Future<void> unarchive(String id) async {
+    final items = getItems().toList();
+    final itemIdx = items.indexWhere((item) => item.id == id);
+    if (itemIdx >= 0) {
+      final theItem = items.elementAt(itemIdx).toggleComplete();
+      ref.read(todoItemsProvider.notifier).addItem(theItem);
+      items.removeAt(itemIdx);
       _setState(items);
     }
   }
@@ -277,5 +307,4 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
       _setState(items);
     }
   }
-
 }

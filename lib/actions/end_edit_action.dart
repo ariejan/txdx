@@ -61,7 +61,7 @@ class EndEditAction extends Action<EndEditIntent> {
 
     // Do not save new empty description items
     if (theItem.isNew && descriptionStr.isEmpty) {
-      ref.read(itemsNotifierProvider.notifier).deleteItem(theItem.id);
+      ref.read(todoItemsProvider.notifier).deleteItem(theItem.id);
       ref.read(editingItemIdStateProvider.state).state = null;
       return null;
     }
@@ -81,7 +81,7 @@ class EndEditAction extends Action<EndEditIntent> {
       .addProjects(parsedItem.projects)
       .addTags(parsedItem.tags);
 
-    ref.read(itemsNotifierProvider.notifier).updateItem(editedItemId, newItem.toString());
+    ref.read(todoItemsProvider.notifier).updateItem(editedItemId, newItem.toString());
     ref.read(editingItemIdStateProvider.state).state = null;
 
     appFocusNode.requestFocus();

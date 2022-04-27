@@ -25,7 +25,7 @@ class ToggleCompletionAction extends Action<ToggleCompletionIntent> {
         ref.read(selectedItemIdStateProvider.state).state = items[idx].id;
       }
 
-      ref.read(itemsNotifierProvider.notifier).toggleComplete(current);
+      ref.read(todoItemsProvider.notifier).toggleComplete(current);
     }
 
     return null;
