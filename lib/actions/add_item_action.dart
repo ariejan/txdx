@@ -34,8 +34,11 @@ class AddItemAction extends Action<AddIntent> with ItemListManager {
     final newItemId = ref.read(todoItemsProvider.notifier).addItem(newItem);
 
     final items = ref.read(filteredItems);
-    final index = items.indexWhere((item) => item.id == newItemId);
-    jumpToIndex(index);
+
+    if (items.length > 1) {
+      final index = items.indexWhere((item) => item.id == newItemId);
+      jumpToIndex(index);
+    }
 
     ref.read(editingItemIdStateProvider.state).state = newItem.id;
 
