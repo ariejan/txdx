@@ -2,9 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
+### Added
+- View your archive and restore items if necessary [#60]
 ### Fixed
 - Exit search mode when searching and switching to another view [#110]
 - Improve handling of deleting of contexts/projects/tags. [#109]
+- Handle several edge cases when creating/editing/deleting items.
 
 ## [1.1.0] - 2022-04-26
 ### Changed
