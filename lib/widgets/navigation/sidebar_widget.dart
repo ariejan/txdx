@@ -75,10 +75,9 @@ class SidebarWidget extends ConsumerWidget {
                   if (archiveAvailable) MenuItemWidget(
                     iconData: Icons.archive_outlined,
                     title: 'Archive',
-                    highlighted: ref.watch(currentlyAccessibleFileProvider) == AccessibleFile.ARCHIVE,
+                    highlighted: ref.watch(currentlyAccessibleFileProvider) == AccessibleFile.archive,
                     onTap: () {
-                      print('opening archives');
-                      ref.read(currentlyAccessibleFileProvider.state).state = AccessibleFile.ARCHIVE;
+                      ref.read(currentlyAccessibleFileProvider.state).state = AccessibleFile.archive;
                     },
                   ),
 

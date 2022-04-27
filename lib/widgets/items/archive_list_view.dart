@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:txdx/config/icons.dart';
-import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
-import 'package:txdx/providers/settings/settings_provider.dart';
-import 'package:txdx/config/settings.dart';
 import 'package:txdx/widgets/misc/search_widget.dart';
 
-import '../../config/colors.dart';
-import '../../config/filters.dart';
-import '../../config/shortcuts.dart';
 import '../../providers/files/file_change_provider.dart';
-import '../../providers/files/file_notifier_provider.dart';
-import '../misc/file_changed_widget.dart';
 import 'item_widget.dart';
 import '../navigation/menu_header_widget.dart';
 
@@ -60,9 +51,7 @@ class ArchiveListView extends ConsumerWidget {
                     iconData: _getIconData(ref),
                     iconColor: _getIconColor(ref),
                     margin: const EdgeInsets.fromLTRB(0, 24, 0, 32),
-                    actions: [
-
-                    ],
+                    actions: const [],
                   ),
                   if (isSearching) SearchWidget(),
                   if (items.isEmpty)

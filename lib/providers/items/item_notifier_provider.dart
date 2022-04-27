@@ -11,11 +11,11 @@ import 'package:txdx/txdx/txdx_item.dart';
 import '../../config/settings.dart';
 
 enum AccessibleFile {
-  TODO,
-  ARCHIVE,
+  todo,
+  archive,
 }
 
-final currentlyAccessibleFileProvider = StateProvider<AccessibleFile>((_) => AccessibleFile.TODO);
+final currentlyAccessibleFileProvider = StateProvider<AccessibleFile>((_) => AccessibleFile.todo);
 
 final todoItemsProvider = StateNotifierProvider<ItemNotifier, List<TxDxItem>>((ref) {
   final settings = ref.watch(fileSettingsProvider);
@@ -199,7 +199,9 @@ class ItemNotifier extends StateNotifier<List<TxDxItem>> {
     final completedItems = items.where((item) => item.completed).toList();
 
     if (archiveFile != null) {
-      completedItems.forEach((item) => ref.read(archiveItemsProvider.notifier).addItem(item));
+      for (var item in completedItems) {
+        ref.read(archiveItemsProvider.notifier).addItem(item);
+      }
       items.removeWhere((item) => item.completed);
       _setState(items);
     }

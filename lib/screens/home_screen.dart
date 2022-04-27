@@ -100,8 +100,8 @@ class HomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                 child: Column(
                   children: [
-                    if (currentlyAccessibleFile == AccessibleFile.TODO) Expanded(child: ItemsListView()),
-                    if (currentlyAccessibleFile == AccessibleFile.ARCHIVE) Expanded(child: ArchiveListView()),
+                    if (currentlyAccessibleFile == AccessibleFile.todo) const Expanded(child: ItemsListView()),
+                    if (currentlyAccessibleFile == AccessibleFile.archive) const Expanded(child: ArchiveListView()),
                   ],
                 ),
               )

@@ -81,7 +81,6 @@ final archiveFileHasChangedProvider = FutureProvider<bool>((ref) async {
 
 final archiveFileWasChanged = StateProvider<bool>((ref) {
   final asyncHasChanged = ref.watch(archiveFileHasChangedProvider);
-  final autoReload = ref.watch(fileSettingsProvider).getBool(settingsFileAutoReload);
 
   return asyncHasChanged.when(
     data: (hasChanged) {

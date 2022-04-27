@@ -43,13 +43,13 @@ class MenuItemWidget extends ConsumerWidget {
         ref.read(itemFilter.state).state = itemFilterValue;
         ref.read(searchTextProvider.state).state = null;
         ref.read(isSearchingProvider.state).state = false;
-        ref.read(currentlyAccessibleFileProvider.state).state = AccessibleFile.TODO;
+        ref.read(currentlyAccessibleFileProvider.state).state = AccessibleFile.todo;
         appFocusNode.requestFocus();
       }
     }
 
     bool isHighlighted() {
-      return highlighted ?? ref.watch(currentlyAccessibleFileProvider) == AccessibleFile.TODO
+      return highlighted ?? ref.watch(currentlyAccessibleFileProvider) == AccessibleFile.todo
           && ref.watch(itemFilter.state).state == itemFilterValue;
     }
 
