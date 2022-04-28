@@ -4,8 +4,8 @@ import 'package:txdx/actions/end_edit_action.dart';
 import 'package:txdx/config/shortcuts.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
-import '../../config/colors.dart';
-import '../../providers/items/item_notifier_provider.dart';
+import '../../../config/colors.dart';
+import '../../../providers/items/item_notifier_provider.dart';
 import 'deletable_tag.dart';
 import 'due_on_picker.dart';
 import 'priority_picker.dart';

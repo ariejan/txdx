@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
-import 'package:txdx/widgets/misc/search_widget.dart';
+import 'package:txdx/widgets/desktop/misc/search_widget.dart';
 
-import '../../providers/files/file_change_provider.dart';
+import '../../../providers/files/file_change_provider.dart';
 import 'item_widget.dart';
 import '../navigation/menu_header_widget.dart';
 

@@ -1,4 +1,4 @@
-import '../widgets/items/items_list_view.dart';
+import '../widgets/desktop/items/items_list_view.dart';
 
 mixin ItemListManager {
   void jumpToIndex(int index) {

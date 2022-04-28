@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../txdx/txdx_item.dart';
+import '../../../txdx/txdx_item.dart';
 
 class DeletableTag extends ConsumerStatefulWidget {
   const DeletableTag({

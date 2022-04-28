@@ -3,8 +3,8 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../providers/settings/platform_info_provider.dart';
-import '../../providers/settings/settings_provider.dart';
+import '../../../providers/settings/platform_info_provider.dart';
+import '../../../providers/settings/settings_provider.dart';
 import '../navigation/menu_header_widget.dart';
 
 class VersionInfoWidget extends ConsumerWidget {

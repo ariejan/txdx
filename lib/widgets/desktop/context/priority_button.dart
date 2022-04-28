@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../config/colors.dart';
-import '../../txdx/txdx_item.dart';
+import '../../../config/colors.dart';
+import '../../../txdx/txdx_item.dart';
 
 class PriorityButton extends StatelessWidget {
 

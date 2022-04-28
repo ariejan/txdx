@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../config/settings.dart';
-import '../../providers/settings/settings_provider.dart';
-import '../../utils/file_picker_helper.dart';
+import '../../../config/settings.dart';
+import '../../../providers/settings/settings_provider.dart';
+import '../../../utils/file_picker_helper.dart';
 import '../navigation/menu_header_widget.dart';
 
 class FileSettingsWidget extends ConsumerWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../config/colors.dart';
+import '../../../config/colors.dart';
 
 class SplitView extends StatelessWidget {
   const SplitView({

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/widgets/misc/label_widget.dart';
+import 'package:txdx/widgets/desktop/items/label_widget.dart';
 
-import '../../config/colors.dart';
-import '../../config/shortcuts.dart';
-import '../../utils/browser.dart';
-import '../../providers/items/item_notifier_provider.dart';
-import '../../providers/items/selected_item_provider.dart';
-import '../../txdx/txdx_item.dart';
+import '../../../config/colors.dart';
+import '../../../config/shortcuts.dart';
+import '../../../utils/browser.dart';
+import '../../../providers/items/item_notifier_provider.dart';
+import '../../../providers/items/selected_item_provider.dart';
+import '../../../txdx/txdx_item.dart';
 import '../context/context_menu_area.dart';
 import '../context/context_menu_item.dart';
 import '../context/priority_button.dart';

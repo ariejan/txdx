@@ -103,3 +103,8 @@ class Settings extends ChangeNotifier {
     return "${namespace}_$key";
   }
 }
+
+final isSetupReadyProvider = Provider<bool>((ref) {
+  final txdxDir = ref.watch(fileSettingsProvider).getString(settingsTxDxDirectory);
+  return txdxDir?.isNotEmpty ?? false;
+});

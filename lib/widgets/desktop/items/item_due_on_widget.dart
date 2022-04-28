@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:lit_relative_date_time/lit_relative_date_time.dart';
 import 'package:txdx/providers/items/now_provider.dart';
 
-import '../../config/colors.dart';
+import '../../../config/colors.dart';
 
 class ItemDueOnWidget extends ConsumerWidget {
 
