@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.1.1] - 2022-04-28
 ### Added
 - View your archive and restore items if necessary [#60]
 ### Fixed

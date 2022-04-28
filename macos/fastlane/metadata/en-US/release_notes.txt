@@ -1,18 +1,8 @@
-# Added
+Added
+- View your archive and restore items if necessary [#60]
 
-- Default filter can now also be a context or project. [#86]
-- (macOS) Set filter to use for dock badge count. [#87]
-- Add setting and in-view override for item sorting. [#90]
+Fixed
+- Exit search mode when searching and switching to another view [#110]
+- Improve handling of deleting of contexts/projects/tags. [#109]
+- Handle several edge cases when creating/editing/deleting items.
 
-# Fixed
-
-- Search does not match case for easier finding. [#91]
-- Cannot select light theme from settings. [#97]
-
-# Changed
-
-- Swap order of projects and contexts in the sidebar. [#92]
-
-Important: TxDx is now using directory based access to your `todo.txt` 
-and `archive.txt` files. With version 1.0.13 you may have to re-selecting
-your TxDx directory. See https://www.txdx.eu/support/ for details.
