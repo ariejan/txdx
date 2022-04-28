@@ -6,11 +6,11 @@ import 'package:txdx/providers/items/now_provider.dart';
 
 import '../../../config/colors.dart';
 
-class ItemDueOnWidget extends ConsumerWidget {
+class DueOnWidget extends ConsumerWidget {
 
   final DateTime dueOn;
 
-  const ItemDueOnWidget(this.dueOn, {Key? key}) : super(key: key);
+  const DueOnWidget(this.dueOn, {Key? key}) : super(key: key);
 
   Color? _getBackgroundColor(BuildContext context, DateTime now, DateTime dueOn) {
     if (dueOn.isBefore(now) || dueOn == now) {
