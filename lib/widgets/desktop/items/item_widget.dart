@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/items/selected_item_provider.dart';
-import 'package:txdx/widgets/items/edit_item_widget.dart';
-import 'package:txdx/widgets/items/show_item_widget.dart';
+import 'package:txdx/widgets/desktop/items/edit_item_widget.dart';
+import 'package:txdx/widgets/desktop/items/show_item_widget.dart';
 
-import '../../txdx/txdx_item.dart';
+import '../../../txdx/txdx_item.dart';
 
 class ItemWidget extends ConsumerWidget {
   const ItemWidget(

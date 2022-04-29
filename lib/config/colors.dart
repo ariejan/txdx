@@ -57,4 +57,17 @@ abstract class TxDxColors {
 
   static final Color darkBadge = NordColors.frost.darkest;
   static final Color darkBadge2 = NordColors.polarNight.lighter;
+
+  static const Color txdxPurple = Color(0xFF5215cb);
+  static const Color txdxPink = Color(0xFFe923ac);
+  static const Color txdxOrange = Color(0xFFe5bf77);
+
+  static Gradient txdxGradient() {
+    return const LinearGradient(
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      colors: [txdxPurple, txdxPink, txdxOrange],
+      stops: [0.0, 0.5, 1.0],
+    );
+  }
 }

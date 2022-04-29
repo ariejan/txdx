@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../utils/focus.dart';
-import '../../providers/items/scoped_item_notifier.dart';
+import '../../../utils/focus.dart';
+import '../../../providers/items/scoped_item_notifier.dart';
 
 class SearchWidget extends ConsumerWidget {
   SearchWidget({Key? key}) : super(key: key);

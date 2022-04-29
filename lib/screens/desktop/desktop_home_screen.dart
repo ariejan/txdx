@@ -13,38 +13,35 @@ import 'package:txdx/actions/toggle_completion_action.dart';
 import 'package:txdx/actions/unarchive_item_action.dart';
 import 'package:txdx/config/shortcuts.dart';
 import 'package:txdx/utils/focus.dart';
-import 'package:txdx/widgets/items/items_list_view.dart';
-import 'package:txdx/widgets/misc/no_txdx_directory_widget.dart';
-import 'package:txdx/widgets/navigation/sidebar_widget.dart';
-import 'package:txdx/widgets/layout/split_view.dart';
+import 'package:txdx/widgets/desktop/items/items_list_view.dart';
+import 'package:txdx/widgets/common/no_txdx_directory_widget.dart';
+import 'package:txdx/widgets/desktop/navigation/sidebar_widget.dart';
+import 'package:txdx/widgets/desktop/layout/split_view.dart';
 
-import '../actions/add_item_action.dart';
-import '../actions/cancel_search_and_edit_action.dart';
-import '../actions/change_priority_down_action.dart';
-import '../actions/change_priority_up_action.dart';
-import '../actions/clear_due_on_action.dart';
-import '../actions/jump_to_bottom_action.dart';
-import '../actions/jump_to_top_action.dart';
-import '../actions/move_to_today_action.dart';
-import '../actions/select_next_item_action.dart';
-import '../config/settings.dart';
-import '../providers/items/item_notifier_provider.dart';
-import '../providers/settings/settings_provider.dart';
-import '../widgets/items/archive_list_view.dart';
+import '../../actions/add_item_action.dart';
+import '../../actions/cancel_search_and_edit_action.dart';
+import '../../actions/change_priority_down_action.dart';
+import '../../actions/change_priority_up_action.dart';
+import '../../actions/clear_due_on_action.dart';
+import '../../actions/jump_to_bottom_action.dart';
+import '../../actions/jump_to_top_action.dart';
+import '../../actions/move_to_today_action.dart';
+import '../../actions/select_next_item_action.dart';
+import '../../providers/items/item_notifier_provider.dart';
+import '../../providers/settings/settings_provider.dart';
+import '../../widgets/desktop/items/archive_list_view.dart';
 
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class DesktopHomeScreen extends ConsumerWidget {
+  const DesktopHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final txdxDir = ref.watch(fileSettingsProvider).getString(settingsTxDxDirectory);
-    final hasTodoTxt = txdxDir?.isNotEmpty ?? false;
-
-    final currentlyAccessibleFile = ref.watch(currentlyAccessibleFileProvider);
-
-    if (!hasTodoTxt) {
+    final isSetupReady = ref.watch(isSetupReadyProvider);
+    if (!isSetupReady) {
       return const NoTxDxDirectoryWidget();
     }
+
+    final currentlyAccessibleFile = ref.watch(currentlyAccessibleFileProvider);
 
     return Shortcuts(
       shortcuts: {

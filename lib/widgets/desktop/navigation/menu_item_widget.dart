@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/utils/focus.dart';
-import 'package:txdx/widgets/misc/pill_widget.dart';
+import 'package:txdx/widgets/desktop/misc/pill_widget.dart';
 
-import '../../providers/items/item_notifier_provider.dart';
-import '../../providers/items/scoped_item_notifier.dart';
-import '../../config/colors.dart';
+import '../../../providers/items/item_notifier_provider.dart';
+import '../../../providers/items/scoped_item_notifier.dart';
+import '../../../config/colors.dart';
 
 class MenuItemWidget extends ConsumerWidget {
   const MenuItemWidget({

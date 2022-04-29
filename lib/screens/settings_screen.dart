@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/config/colors.dart';
-import 'package:txdx/widgets/settings/version_info_widget.dart';
+import 'package:txdx/widgets/desktop/settings/version_info_widget.dart';
 
-import '../widgets/settings/file_settings_widget.dart';
-import '../widgets/settings/interface_settings_widget.dart';
+import '../widgets/desktop/settings/file_settings_widget.dart';
+import '../widgets/desktop/settings/interface_settings_widget.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}) : super(key: key);

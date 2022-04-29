@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:txdx/widgets/misc/label_widget.dart';
+import 'package:txdx/widgets/common/items/label_widget.dart';
 
-import '../../config/colors.dart';
-import '../../config/shortcuts.dart';
-import '../../utils/browser.dart';
-import '../../providers/items/item_notifier_provider.dart';
-import '../../providers/items/selected_item_provider.dart';
-import '../../txdx/txdx_item.dart';
+import '../../../config/colors.dart';
+import '../../../config/shortcuts.dart';
+import '../../../utils/browser.dart';
+import '../../../providers/items/item_notifier_provider.dart';
+import '../../../providers/items/selected_item_provider.dart';
+import '../../../txdx/txdx_item.dart';
+import '../../common/items/priority_dot.dart';
 import '../context/context_menu_area.dart';
 import '../context/context_menu_item.dart';
 import '../context/priority_button.dart';
-import 'item_due_on_widget.dart';
+import '../../common/items/due_on_widget.dart';
 
 class ShowItemWidget extends ConsumerWidget {
   const ShowItemWidget(this.item, {this.archiveView = false, Key? key})
@@ -42,7 +43,6 @@ class ShowItemWidget extends ConsumerWidget {
           : TxDxColors.darkCheckbox;
     }
 
-    var statusColor = TxDxColors.forPriority(item.priority);
     var bgColor = Colors.transparent;
 
     if (isSelected) {
@@ -65,15 +65,7 @@ class ShowItemWidget extends ConsumerWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Icon(
-                  Icons.circle,
-                  size: 9,
-                  color:
-                      item.hasSetPriority() ? statusColor : Colors.transparent,
-                ),
-              ),
+              PriorityDot(item),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                 child: Column(
@@ -312,8 +304,8 @@ class ShowItemWidget extends ConsumerWidget {
                   ),
                 ),
               ),
-              if (!item.completed && item.dueOn != null)
-                ItemDueOnWidget(item.dueOn!),
+              if (!item.completed && item.hasDueOn)
+                DueOnWidget(item.dueOn!),
             ],
           ),
         ),

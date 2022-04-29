@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
 
-import '../../config/settings.dart';
-import '../../providers/items/filter_provider.dart';
-import '../../providers/settings/settings_provider.dart';
+import '../../../config/settings.dart';
+import '../../../providers/items/filter_provider.dart';
+import '../../../providers/settings/settings_provider.dart';
 import '../navigation/menu_header_widget.dart';
 
 class InterfaceSettingsWidget extends ConsumerWidget {

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/config/colors.dart';
 
-import '../../providers/files/file_change_provider.dart';
+import '../../../providers/files/file_change_provider.dart';
 
 class FileChangedWidget extends ConsumerWidget {
   const FileChangedWidget({Key? key}) : super(key: key);

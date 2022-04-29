@@ -6,10 +6,10 @@ import 'package:txdx/providers/items/item_count_provider.dart';
 import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/providers/items/projects_provider.dart';
 
-import '../../config/filters.dart';
-import '../../config/icons.dart';
-import '../../config/colors.dart';
-import '../../providers/files/file_notifier_provider.dart';
+import '../../../config/filters.dart';
+import '../../../config/icons.dart';
+import '../../../config/colors.dart';
+import '../../../providers/files/file_notifier_provider.dart';
 import 'menu_header_widget.dart';
 import 'menu_item_widget.dart';
 
