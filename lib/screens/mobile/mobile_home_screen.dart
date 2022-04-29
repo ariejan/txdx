@@ -1,3 +1,4 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
@@ -6,6 +7,7 @@ import 'package:txdx/widgets/mobile/navigation/txdx_drawer.dart';
 
 import '../../config/colors.dart';
 import '../../providers/settings/settings_provider.dart';
+import '../../utils/helpers.dart';
 import '../../widgets/common/no_txdx_directory_widget.dart';
 
 class MobileHomeScreen extends ConsumerStatefulWidget {
@@ -27,22 +29,45 @@ class _MobileHomeScreenState extends ConsumerState<MobileHomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TxDx'),
+        title: Text(Helpers.getViewTitle(ref)),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: TxDxColors.txdxGradient(),
+          ),
+        ),
       ),
       drawer: const TxDxDrawer(),
-      body: Container(
-        color: Theme.of(context).brightness == Brightness.light
-          ? TxDxColors.lightSelection
-          : TxDxColors.darkSelection,
-        padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-        child: ListView.builder(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: ListView.separated(
           itemCount: items.length,
           itemBuilder: (context, index) {
             return ItemWidget(items[index]);
           },
+          separatorBuilder: (BuildContext context, int index) => const Divider(),
         ),
       ),
-      bottomNavigationBar: SizedBox(height: 64, child: Container(color: Colors.pink)),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        elevation: 8,
+        onPressed: () => Navigator.pushNamed(context, '/addItem'),
+        backgroundColor: TxDxColors.txdxPurple,
+        child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: AnimatedBottomNavigationBar(
+        icons: const [
+          Icons.car_rental,
+          Icons.blender,
+        ],
+        activeIndex: 1,
+        onTap: (index) {  },
+        backgroundColor: TxDxColors.txdxPink,
+        inactiveColor: Theme.of(context).appBarTheme.foregroundColor,
+        activeColor: Theme.of(context).appBarTheme.foregroundColor,
+        notchSmoothness: NotchSmoothness.defaultEdge,
+        gapLocation: GapLocation.center,
+      ),
     );
   }
 

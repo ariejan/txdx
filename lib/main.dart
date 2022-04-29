@@ -15,6 +15,7 @@ import 'providers/settings/settings_provider.dart';
 import 'config/settings.dart';
 import 'config/theme.dart';
 import 'screens/common/loading_screen.dart';
+import 'screens/mobile/add_item_screen.dart';
 import 'widgets/desktop/no_glow_scroll_behavior.dart';
 
 Future<void> main() async {
@@ -87,6 +88,7 @@ class TxDxApp extends ConsumerWidget {
 
     final mobileRoutes = {
       '/': (context) => const MobileHomeScreen(),
+      '/addItem': (context) => const AddItemScreen(),
     };
 
     return GetMaterialApp(

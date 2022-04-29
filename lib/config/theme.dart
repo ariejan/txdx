@@ -13,10 +13,24 @@ abstract class TxDxTheme {
       hoverColor: Colors.transparent,
       highlightColor: NordColors.$9.withOpacity(0.25),
       canvasColor: TxDxColors.lightBackground,
-      appBarTheme: _darkTheme.appBarTheme.copyWith(
-        backgroundColor: _lightTheme.primaryColorDark,
+      appBarTheme: AppBarTheme(
+        backgroundColor: NordColors.frost.darker,
+        foregroundColor: Colors.white,
         shadowColor: Colors.transparent,
       ),
+      checkboxTheme: CheckboxThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4)
+        ),
+      ),
+      drawerTheme: DrawerThemeData(
+        backgroundColor: NordColors.snowStorm.lightest,
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: NordColors.frost.darkest,
+        foregroundColor: Colors.white,
+      ),
+      navigationBarTheme: const NavigationBarThemeData(backgroundColor: Colors.red),
       listTileTheme: const ListTileThemeData(
         dense: true,
         visualDensity: VisualDensity.compact,
@@ -63,9 +77,22 @@ abstract class TxDxTheme {
       highlightColor: NordColors.$9.withOpacity(0.25),
       hintColor: NordColors.$5.withOpacity(0.8),
       canvasColor: TxDxColors.darkBackground,
-      appBarTheme: _darkTheme.appBarTheme.copyWith(
-        backgroundColor: _lightTheme.primaryColorDark,
+      appBarTheme: AppBarTheme(
+        backgroundColor: NordColors.frost.darker,
+        foregroundColor: Colors.white,
         shadowColor: Colors.transparent,
+      ),
+      checkboxTheme: CheckboxThemeData(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4)
+        ),
+      ),
+      drawerTheme: DrawerThemeData(
+        backgroundColor: NordColors.polarNight.darkest,
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: NordColors.frost.darkest,
+        foregroundColor: Colors.white,
       ),
       listTileTheme: const ListTileThemeData(
         dense: true,

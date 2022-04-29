@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/providers/items/item_notifier_provider.dart';
 
 import '../../../config/colors.dart';
 import '../../../txdx/txdx_item.dart';
@@ -19,86 +20,59 @@ class ItemWidget extends ConsumerStatefulWidget {
 class _ItemWidgetState extends ConsumerState<ItemWidget> {
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: Key(widget.item.toString()),
-      onDismissed: (direction) {
-
-      },
-      background: Container(
-        color: Colors.green,
-      ),
-      secondaryBackground: Container(
-        padding: const EdgeInsets.fromLTRB(0, 4, 6, 4),
-        child: Container(
-          padding: const EdgeInsets.all(0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.red
-                  : Colors.red,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        children: [
+          PriorityDot(widget.item),
+          Checkbox(
+            onChanged: (value) {
+              ref.read(todoItemsProvider.notifier).toggleComplete(widget.item.id);
+            },
+            value: widget.item.completed,
           ),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: Theme.of(context).brightness == Brightness.light
-                ? TxDxColors.lightBackground
-                : TxDxColors.darkBackground
-          ),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PriorityDot(widget.item),
-              ),
-              Flexible(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(widget.item.description),
-                        Wrap(
-                            alignment: WrapAlignment.start,
-                            spacing: 2,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              for (var project in widget.item.projects) ...[
-                                LabelWidget(project,
-                                    color: TxDxColors.projects,
-                                    iconData: Icons.label_sharp),
-                              ],
-                              for (var context in widget.item.contexts) ...[
-                                LabelWidget(context,
-                                    color: TxDxColors.contexts,
-                                    iconData: Icons.label_sharp),
-                              ],
-                              for (var key in widget.item.tagsWithoutDue.keys) ...[
-                                LabelWidget('$key:${widget.item.tags[key]}',
-                                    color: TxDxColors.tags,
-                                    iconData: Icons.label_sharp),
-                              ],
-                            ],
-                        ),
-                      ],
-                    ),
+          Flexible(
+            child: GestureDetector(
+              onTap: () {},
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    widget.item.description,
+                    style: TextStyle(
+                      decoration: widget.item.completed ? TextDecoration.lineThrough : null,
+                      color: widget.item.completed ? Theme.of(context).disabledColor : null,
+                    )
                   ),
-                ),
+                  if (!widget.item.completed) Wrap(
+                      alignment: WrapAlignment.start,
+                      spacing: 2,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        for (var project in widget.item.projects) ...[
+                          LabelWidget(project,
+                              color: TxDxColors.projects,
+                              iconData: Icons.label_sharp),
+                        ],
+                        for (var context in widget.item.contexts) ...[
+                          LabelWidget(context,
+                              color: TxDxColors.contexts,
+                              iconData: Icons.label_sharp),
+                        ],
+                        for (var key in widget.item.tagsWithoutDue.keys) ...[
+                          LabelWidget('$key:${widget.item.tags[key]}',
+                              color: TxDxColors.tags,
+                              iconData: Icons.label_sharp),
+                        ],
+                      ],
+                  ),
+                ],
               ),
-              if (!widget.item.completed && widget.item.hasDueOn)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DueOnWidget(widget.item.dueOn!),
-                ),
-            ]
-          )
-        ),
+            ),
+          ),
+          if (!widget.item.completed && widget.item.hasDueOn)
+            DueOnWidget(widget.item.dueOn!),
+        ]
       ),
     );
   }

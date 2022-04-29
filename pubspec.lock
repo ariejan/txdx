@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  animated_bottom_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: animated_bottom_navigation_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   animations:
     dependency: "direct main"
     description:

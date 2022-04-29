@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:txdx/config/icons.dart';
 import 'package:txdx/providers/items/scoped_item_notifier.dart';
-import 'package:txdx/providers/settings/settings_provider.dart';
-import 'package:txdx/config/settings.dart';
+import 'package:txdx/utils/helpers.dart';
 import 'package:txdx/widgets/desktop/misc/search_widget.dart';
 
 import '../../../config/colors.dart';
@@ -20,27 +19,6 @@ class ItemsListView extends ConsumerWidget {
   static ItemScrollController controller = ItemScrollController();
 
   const ItemsListView({Key? key}) : super(key: key);
-
-  String _getTitle(WidgetRef ref) {
-    final filter = ref.read(itemFilter);
-    final upcomingDays = ref.read(interfaceSettingsProvider).getInt(settingsUpcomingDays);
-
-    switch (filter) {
-      case null:
-      case filterAll:
-        return 'Everything';
-      case filterToday:
-        return 'Today';
-      case filterUpcoming:
-        return 'Next $upcomingDays days';
-      case filterSomeday:
-        return 'Someday';
-      case filterOverdue:
-        return 'Overdue';
-      default:
-        return filter!;
-    }
-  }
 
   IconData _getIconData(WidgetRef ref) {
     final filter = ref.read(itemFilter);
@@ -97,7 +75,7 @@ class ItemsListView extends ConsumerWidget {
           child: Column(
             children: [
               MenuHeaderWidget(
-                _getTitle(ref),
+                Helpers.getViewTitle(ref),
                 subtitle: countString,
                 iconData: _getIconData(ref),
                 iconColor: _getIconColor(ref),
