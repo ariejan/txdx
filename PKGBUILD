@@ -6,11 +6,9 @@ pkgdesc="Todo's like you've never seen before"
 arch=('x86_64' 'aarch64')
 url=https://gitlab.devroom.io/ariejan/txdx
 depends=('gtk3' 'zenity')
-makepends=('clang' 'ninja' 'cmake' 'git' 'unzip' 'flutter-beta' 'flutter-group-pacman-hook')
+makedepends=('clang' 'ninja' 'cmake' 'git' 'unzip' 'flutter-beta' 'flutter-group-pacman-hook')
 
-# TODO: Set directly to gitlab tag source download
 source=("txdx-${pkgver}.tar.gz::https://gitlab.devroom.io/ariejan/txdx/-/archive/${pkgver}/txdx-${pkgver}.tar.gz")
-# TODO: Add sha256sum
 sha256sums=('5da8bcdae8a61e7d38a0e2068021d884737b7150323ea07d9d5407d0847144a6')
 
 prepare() {
