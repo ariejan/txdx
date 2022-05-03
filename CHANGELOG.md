@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 2022-05-03
+### Fixed
+- Do not persist items that are being created
+- Fix sidebar badge count when creating an item
+### Added
+- Distribution as an Arch Linux / Manjaro AUR package [#116]
+### Changed
+- Move to flutter-stable (from flutter-beta) [#119]
+
 ## [1.1.1] - 2022-04-28
 ### Added
 - View your archive and restore items if necessary [#60]

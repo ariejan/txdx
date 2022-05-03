@@ -1,8 +1,5 @@
-Added
-- View your archive and restore items if necessary [#60]
+Just a quick maintenance release, nothing fancy. 
 
-Fixed
-- Exit search mode when searching and switching to another view [#110]
-- Improve handling of deleting of contexts/projects/tags. [#109]
-- Handle several edge cases when creating/editing/deleting items.
-
+- Do not persist items that are being created
+- Fix sidebar badge count when creating an item
+- Several small performance and stability fixes
