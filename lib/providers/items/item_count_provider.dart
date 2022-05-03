@@ -11,7 +11,9 @@ final badgeCount = Provider<int>((ref) {
 });
 
 final itemsCount = StateProvider.family<int, String>((ref, filter) {
-  final items = ref.watch(scopedItems);
+  var items = ref.watch(scopedItems);
+  items = items.where((item) => !item.isNew).toList();
+
   final settings = ref.watch(interfaceSettingsProvider);
 
   return filterItems(items, filter, true, settings).length;
