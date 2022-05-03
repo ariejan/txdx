@@ -25,7 +25,7 @@ plugs:
 apps:
   txdx:
     command: txdx
-    extensions: [flutter-beta] 
+    extensions: [flutter-stable] 
     plugs:
       - desktop
       - desktop-legacy

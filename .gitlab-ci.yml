@@ -1,5 +1,5 @@
 default:
-  image: cirrusci/flutter:beta
+  image: cirrusci/flutter:stable
   cache:
     key:
       files:
@@ -57,7 +57,7 @@ build_windows:
   tags:
     - win10
   before_script:
-    - flutter channel beta
+    - flutter channel stable
     - flutter upgrade
     - flutter clean
   script:
@@ -94,7 +94,7 @@ build_macos_dmg:
     - gem install bundler
     - bundle install
     - cd $CI_PROJECT_DIR
-    - flutter channel beta
+    - flutter channel stable
     - flutter upgrade
     - flutter precache
     - flutter clean
@@ -188,8 +188,8 @@ package_arch_aur:
     - echo "Installing required build packages..."
     - sudo pacman -Syu --noconfirm --needed sudo base-devel fakeroot binutils openssh zenity cmake git openssl clang ninja unzip jdk-openjdk
 
-    - echo "Installing flutter-beta..."
-    - yay -S flutter-beta
+    - echo "Installing flutter..."
+    - yay -S flutter
 
     - echo "Making main source package..."
     - cd txdx
@@ -251,7 +251,7 @@ package_apple_app_store:
     - gem install bundler
     - bundle install
     - cd $CI_PROJECT_DIR
-    - flutter channel beta
+    - flutter channel stable
     - flutter upgrade
     - flutter precache
     - flutter clean
