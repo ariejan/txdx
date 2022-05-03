@@ -175,20 +175,30 @@ package_arch_aur:
   tags: 
     - arch
   script:
+    - CI_COMMIT_TAG=1.1.2
     - cd ./pkg/aur
 
     - VERSION=$CI_COMMIT_TAG
     - echo "Determined binary version '$VERSION'"
 
     - echo "Determining SHA checksums for remote files..."
+    - URL_BIN=https://gitlab.devroom.io/api/v4/projects/17/packages/generic/txdx/$VERSION/txdx-$VERSION-linux-x64.tar.gz
+    - 'echo "Selected bin URL: $URL_BIN"'
     - URL_SOURCE=https://gitlab.devroom.io/ariejan/txdx/-/archive/$VERSION/txdx-$VERSION.tar.gz
     - 'echo "Selected source URL: $URL_SOURCE"'
 
+    - echo "Determining sha256sum for remote binaries..."
+    - 'SHA_BIN=$(curl -sSL "$URL_BIN" | sha256sum | cut -d" " -f1)'
+    - 'echo "Got sha256sum: $SHA_BIN"'
     - echo "Determining sha256sum for remote source..."
     - 'SHA_SOURCE=$(curl -sSL "$URL_SOURCE" | sha256sum | cut -d" " -f1)'
     - 'echo "Got sha256sum: $SHA_SOURCE"'
 
     - echo "Updating PKGBUILDS with release information..."
+    - sed "s/^pkgver=.*\$/pkgver=$VERSION/" -i txdx-bin/PKGBUILD    
+    - sed "s/^source=(\".*\").*\$/source=(\"$(echo $URL_BIN | sed 's/\//\\\//g')\")/" -i txdx-bin/PKGBUILD
+    - sed "s/^sha256sums=.*\$/sha256sums=('$SHA_BIN')/" -i txdx-bin/PKGBUILD    
+
     - sed "s/^pkgver=.*\$/pkgver=$VERSION/" -i txdx/PKGBUILD    
     - sed "s/^source=(\".*\").*\$/source=(\"$(echo $URL_SOURCE | sed 's/\//\\\//g')\")/" -i txdx/PKGBUILD
     - sed "s/^sha256sums=.*\$/sha256sums=('$SHA_SOURCE')/" -i txdx/PKGBUILD    
@@ -199,7 +209,14 @@ package_arch_aur:
     - echo "Installing flutter..."
     - yay -S flutter
 
-    - echo "Making main source package..."
+    - echo "Making bin package..."
+    - cd txdx-bin
+    - makepkg -sc
+    - makepkg --printsrcinfo > .SRCINFO
+    - cat .SRCINFO
+    - cd ..
+
+    - echo "Making source package..."
     - cd txdx
     - makepkg -sc
     - makepkg --printsrcinfo > .SRCINFO
@@ -221,6 +238,14 @@ package_arch_aur:
     - ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts
     - git config --global user.name "Ariejan de Vroom"
     - git config --global user.email "ariejan@devroom.io"
+
+    - git clone ssh://aur@aur.archlinux.org/txdx-bin.git aur-txdx-bin
+    - cd aur-txdx-bin
+    - cp ../txdx-bin/{PKGBUILD,.SRCINFO} ./
+    - git add PKGBUILD .SRCINFO
+    - git commit -m "Release $VERSION"
+    - git push
+    - cd ..
 
     - git clone ssh://aur@aur.archlinux.org/txdx.git aur-txdx
     - cd aur-txdx
