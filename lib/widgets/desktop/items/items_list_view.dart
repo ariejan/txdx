@@ -83,6 +83,7 @@ class ItemsListView extends ConsumerWidget {
                 actions: [
                   if (archiveAvailable) IconButton(
                     mouseCursor: MouseCursor.defer,
+                    splashRadius: 1,
                     icon: Icon(Icons.archive_outlined, size: 20, color: Theme.of(context).disabledColor),
                     tooltip: "Archive completed items to archive.txt",
                     onPressed: () {
@@ -91,6 +92,7 @@ class ItemsListView extends ConsumerWidget {
                   ),
                   IconButton(
                     mouseCursor: MouseCursor.defer,
+                    splashRadius: 1,
                     icon: Icon(Icons.add, size: 20, color: Theme.of(context).disabledColor),
                     tooltip: 'Create a new item',
                     onPressed: () {
@@ -99,7 +101,6 @@ class ItemsListView extends ConsumerWidget {
                   ),
                   PopupMenuButton(
                     padding: EdgeInsets.zero,
-                    splashRadius: 14,
                     icon: Icon(Icons.sort_sharp, size: 20, color: Theme.of(context).disabledColor),
                     color: Theme.of(context).brightness == Brightness.dark
                         ? TxDxColors.darkBadge2 : TxDxColors.lightBadge,

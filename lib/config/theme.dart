@@ -33,7 +33,6 @@ abstract class TxDxTheme {
       navigationBarTheme: const NavigationBarThemeData(backgroundColor: Colors.red),
       listTileTheme: const ListTileThemeData(
         dense: true,
-        visualDensity: VisualDensity.compact,
         contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         horizontalTitleGap: -12,
       ),
@@ -96,7 +95,6 @@ abstract class TxDxTheme {
       ),
       listTileTheme: const ListTileThemeData(
         dense: true,
-        visualDensity: VisualDensity.compact,
         contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         horizontalTitleGap: -12,
       ),
