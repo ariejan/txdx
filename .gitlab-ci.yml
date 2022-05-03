@@ -40,6 +40,14 @@ test:
     paths:
       - coverage
 
+test_beta:
+  stage: check
+  image: cirrusci/flutter:beta
+  allow_failure: true
+  script:
+    - flutter pub get
+    - flutter test
+
 test_coverage:
   stage: check
   script:
