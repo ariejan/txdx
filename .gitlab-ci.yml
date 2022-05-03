@@ -10,24 +10,25 @@ default:
 variables:
   DMG_BINARY: "txdx-${CI_COMMIT_TAG}.dmg"
   SNAP_AMD64_BINARY: "txdx_${CI_COMMIT_TAG}_amd64.snap"
-  WIN_PORTABLE_X64_BINARY: "txdx_${CI_COMMIT_TAG}_portable_x64.zip"
+  LINUX_X64_ARCHIVE: "txdx-${CI_COMMIT_TAG}-linux-x64.tar.gz"
+  WIN_PORTABLE_X64_ARCHIVE: "txdx_${CI_COMMIT_TAG}_portable_x64.zip"
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/txdx/${CI_COMMIT_TAG}"
 
 stages:
-  - test
+  - check
   - build
-  - package
   - upload
   - release
+  - package
 
 analyze:
-  stage: test
+  stage: check
   script:
     - flutter pub get
     - flutter analyze
 
 test:
-  stage: test
+  stage: check
   script:
     - flutter pub global activate junitreport
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -39,8 +40,8 @@ test:
     paths:
       - coverage
 
-coverage:
-  stage: test
+test_coverage:
+  stage: check
   script:
     - flutter test --coverage ./lib
     - lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info
@@ -49,7 +50,7 @@ coverage:
     paths:
       - coverage
 
-build_win_zip: 
+build_windows: 
   stage: build
   rules:
     - if: $CI_COMMIT_TAG
@@ -58,49 +59,29 @@ build_win_zip:
   before_script:
     - flutter channel beta
     - flutter upgrade
-    - flutter precache
-  script:
     - flutter clean
+  script:
     - flutter pub get
     - flutter build windows --release
   artifacts:
     paths:
-      - build\windows\runner\Release\
+      - build/windows/runner/Release/
 
-package_win_zip:
-  stage: package
-  image: debian:stable
+package_windows_zip:
+  stage: build
+  needs: ['build_windows']
+  image: alpine:latest
   rules:
     - if: $CI_COMMIT_TAG
-  needs: ['build_win_zip']
-  before_script:
-    - apt-get update
-    - apt-get install -y zip
   script:
+    - apk add --no-cache zip
     - cd build/windows/runner/Release
     - zip -r txdx.zip .
-    - mv txdx.zip $CI_PROJECT_DIR/$WIN_PORTABLE_X64_BINARY
+    - mv txdx.zip $CI_PROJECT_DIR/$WIN_PORTABLE_X64_ARCHIVE
     - cd $CI_PROJECT_DIR
   artifacts:
     paths:
-      - "$WIN_PORTABLE_X64_BINARY"
-
-build_snap:
-  stage: build
-  rules:
-    - if: $CI_COMMIT_TAG
-  tags:
-    - ubuntu
-  before_script:
-    - rm -rf *.snap
-    - snapcraft clean --use-lxd
-  script:
-    - snapcraft --use-lxd
-  after_script:
-   - find . -name 'txdx*amd64.snap' -exec bash -c 'mv $0 $SNAP_AMD64_BINARY' {} \;
-  artifacts:
-    paths:
-      - "$SNAP_AMD64_BINARY"
+      - "$WIN_PORTABLE_X64_ARCHIVE"
 
 build_macos_dmg:
   stage: build
@@ -128,8 +109,137 @@ build_macos_dmg:
     paths:
       - "$DMG_BINARY"
 
-build_macos_app_store:
+build_linux_x64:
   stage: build
+  rules:
+    - if: $CI_COMMIT_TAG
+  before_script:
+    [
+      sudo apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install keyboard-configuration -y && sudo apt-get install clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libjsoncpp-dev cmake-data libjsoncpp1 libsecret-1-dev libsecret-1-0 librhash0 -y,
+    ]
+  script:
+    - flutter config --enable-linux-desktop
+    - flutter pub get
+    - flutter build linux --release --verbose
+    - tar czf $LINUX_X64_ARCHIVE -C build/linux/x64/release/bundle/ .
+  artifacts:
+    when: on_success
+    paths:
+      - "$LINUX_X64_ARCHIVE"
+
+upload_gitlab:
+  stage: release
+  image: curlimages/curl:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - sha256sum $DMG_BINARY > SHA256SUMS
+    - sha256sum $LINUX_X64_ARCHIVE > SHA256SUMS
+    - sha256sum $WIN_PORTABLE_X64_ARCHIVE >> SHA256SUMS
+    - |
+      curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file $DMG_BINARY "${PACKAGE_REGISTRY_URL}/${DMG_BINARY}"
+    - |
+      curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file $LINUX_X64_ARCHIVE "${PACKAGE_REGISTRY_URL}/${LINUX_X64_ARCHIVE}"      
+    - |
+      curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file $WIN_PORTABLE_X64_ARCHIVE "${PACKAGE_REGISTRY_URL}/${WIN_PORTABLE_X64_ARCHIVE}"
+    - |
+      curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file SHA256SUMS "${PACKAGE_REGISTRY_URL}/SHA256SUMS"
+
+release-gitlab:
+  stage: release
+  needs: ['upload_gitlab']
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - |
+      release-cli create --name "Release $CI_COMMIT_TAG" --tag-name $CI_COMMIT_TAG \
+        --assets-link "{\"name\":\"${DMG_BINARY}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${DMG_BINARY}\"}" \
+        --assets-link "{\"name\":\"${LINUX_X64_ARCHIVE}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${LINUX_X64_ARCHIVE}\"}" \
+        --assets-link "{\"name\":\"${WIN_PORTABLE_X64_ARCHIVE}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${WIN_PORTALBLE_X64_BINARY}\"}" \
+        --assets-link "{\"name\":\"SHA256SUMS\",\"url\":\"${PACKAGE_REGISTRY_URL}/SHA256SUMS\"}" \
+
+package_arch_aur:
+  stage: package
+  needs: ['release-gitlab']
+  rules:
+    - if: $CI_COMMIT_TAG
+  tags: 
+    - arch
+  script:
+    - cd ./pkg/aur
+
+    - VERSION=$CI_COMMIT_TAG
+    - echo "Determined binary version '$VERSION'"
+
+    - echo "Determining SHA checksums for remote files..."
+    - URL_SOURCE=https://gitlab.devroom.io/ariejan/txdx/-/archive/$VERSION/txdx-$VERSION.tar.gz
+    - 'echo "Selected source URL: $URL_SOURCE"'
+
+    - echo "Determining sha256sum for remote source..."
+    - 'SHA_SOURCE=$(curl -sSL "$URL_SOURCE" | sha256sum | cut -d" " -f1)'
+    - 'echo "Got sha256sum: $SHA_SOURCE"'
+
+    - echo "Updating PKGBUILDS with release information..."
+    - sed "s/^pkgver=.*\$/pkgver=$VERSION/" -i txdx/PKGBUILD    
+    - sed "s/^source=(\".*\").*\$/source=(\"$(echo $URL_SOURCE | sed 's/\//\\\//g')\")/" -i txdx/PKGBUILD
+    - sed "s/^sha256sums=.*\$/sha256sums=('$SHA_SOURCE')/" -i txdx/PKGBUILD    
+
+    - echo "Installing required build packages..."
+    - sudo pacman -Syu --noconfirm --needed sudo base-devel fakeroot binutils openssh zenity cmake git openssl clang ninja unzip jdk-openjdk
+
+    - echo "Installing flutter-beta..."
+    - yay -S flutter-beta
+
+    - echo "Making main source package..."
+    - cd txdx
+    - makepkg -sc
+    - makepkg --printsrcinfo > .SRCINFO
+    - cat .SRCINFO
+    - cd ..
+
+    - echo "Set up SSH for AUR publishing"
+    - echo $AUR_PUBLIC_KEY | base64 -d > ~/.ssh/aur.pub
+    - echo $AUR_PRIVATE_KEY | base64 -d > ~/.ssh/aur
+
+    - echo "Host aur.archlinux.org" > ~/.ssh/config
+    - echo "  IdentityFile ~/.ssh/aur" >> ~/.ssh/config
+    - echo "  User aur" >> ~/.ssh/config
+
+    - chmod 600 ~/.ssh/{aur*,config}
+
+    - eval `ssh-agent -s`
+    - ssh-add ~/.ssh/aur
+    - ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts
+    - git config --global user.name "Ariejan de Vroom"
+    - git config --global user.email "ariejan@devroom.io"
+
+    - git clone ssh://aur@aur.archlinux.org/txdx.git aur-txdx
+    - cd aur-txdx
+    - cp ../txdx/{PKGBUILD,.SRCINFO} ./
+    - git add PKGBUILD .SRCINFO
+    - git commit -m "Release $VERSION"
+    - git push
+    - cd ..
+
+package_snap:
+  stage: package
+  rules:
+    - if: $CI_COMMIT_TAG
+  tags:
+    - ubuntu
+  before_script:
+    - rm -rf *.snap
+    - snapcraft clean --use-lxd
+  script:
+    - snapcraft --use-lxd
+    - find . -name 'txdx*amd64.snap' -exec bash -c 'mv $0 $SNAP_AMD64_BINARY' {} \;
+    - echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > snapcraft.login
+    - snapcraft login --with snapcraft.login
+    - snapcraft push $SNAP_AMD64_BINARY --release stable    
+
+package_apple_app_store:
+  stage: package
   when: manual
   allow_failure: true
   rules:
@@ -150,46 +260,4 @@ build_macos_app_store:
     - cd macos
     - fastlane mac_pkg
     - cd $CI_PROJECT_DIR
-
-upload:
-  stage: upload
-  image: curlimages/curl:latest
-  rules:
-    - if: $CI_COMMIT_TAG
-  script:
-    - sha256sum $DMG_BINARY > SHA256SUMS
-    - sha256sum $SNAP_AMD64_BINARY >> SHA256SUMS
-    - sha256sum $WIN_PORTABLE_X64_BINARY >> SHA256SUMS
-    - |
-      curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file $DMG_BINARY "${PACKAGE_REGISTRY_URL}/${DMG_BINARY}"
-    - |
-      curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file $SNAP_AMD64_BINARY "${PACKAGE_REGISTRY_URL}/${SNAP_AMD64_BINARY}"
-    - |
-      curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file $WIN_PORTABLE_X64_BINARY "${PACKAGE_REGISTRY_URL}/${WIN_PORTABLE_X64_BINARY}"
-    - |
-      curl -v --no-progress-meter --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file SHA256SUMS "${PACKAGE_REGISTRY_URL}/SHA256SUMS"
-
-release-snapstore:
-  stage: release
-  rules:
-    - if: $CI_COMMIT_TAG
-  tags:
-    - ubuntu
-  script:
-    - echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > snapcraft.login
-    - snapcraft login --with snapcraft.login
-    - snapcraft push $SNAP_AMD64_BINARY --release stable
-
-release-gitlab:
-  stage: release
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  rules:
-    - if: $CI_COMMIT_TAG
-  script:
-    - |
-      release-cli create --name "Release $CI_COMMIT_TAG" --tag-name $CI_COMMIT_TAG \
-        --assets-link "{\"name\":\"${DMG_BINARY}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${DMG_BINARY}\"}" \
-        --assets-link "{\"name\":\"${SNAP_AMD64_BINARY}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${SNAP_AMD64_BINARY}\"}" \
-        --assets-link "{\"name\":\"${WIN_PORTABLE_X64_BINARY}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${WIN_PORTALBLE_X64_BINARY}\"}" \
-        --assets-link "{\"name\":\"SHA256SUMS\",\"url\":\"${PACKAGE_REGISTRY_URL}/SHA256SUMS\"}" \
-
+    

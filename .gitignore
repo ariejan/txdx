@@ -50,5 +50,3 @@ app.*.map.json
 test/examples/*test.txt
 
 *.snap
-/pkg
-/src
