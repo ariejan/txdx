@@ -5,6 +5,7 @@ import 'txdx_item.dart';
 class TxDxFile {
 
   static Future<void> saveToFile(File file, List<TxDxItem> items, { bool sorted = false }) async {
+    items = items.where((item) => !item.isNew).toList();
 
     var itemLines = items.map((e) => e.toString()).toList();
 
