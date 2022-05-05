@@ -175,7 +175,6 @@ package_arch_aur:
   tags: 
     - arch
   script:
-    - CI_COMMIT_TAG=1.1.2
     - cd ./pkg/aur
 
     - VERSION=$CI_COMMIT_TAG
