@@ -1,0 +1,14 @@
+{
+  "title": "TxDx VERSION installer",
+  "icon": "icon.icns",
+  "icon-size": 100,
+  "background": "bg.png",
+  "window": {
+    "position": { "x": 200, "y": 120 },
+    "size": { "width": 800, "height": 400 }
+  },
+  "contents": [
+    { "x": 200, "y": 190, "type": "file", "path": "../../macos/output/TxDx.app" },
+    { "x": 600, "y": 185, "type": "link", "path": "/Applications" }
+  ]
+}
