@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2022-05-05
+### Fixed
+- Fix an issue where new tasks cannot be created. [#124]
+
 ## [1.1.2] - 2022-05-03
 ### Fixed
 - Do not persist items that are being created

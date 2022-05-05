@@ -35,6 +35,7 @@ class TxDxFile {
 
   // Returns true if data in the file and the provided list are the same
   static Future<bool> compareFileToDataEquality(File file, List<TxDxItem> items) async {
+    items = items.where((item) => !item.isNew).toList();
     final fileItems = await openFromFile(file);
 
     if (fileItems.length != items.length) return false;
