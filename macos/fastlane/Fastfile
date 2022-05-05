@@ -107,11 +107,10 @@ platform :mac do
       export_team_id: '5N4J4E7395'
     )
 
-    dmg_path = create_dmg("../#{output_dir}", "txdx-#{version}")
+    dmg_path = create_dmg("../#{output_dir}", "#{version}")
 
     Dir.chdir("../#{output_dir}") do
       sh("codesign", "--sign", 'Developer ID Application: Ariejan De Vroom (5N4J4E7395)', "--timestamp=none", dmg_path)
-      
     end
 
     notarize(
@@ -119,16 +118,17 @@ platform :mac do
       api_key: api_key,
       bundle_id: "io.devroom.txdx",
     )
-
   end
 
-  def create_dmg(folder, dmg_name)
+  def create_dmg(folder, version)
+    dmg_name = "txdx-#{version}"
     expanded_path = File.expand_path(folder)
 
     UI.important "Creating dmg for folder #{expanded_path}"
-    UI.important "hdiutil create -fs HFS+ -srcfolder \"#{expanded_path}\" -volname #{dmg_name} #{folder}/#{dmg_name}.dmg"
-    `hdiutil create -fs HFS+ -srcfolder "#{expanded_path}" -volname #{dmg_name} #{folder}/#{dmg_name}.dmg`
-    raise "Unable to create DMG" unless $? == 0
+    
+    appdmg = "../../pkg/dmg/appdmg.json"  
+    `sed "s/VERSION/#{version}/" #{appdmg} > #{appdmg}`
+    `appdmg #{appdmg} #{folder}/#{dmg_name}.dmg`
     return "#{expanded_path}/#{dmg_name}.dmg"
   end
 end
