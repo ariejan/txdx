@@ -1,5 +1,1 @@
-Just a quick maintenance release, nothing fancy. 
-
-- Do not persist items that are being created
-- Fix sidebar badge count when creating an item
-- Several small performance and stability fixes
+Quick update to resolve an issue where you could not create new items. Thank you @richarddribeiro and @otaj for reporting this issue.
