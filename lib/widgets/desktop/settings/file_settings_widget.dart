@@ -20,7 +20,7 @@ class FileSettingsWidget extends ConsumerWidget {
         Table(children: [
           TableRow(children: [
             const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.fromLTRB(8, 12, 8, 8),
               child: Text('TxDx Directory'),
             ),
             Padding(
@@ -75,7 +75,7 @@ class FileSettingsWidget extends ConsumerWidget {
           ]),
           TableRow(children: [
             const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.fromLTRB(8, 16, 8, 8),
               child: Text('Auto-reload Todo.txt changes from disk'),
             ),
             Padding(
@@ -96,7 +96,7 @@ class FileSettingsWidget extends ConsumerWidget {
           ]),
           TableRow(children: [
             const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.fromLTRB(8, 16, 8, 8),
               child: Text('Save Todo.txt sorted alphabetically'),
             ),
             Padding(

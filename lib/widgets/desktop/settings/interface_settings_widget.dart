@@ -33,7 +33,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
               TableRow(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.fromLTRB(8, 12, 8, 8),
                       child: Text('Theme'),
                     ),
                     Padding(
@@ -86,7 +86,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
               TableRow(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.fromLTRB(8, 12, 8, 8),
                       child: Text('Start-up default filter'),
                     ),
                     Padding(
@@ -139,7 +139,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
               if (Platform.isMacOS) TableRow(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.fromLTRB(8, 12, 8, 8),
                       child: Text('Filter for dock badge counter'),
                     ),
                     Padding(
@@ -195,7 +195,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
               TableRow(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.fromLTRB(8, 12, 8, 8),
                       child: Text('Show items due today in Upcoming'),
                     ),
                     Padding(
@@ -218,7 +218,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
               TableRow(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.fromLTRB(8, 12, 8, 8),
                       child: Text('Number of days for Upcoming items'),
                     ),
                     Padding(
@@ -252,7 +252,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
               TableRow(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.fromLTRB(8, 12, 8, 8),
                       child: Text('Default item sorting'),
                     ),
                     Padding(
@@ -301,7 +301,7 @@ class InterfaceSettingsWidget extends ConsumerWidget {
               TableRow(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.fromLTRB(8, 12, 8, 8),
                       child: Text('Automatically add current project or context filter to new items.'),
                     ),
                     Padding(
@@ -314,6 +314,55 @@ class InterfaceSettingsWidget extends ConsumerWidget {
                                 onChanged: (value) {
                                   ref.read(interfaceSettingsProvider).setBool(settingsAutoAddFilter, value);
                                 },
+                              ),
+                            ]
+                        )
+                    )
+                  ]
+              ),
+
+              TableRow(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(8, 12, 8, 8),
+                      child: Text('Weeks start on'),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton2(
+                                  value: ref.watch(interfaceSettingsProvider).getString(settingsWeeksStartsOn),
+                                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                                  buttonWidth: 180,
+                                  itemHeight: 28,
+                                  buttonHeight: 28,
+                                  onChanged: (value) {
+                                    ref.read(interfaceSettingsProvider).setString(settingsWeeksStartsOn, value as String);
+                                  },
+                                  hint: Text(
+                                    'Select Item',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme
+                                          .of(context)
+                                          .hintColor,
+                                    ),
+                                  ),
+                                  items: optionsWeeksStartOn.keys
+                                      .map((key) =>
+                                      DropdownMenuItem<String>(
+                                        value: key,
+                                        child: Text(
+                                          optionsWeeksStartOn[key]!,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      )).toList(),
+                                ),
                               ),
                             ]
                         )

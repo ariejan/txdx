@@ -18,7 +18,7 @@ const settingsDefaultSorting = 'items_default_sorting';
 const settingsFilterMacosBadgeCount = 'filter_macos_badge_count';
 
 const settingsAutoAddFilter = 'item_auto_add_filter';
-
+const settingsWeeksStartsOn = 'items_weeks_start_on';
 const settingsFileSaveOrdered = 'todotxt_file_save_ordered';
 
 const settingsTodoTxtMacosSecureBookmark = 'todotxt_macos_secure_bookmark';
@@ -36,6 +36,7 @@ const defaultSettings = {
   settingsFileSaveOrdered: true,
   settingsFilterMacosBadgeCount: filterToday,
   settingsDefaultSorting: ItemStateSorter.priority,
+  settingsWeeksStartsOn: 'monday',
 };
 
 const nextUpDaysMin = 0;
@@ -58,4 +59,9 @@ const settingsDefaultFilterItems = {
 const settingsSortOrders = {
   ItemStateSorter.priority: 'Priority',
   ItemStateSorter.dueOn: 'Due date',
+};
+
+const optionsWeeksStartOn = {
+  'monday': 'Monday',
+  'sunday': 'Sunday',
 };

@@ -9,6 +9,7 @@ import 'package:txdx/screens/desktop/desktop_home_screen.dart';
 import 'package:txdx/screens/mobile/mobile_home_screen.dart';
 import 'package:txdx/screens/settings_screen.dart';
 import 'package:window_size/window_size.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'providers/items/item_count_provider.dart';
 import 'providers/settings/settings_provider.dart';
@@ -98,6 +99,15 @@ class TxDxApp extends ConsumerWidget {
       darkTheme: TxDxTheme.dark(),
       themeMode: themeMode,
       initialRoute: '/',
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('en', 'GB'),
+      ],
       builder: (_, navigator) {
         if (navigator == null) return Container();
         return ScrollConfiguration(

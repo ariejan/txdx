@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 
+import '../../../config/settings.dart';
+import '../../../providers/settings/settings_provider.dart';
+
 class DueOnPicker extends ConsumerStatefulWidget {
 
   final TxDxItem item;
@@ -36,6 +39,8 @@ class _DueOnPickerState extends ConsumerState<DueOnPicker> {
 
   @override
   Widget build(BuildContext context) {
+
+    final settingWeeksStartOn = ref.watch(interfaceSettingsProvider).getString(settingsWeeksStartsOn);
 
     if (dueOnText.isEmpty) {
       _setDueOn(widget.item.dueOn);
@@ -76,6 +81,7 @@ class _DueOnPickerState extends ConsumerState<DueOnPicker> {
               onTap: () async {
                 showDatePicker(
                   context: context,
+                  locale: settingWeeksStartOn == 'monday' ? const Locale('en', 'GB') : const Locale('en', 'US'),
                   initialDate: widget.item.dueOn ?? DateTime.now(),
                   firstDate: DateTime(1970, 1, 1),
                   lastDate: DateTime(2099, 12, 31),
