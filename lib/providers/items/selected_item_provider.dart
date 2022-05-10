@@ -13,6 +13,10 @@ final selectedItemIdStateProvider = StateProvider<String?>((ref) {
   return null;
 });
 
+final contextMenuItemIdStateProvider = StateProvider<String?>((ref) {
+  return null;
+});
+
 final itemProvider = StateProvider.family<TxDxItem?, String>((ref, id) {
   var items = ref.watch(todoItemsProvider);
   final itemIdx = items.indexWhere((item) => item.id == id);

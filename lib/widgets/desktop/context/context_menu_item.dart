@@ -12,6 +12,7 @@ class ContextMenuItem extends StatelessWidget
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
+      mouseCursor: MouseCursor.defer,
       onTap: onTap,
       dense: true,
       leading: leading,

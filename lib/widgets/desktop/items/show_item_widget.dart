@@ -26,6 +26,8 @@ class ShowItemWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedItemId = ref.watch(selectedItemIdStateProvider);
     final isSelected = selectedItemId != null && selectedItemId == item.id;
+    final contextHighlightedId = ref.watch(contextMenuItemIdStateProvider);
+    final isContextHighlighted = contextHighlightedId != null && contextHighlightedId == item.id;
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -59,6 +61,10 @@ class ShowItemWidget extends ConsumerWidget {
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isContextHighlighted ? Theme.of(context).highlightColor : Colors.transparent,
+            width: 2,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 3, 12, 3),
@@ -125,9 +131,11 @@ class ShowItemWidget extends ConsumerWidget {
                   },
                   child: ContextMenuArea(
                     verticalPadding: 8,
+                    onHighlight: () => ref.read(contextMenuItemIdStateProvider.state).state = item.id,
+                    onDismiss: () => ref.read(contextMenuItemIdStateProvider.state).state = null,
                     items: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -184,6 +192,15 @@ class ShowItemWidget extends ConsumerWidget {
                             ]),
                       ),
                       ContextMenuItem(
+                        leading: const Icon(Icons.edit, size: 16),
+                        title: 'Edit...',
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          ref.read(selectedItemIdStateProvider.state).state = item.id;
+                          ref.read(editingItemIdStateProvider.state).state = item.id;
+                        },
+                      ),
+                      ContextMenuItem(
                         leading: const Icon(Icons.check, size: 16),
                         title: item.completed
                             ? 'Mark as pending'
@@ -229,83 +246,92 @@ class ShowItemWidget extends ConsumerWidget {
                         },
                       ),
                     ],
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              0, isShowingMetadata ? 2 : 0, 0, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Linkify(
-                                  text: item.description,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  onOpen: (LinkableElement link) {
-                                    launchInBrowser(link.url);
-                                  },
-                                  style: item.completed
-                                      ? TextStyle(
-                                          color:
-                                              Theme.of(context).disabledColor,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                        )
-                                      : Theme.of(context).textTheme.bodyText2,
-                                  linkStyle: item.completed
-                                      ? TextStyle(
-                                          color:
-                                              Theme.of(context).disabledColor,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          height: 1,
-                                        )
-                                      : Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .copyWith(
-                                            height: 1,
-                                            color: TxDxColors.linkText,
-                                          ),
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                      0, isShowingMetadata ? 2 : 0, 0, 0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Linkify(
+                                          text: item.description,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          onOpen: (LinkableElement link) {
+                                            launchInBrowser(link.url);
+                                          },
+                                          style: item.completed
+                                              ? TextStyle(
+                                                  color:
+                                                      Theme.of(context).disabledColor,
+                                                  decoration:
+                                                      TextDecoration.lineThrough,
+                                                )
+                                              : Theme.of(context).textTheme.bodyText2,
+                                          linkStyle: item.completed
+                                              ? TextStyle(
+                                                  color:
+                                                      Theme.of(context).disabledColor,
+                                                  decoration:
+                                                      TextDecoration.lineThrough,
+                                                  height: 1,
+                                                )
+                                              : Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .copyWith(
+                                                    height: 1,
+                                                    color: TxDxColors.linkText,
+                                                  ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                if (!item.completed && isShowingMetadata)
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 2, 0, 4),
+                                      child: Wrap(
+                                          alignment: WrapAlignment.start,
+                                          spacing: 2,
+                                          crossAxisAlignment: WrapCrossAlignment.center,
+                                          children: [
+                                            for (var project in item.projects) ...[
+                                              LabelWidget(project,
+                                                  color: TxDxColors.projects,
+                                                  iconData: Icons.label_sharp),
+                                            ],
+                                            for (var context in item.contexts) ...[
+                                              LabelWidget(context,
+                                                  color: TxDxColors.contexts,
+                                                  iconData: Icons.label_sharp),
+                                            ],
+                                            for (var key
+                                                in item.tagsWithoutDue.keys) ...[
+                                              LabelWidget('$key:${item.tags[key]}',
+                                                  color: TxDxColors.tags,
+                                                  iconData: Icons.label_sharp),
+                                            ],
+                                          ]))
+                              ],
+                            ),
                           ),
-                        ),
-                        if (!item.completed && isShowingMetadata)
-                          Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 2, 0, 4),
-                              child: Wrap(
-                                  alignment: WrapAlignment.start,
-                                  spacing: 2,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  children: [
-                                    for (var project in item.projects) ...[
-                                      LabelWidget(project,
-                                          color: TxDxColors.projects,
-                                          iconData: Icons.label_sharp),
-                                    ],
-                                    for (var context in item.contexts) ...[
-                                      LabelWidget(context,
-                                          color: TxDxColors.contexts,
-                                          iconData: Icons.label_sharp),
-                                    ],
-                                    for (var key
-                                        in item.tagsWithoutDue.keys) ...[
-                                      LabelWidget('$key:${item.tags[key]}',
-                                          color: TxDxColors.tags,
-                                          iconData: Icons.label_sharp),
-                                    ],
-                                  ]))
-                      ],
+                          if (!item.completed && item.hasDueOn)
+                            DueOnWidget(item.dueOn!),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-              if (!item.completed && item.hasDueOn)
-                DueOnWidget(item.dueOn!),
             ],
           ),
         ),

@@ -27,24 +27,17 @@ class PriorityButton extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         color: selectedPriority ? Theme.of(context).highlightColor : null,
       ),
-      child: TextButton(
-        style: ButtonStyle(
-          overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.hovered)) {
-                return Theme.of(context).hoverColor;
-              }
-              return null; // Defer to the widget's default.
-            },
-          ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          color: Colors.transparent,
+          padding: const EdgeInsets.all(8),
+          child: Icon(
+            Icons.circle_sharp,
+            size: 9,
             color: TxDxColors.forPriority(priority),
           ),
         ),
-        onPressed: onTap,
       ),
     );
   }
