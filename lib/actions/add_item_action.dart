@@ -41,6 +41,7 @@ class AddItemAction extends Action<AddIntent> with ItemListManager {
     }
 
     ref.read(editingItemIdStateProvider.state).state = newItem.id;
+    ref.read(selectedItemIdStateProvider.state).state = newItem.id;
 
     return null;
   }

@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Greatly improved the context menu and handling.
 ### Fixed
 - Multiple performance enhancements. [#127]
+- Fix focus issue when adding a new item.
 
 ## [1.1.3] - 2022-05-05
 ### Fixed
