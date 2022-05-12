@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:txdx/utils/date_helper.dart';
 import 'package:txdx/widgets/common/items/label_widget.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../config/colors.dart';
 import '../../../config/shortcuts.dart';
-import '../../../utils/browser.dart';
 import '../../../providers/items/item_notifier_provider.dart';
 import '../../../providers/items/selected_item_provider.dart';
 import '../../../txdx/txdx_item.dart';
@@ -225,12 +226,12 @@ class ShowItemWidget extends ConsumerWidget {
                       ),
                       ContextMenuItem(
                         leading: const Icon(Icons.update_sharp, size: 16),
-                        title: 'Postpone 7 days',
+                        title: 'Postpone to next week',
                         onTap: () {
                           Navigator.of(context).pop();
                           ref
                               .read(todoItemsProvider.notifier)
-                              .postpone(item.id, 7);
+                              .setDueOn(item.id, DateHelper.futureWeekDate(DateTime.monday));
                         },
                       ),
                       const Divider(),
@@ -257,43 +258,11 @@ class ShowItemWidget extends ConsumerWidget {
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(
                                       0, isShowingMetadata ? 2 : 0, 0, 0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Linkify(
-                                          text: item.description,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          onOpen: (LinkableElement link) {
-                                            launchInBrowser(link.url);
-                                          },
-                                          style: item.completed
-                                              ? TextStyle(
-                                                  color:
-                                                      Theme.of(context).disabledColor,
-                                                  decoration:
-                                                      TextDecoration.lineThrough,
-                                                )
-                                              : Theme.of(context).textTheme.bodyText2,
-                                          linkStyle: item.completed
-                                              ? TextStyle(
-                                                  color:
-                                                      Theme.of(context).disabledColor,
-                                                  decoration:
-                                                      TextDecoration.lineThrough,
-                                                  height: 1,
-                                                )
-                                              : Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText2!
-                                                  .copyWith(
-                                                    height: 1,
-                                                    color: TxDxColors.linkText,
-                                                  ),
-                                        ),
-                                      ),
-                                    ],
+                                  child: MarkdownBody(
+                                    data: item.description,
+                                    onTapLink: (_, href, __) {
+                                      launchUrlString(href!);
+                                    }
                                   ),
                                 ),
                                 if (!item.completed && isShowingMetadata)

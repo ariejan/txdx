@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Multiple performance enhancements. [#127]
 - Fix focus issue when adding a new item.
+- Fix layout issue when adding long URLs to your item description
 
 ## [1.1.3] - 2022-05-05
 ### Fixed
