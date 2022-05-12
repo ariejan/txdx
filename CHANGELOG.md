@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.1.4] - 2022-05-12
 ### Added
 - Add option to start weeks in the date picker on Monday/Sunday. [#125]
 - Added a more intuitive date picker for common dates.
