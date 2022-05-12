@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [unreleased]
 ### Added
 - Add option to start weeks in the date picker on Monday/Sunday. [#125]
+- Added a more intuitive date picker for common dates.
 ### Changed
 - Greatly improved the context menu and handling.
 ### Fixed

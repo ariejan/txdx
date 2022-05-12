@@ -1,11 +1,16 @@
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/txdx/txdx_item.dart';
+import 'package:txdx/utils/date_helper.dart';
 
 import '../../../config/settings.dart';
 import '../../../providers/settings/settings_provider.dart';
+import '../context/context_menu.dart';
+import '../context/context_menu_item.dart';
 
 class DueOnPicker extends ConsumerStatefulWidget {
 
@@ -35,6 +40,8 @@ class _DueOnPickerState extends ConsumerState<DueOnPicker> {
       widget.controller.text = '';
       setState(() => dueOnText = dueOnTextDefault);
     }
+
+    widget.parentFocusNode.requestFocus();
   }
 
   @override
@@ -67,7 +74,6 @@ class _DueOnPickerState extends ConsumerState<DueOnPicker> {
             if (isHovering) GestureDetector(
               onTap: () {
                 _setDueOn(null);
-                widget.parentFocusNode.requestFocus();
               },
               child: const Padding(
                 padding: EdgeInsets.fromLTRB(0, 2, 4, 0),
@@ -78,20 +84,71 @@ class _DueOnPickerState extends ConsumerState<DueOnPicker> {
               ),
             ),
             GestureDetector(
-              onTap: () async {
-                showDatePicker(
+              onTapDown: (details) async {
+                showModal(
                   context: context,
-                  locale: settingWeeksStartOn == 'monday' ? const Locale('en', 'GB') : const Locale('en', 'US'),
-                  initialDate: widget.item.dueOn ?? DateTime.now(),
-                  firstDate: DateTime(1970, 1, 1),
-                  lastDate: DateTime(2099, 12, 31),
-                  initialEntryMode: DatePickerEntryMode.calendarOnly,
-                  helpText: 'Due on',
-                ).then((pickedDate) {
+                  configuration: FadeScaleTransitionConfiguration(
+                    barrierColor: Colors.transparent,
+                  ),
+                  builder: (context) => ContextMenu(
+                    position: details.globalPosition,
+                    children: [
+                      ListTile(
+                        title: Text('Select a due date', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        )),
+                        dense: true,
+                      ),
+                      ContextMenuItem(
+                        title: 'Today',
+                        onTap: () {
+                          Navigator.pop(context);
+                          _setDueOn(DateHelper.today());
+                        },
+                      ),
+                      ContextMenuItem(
+                        title: 'Tomorrow',
+                        onTap: () {
+                          Navigator.pop(context);
+                          _setDueOn(DateHelper.futureDate(1));
+                        },
+                      ),
+                      ContextMenuItem(
+                        title: 'This weekend',
+                        onTap: () {
+                          Navigator.pop(context);
+                          _setDueOn(DateHelper.futureWeekDate(DateTime.saturday));
+                        },
+                      ),
+                      ContextMenuItem(
+                        title: 'Next week',
+                        onTap: () {
+                          Navigator.pop(context);
+                          _setDueOn(DateHelper.futureWeekDate(DateTime.monday));
+                        },
+                      ),
+                      ContextMenuItem(
+                        title: 'Pick a date',
+                        onTap: () {
+                          Navigator.pop(context);
+                          buildShowDatePicker(context, settingWeeksStartOn).then((pickedDate) {
+                            if (pickedDate != null) {
+                              _setDueOn(pickedDate);
+                            }
+                          });
+                        },
+                      ),
+                    ],
+                    verticalPadding: 8,
+                    width: 240,
+                  )
+                );
+              },
+              onDoubleTap: () async {
+                buildShowDatePicker(context, settingWeeksStartOn).then((pickedDate) {
                   if (pickedDate != null) {
                     _setDueOn(pickedDate);
                   }
-                  widget.parentFocusNode.requestFocus();
                 });
               },
               child: Text(
@@ -103,6 +160,18 @@ class _DueOnPickerState extends ConsumerState<DueOnPicker> {
         ),
       ),
     );
+  }
+
+  Future<DateTime?> buildShowDatePicker(BuildContext context, String? settingWeeksStartOn) {
+    return showDatePicker(
+                context: context,
+                locale: settingWeeksStartOn == 'monday' ? const Locale('en', 'GB') : const Locale('en', 'US'),
+                initialDate: widget.item.dueOn ?? DateTime.now(),
+                firstDate: DateTime(1970, 1, 1),
+                lastDate: DateTime(2099, 12, 31),
+                initialEntryMode: DatePickerEntryMode.calendarOnly,
+                helpText: 'Due on',
+              );
   }
 
 }

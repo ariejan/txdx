@@ -1,6 +1,8 @@
 import 'package:jiffy/jiffy.dart';
 import 'package:clock/clock.dart';
 
+import '../utils/date_helper.dart';
+
 class TxDxSyntax {
   static RegExp contextsRegExp = RegExp(r'(?:\s+|^)@[^\s]+');
   static RegExp projectsRegExp = RegExp(r'(?:\s+|^)\+[^\s]+');
@@ -36,25 +38,7 @@ class TxDxSyntax {
   static Map<String, String> getTags(String text) {
     final tags = _getMatchedPairs(tagsRegExp, text);
 
-    String _formattedDate(DateTime dateTime) {
-      return Jiffy(dateTime).format('yyyy-MM-dd');
-    }
 
-    String _futureFormattedDate(int dayDelta) {
-      final now = clock.now();
-      final targetDate = DateTime(now.year, now.month, now.day + dayDelta);
-      return _formattedDate(targetDate);
-    }
-
-    String _futureFormattedWeekDate(int targetWd) {
-      final now = clock.now();
-      final nowWd = now.weekday;
-      var dayDelta = (nowWd < targetWd)
-          ? targetWd - nowWd
-          : (targetWd + 7) - nowWd;
-
-      return _futureFormattedDate(dayDelta);
-    }
 
     // Find/replace the 'due' tag if it exists.
     if (tags.containsKey('due')) {
@@ -64,25 +48,25 @@ class TxDxSyntax {
       if (todoTxtDate.hasMatch(value)) {
         tags['due'] = Jiffy(value).format('yyyy-MM-dd');
       } else if (value == 'today') {
-        tags['due'] = _futureFormattedDate(0);
+        tags['due'] = DateHelper.futureFormattedDate(0);
       } else if (value == 'tomorrow') {
-        tags['due'] =_futureFormattedDate(1);
+        tags['due'] = DateHelper.futureFormattedDate(1);
       } else if (value == 'yesterday') {
-        tags['due'] =_futureFormattedDate(-1);
+        tags['due'] = DateHelper.futureFormattedDate(-1);
       } else if (value == 'mon' || value == 'monday') {
-        tags['due'] =_futureFormattedWeekDate(DateTime.monday);
+        tags['due'] = DateHelper.futureFormattedWeekDate(DateTime.monday);
       } else if (value == 'tue' || value == 'tuesday') {
-        tags['due'] =_futureFormattedWeekDate(DateTime.tuesday);
+        tags['due'] = DateHelper.futureFormattedWeekDate(DateTime.tuesday);
       } else if (value == 'wed' || value == 'wednesday') {
-        tags['due'] =_futureFormattedWeekDate(DateTime.wednesday);
+        tags['due'] = DateHelper.futureFormattedWeekDate(DateTime.wednesday);
       } else if (value == 'thu' || value == 'thursday') {
-        tags['due'] =_futureFormattedWeekDate(DateTime.thursday);
+        tags['due'] = DateHelper.futureFormattedWeekDate(DateTime.thursday);
       } else if (value == 'fri' || value == 'friday') {
-        tags['due'] =_futureFormattedWeekDate(DateTime.friday);
+        tags['due'] = DateHelper.futureFormattedWeekDate(DateTime.friday);
       } else if (value == 'sat' || value == 'saturday') {
-        tags['due'] =_futureFormattedWeekDate(DateTime.saturday);
+        tags['due'] = DateHelper.futureFormattedWeekDate(DateTime.saturday);
       } else if (value == 'sun' || value == 'sunday') {
-        tags['due'] =_futureFormattedWeekDate(DateTime.sunday);
+        tags['due'] = DateHelper.futureFormattedWeekDate(DateTime.sunday);
       } else {
         var match = incDaysRegExp.firstMatch(value);
         if (match != null) {
@@ -109,7 +93,7 @@ class TxDxSyntax {
             dueOn = Jiffy(dueOn).add(days: value).dateTime;
           }
 
-          tags['due'] = _formattedDate(dueOn);
+          tags['due'] = DateHelper.formattedDate(dueOn);
         }
       }
     }
