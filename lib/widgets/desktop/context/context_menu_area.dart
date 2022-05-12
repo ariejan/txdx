@@ -52,9 +52,9 @@ class ContextMenuArea extends ConsumerWidget {
       ),
       builder: (context) => ContextMenu(
         position: offset,
-        children: children,
         verticalPadding: verticalPadding,
         width: width,
+        children: children,
       ),
     ).whenComplete(() => onDismiss?.call());
   }

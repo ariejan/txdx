@@ -12,9 +12,9 @@ final txdxDirProvider = FutureProvider<String?>((ref) async {
   if (Platform.isMacOS) {
     final bookmark = ref.watch(fileSettingsProvider).getString(settingsTxDxDirectoryMacosSecureBookmark);
     if (bookmark?.isNotEmpty ?? false) {
-      final _secureBookmarks = SecureBookmarks();
-      final dir = await _secureBookmarks.resolveBookmark(bookmark!);
-      await _secureBookmarks.startAccessingSecurityScopedResource(dir);
+      final secureBookmarks = SecureBookmarks();
+      final dir = await secureBookmarks.resolveBookmark(bookmark!);
+      await secureBookmarks.startAccessingSecurityScopedResource(dir);
       return dir.path;
     } else {
       return null;

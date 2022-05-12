@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../providers/settings/platform_info_provider.dart';
 import '../../../providers/settings/settings_provider.dart';
@@ -38,7 +38,7 @@ Copyright © 2022 Ariejan de Vroom
               data: versionInfo,
               onTapLink: (text, href, title) {
                 if (href!.isNotEmpty) {
-                  launch(href);
+                  launchUrlString(href);
                 }
               },
             ),

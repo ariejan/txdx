@@ -11,8 +11,8 @@ import '../providers/settings/settings_provider.dart';
 void pickTxDxDirectory(WidgetRef ref) {
   pickDir().then((dirname) async {
     if (Platform.isMacOS && dirname != null) {
-      final _secureBookmarks = SecureBookmarks();
-      final bookmark = await _secureBookmarks.bookmark(File(dirname));
+      final secureBookmarks = SecureBookmarks();
+      final bookmark = await secureBookmarks.bookmark(File(dirname));
       ref.read(fileSettingsProvider).setString(settingsTxDxDirectoryMacosSecureBookmark, bookmark);
     }
     ref.read(fileSettingsProvider).setString(settingsTxDxDirectory, dirname ?? '');

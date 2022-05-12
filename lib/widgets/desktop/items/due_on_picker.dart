@@ -3,7 +3,6 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:txdx/providers/items/item_notifier_provider.dart';
 import 'package:txdx/txdx/txdx_item.dart';
 import 'package:txdx/utils/date_helper.dart';
 
@@ -87,11 +86,13 @@ class _DueOnPickerState extends ConsumerState<DueOnPicker> {
               onTapDown: (details) async {
                 showModal(
                   context: context,
-                  configuration: FadeScaleTransitionConfiguration(
+                  configuration: const FadeScaleTransitionConfiguration(
                     barrierColor: Colors.transparent,
                   ),
                   builder: (context) => ContextMenu(
                     position: details.globalPosition,
+                    verticalPadding: 8,
+                    width: 240,
                     children: [
                       ListTile(
                         title: Text('Select a due date', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -139,8 +140,6 @@ class _DueOnPickerState extends ConsumerState<DueOnPicker> {
                         },
                       ),
                     ],
-                    verticalPadding: 8,
-                    width: 240,
                   )
                 );
               },

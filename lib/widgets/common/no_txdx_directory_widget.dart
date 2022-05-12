@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:txdx/utils/file_picker_helper.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../config/colors.dart';
 
@@ -47,7 +47,7 @@ class NoTxDxDirectoryWidget extends ConsumerWidget {
                 data: theTextOne,
                 onTapLink: (text, href, title) {
                   if (href!.isNotEmpty) {
-                    launch(href);
+                    launchUrlString(href);
                   }
                 },
               ),
@@ -95,7 +95,7 @@ class NoTxDxDirectoryWidget extends ConsumerWidget {
                 data: theTextTwo,
                 onTapLink: (text, href, title) {
                   if (href!.isNotEmpty) {
-                    launch(href);
+                    launchUrlString(href);
                   }
                 },
               ),

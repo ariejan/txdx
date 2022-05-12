@@ -12,7 +12,7 @@ void main() {
 
   group('test example.txt reading/parsing', () {
     test('parse the file', () {
-      _expectNumberOfEntriesInFile(File(Directory.current.path + '/test/examples/example.txt'), 3);
+      _expectNumberOfEntriesInFile(File('${Directory.current.path}/test/examples/example.txt'), 3);
     });
   });
 
@@ -23,7 +23,7 @@ void main() {
         TxDxItem.fromText('x 2022-01-25 2022-01-18 Buy flowers @shopping pri:B'),
       ];
 
-      final tmpFilename = Directory.current.path + '/test/examples/write-test.txt';
+      final tmpFilename = '${Directory.current.path}/test/examples/write-test.txt';
       final tmpFile = File(tmpFilename);
 
       TxDxFile.saveToFile(tmpFile, items).then((_) {
@@ -44,7 +44,7 @@ void main() {
         TxDxItem.fromText('x 2022-01-25 2022-01-18 Do another thing'),
       ];
 
-      final tmpFilename = Directory.current.path + '/test/examples/append-test.txt';
+      final tmpFilename = '${Directory.current.path}/test/examples/append-test.txt';
       final tmpFile = File(tmpFilename);
 
       TxDxFile.saveToFile(tmpFile, items).then((_) {
@@ -65,7 +65,7 @@ void main() {
         TxDxItem.fromText('(A) 2022-01-25 Test writing files +txdx @testing due:2022-01-28'),
         TxDxItem.fromText('x 2022-01-25 2022-01-18 Buy flowers @shopping pri:B'),
       ];
-      final tmpFilename = Directory.current.path + '/test/examples/equality-test.txt';
+      final tmpFilename = '${Directory.current.path}/test/examples/equality-test.txt';
       final tmpFile = File(tmpFilename);
       await TxDxFile.saveToFile(tmpFile, items);
 

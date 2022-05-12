@@ -31,10 +31,10 @@ class ContextMenu extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ContextMenuState createState() => _ContextMenuState();
+  ContextMenuState createState() => ContextMenuState();
 }
 
-class _ContextMenuState extends State<ContextMenu> {
+class ContextMenuState extends State<ContextMenu> {
   final Map<ValueKey, double> _heights = {};
 
   @override
@@ -128,8 +128,8 @@ class __GrowingWidgetState extends State<_GrowingWidget> with AfterLayoutMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: widget.child,
       key: _key,
+      child: widget.child,
     );
   }
 

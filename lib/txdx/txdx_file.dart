@@ -14,12 +14,12 @@ class TxDxFile {
     }
 
     final contents = itemLines.join('\n');
-    await file.writeAsString(contents + '\n', flush: true);
+    await file.writeAsString('$contents\n', flush: true);
   }
 
   static Future<void> appendToFile(File file, List<TxDxItem> items) async {
     final contents = items.map((e) => e.toString()).join('\n');
-    await file.writeAsString(contents + '\n', flush: true, mode: FileMode.writeOnlyAppend);
+    await file.writeAsString('$contents\n', flush: true, mode: FileMode.writeOnlyAppend);
   }
 
   static Future<List<TxDxItem>> openFromFile(File file) async {

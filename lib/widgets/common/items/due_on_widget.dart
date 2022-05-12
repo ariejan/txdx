@@ -58,14 +58,14 @@ class DueOnWidget extends ConsumerWidget {
         return _justText(context, formatter.format(dueOn), color);
       default:
         if (daysAhead > 0) {
-          final _formatter = RelativeDateFormat(
+          final formatter = RelativeDateFormat(
               Localizations.localeOf(context)
           );
-          final _relDateTime = RelativeDateTime(
+          final relDateTime = RelativeDateTime(
             dateTime: now,
             other: dueOn,
           );
-          return _justText(context, _formatter.format(_relDateTime), color);
+          return _justText(context, formatter.format(relDateTime), color);
         } else {
           return _justText(context, "Overdue", color);
         }
