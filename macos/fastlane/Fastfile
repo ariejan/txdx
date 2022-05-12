@@ -127,7 +127,7 @@ platform :mac do
     UI.important "Creating dmg for folder #{expanded_path}"
     
     appdmg = "../../pkg/dmg/appdmg.json"  
-    `sed "s/VERSION/#{version}/" #{appdmg} > #{appdmg}`
+    `sed -i '' 's/VERSION/#{version}/g' #{appdmg}
     `appdmg #{appdmg} #{folder}/#{dmg_name}.dmg`
     return "#{expanded_path}/#{dmg_name}.dmg"
   end
