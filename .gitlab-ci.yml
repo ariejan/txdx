@@ -101,6 +101,7 @@ build_macos_dmg:
     - cd macos
     - gem install bundler
     - bundle install
+    - bundle update
     - cd $CI_PROJECT_DIR
     - flutter channel stable
     - flutter upgrade
@@ -282,6 +283,7 @@ package_apple_app_store:
     - cd macos
     - gem install bundler
     - bundle install
+    - bundle update
     - cd $CI_PROJECT_DIR
     - flutter channel stable
     - flutter upgrade
