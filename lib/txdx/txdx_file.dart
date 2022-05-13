@@ -13,8 +13,12 @@ class TxDxFile {
       itemLines.sort();
     }
 
-    final contents = itemLines.join('\n');
-    await file.writeAsString('$contents\n', flush: true);
+    if (itemLines.isNotEmpty) {
+      final contents = itemLines.join('\n');
+      await file.writeAsString('$contents\n', flush: true);
+    } else {
+      await file.writeAsString('', flush: true);
+    }
   }
 
   static Future<void> appendToFile(File file, List<TxDxItem> items) async {

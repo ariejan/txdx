@@ -1,8 +1,1 @@
-Another week, another update.
-
- - Added a setting to select Monday/Sunday to start your weeks.
- - Added a more intuitive date picker (single click) for common dates, double click to open the calendar date picker directly.
- - Improved the (right click) context menu.
- - Fixed an issue with focus when adding a new item.
- - Fixed a layout issue when your description contains a very long URL.
- - Several design and performance improvements.
+A quick update to handle weird things happening when adding your first todo item. 

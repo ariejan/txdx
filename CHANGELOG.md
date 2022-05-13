@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.5] - 2022-05-13
+### Fixed
+- Fix a glitch when creating your first item with an empty todo.txt [#128]
+
 ## [1.1.4] - 2022-05-12
 ### Added
 - Add option to start weeks in the date picker on Monday/Sunday. [#125]
