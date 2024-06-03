@@ -1,5 +1,7 @@
 # TxDx
 
+**TxDx has been archived and is no longer under development.**
+
 _A Todo app that looks good and gives you all the power of plain text!_
 
 ![](https://github.com/ariejan/txdx/raw/master/images/TxDx-1.1.0.png)
